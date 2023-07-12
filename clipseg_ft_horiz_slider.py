@@ -44,73 +44,36 @@ def get_k_files_clip(k, csv_path, prompt, scene_name):
 
 def get_opts():
     parser = argparse.ArgumentParser()
-
-    parser.add_argument('--prompts', type=str, default='poles;colonnade')   #'/home/cc/students/csguests/chendudai/Thesis/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv' #retrieval_clip_outdoor_020523.csv
-    parser.add_argument('--scene_name', type=str, default='st_paul')
-    parser.add_argument('--folder_to_save', type=str, default='st_paul/horizontal')
+    parser.add_argument('--prompts', type=str, default='windows')
+    parser.add_argument('--folder_to_save', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal')
+    parser.add_argument('--model_path', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/clipseg_ft_crops_refined_plur_newcrops_10epochs')
     parser.add_argument('--building_type', type=str, default='cathedral')  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--data_folder', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/')  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--is_geo_occ', type=bool, default=True)  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--n_files', type=int, default=150)  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--save_images', type=bool, default=False)  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--save_baseline', type=bool, default=False)  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--save_refined_clipseg', type=bool, default=True)  #'mosque' 'cathedral' 'synagogue'
-
-
+    parser.add_argument('--csv_retrieval_path', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/milano_geometric_occlusions.csv')
+    parser.add_argument('--images_folder', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/0_1_undistorted/dense/images/')
+    parser.add_argument('--is_geo_occ', type=bool, default=True)
+    parser.add_argument('--n_files', type=int, default=150)
+    parser.add_argument('--save_images', type=bool, default=False)
+    parser.add_argument('--save_baseline', type=bool, default=False)
+    parser.add_argument('--save_refined_clipseg', type=bool, default=True)
     return parser.parse_args()
+
 
 args = get_opts()
 cat = args.prompts.split(';')
 BT = args.building_type
-scene2sav = args.folder_to_save
-scene_name = args.scene_name
-data_folder = args.data_folder
+folder_to_save = args.folder_to_save
+images_folder = args.images_folder
 is_geo_occ = args.is_geo_occ
+csv_path = args.csv_retrieval_path
 k = args.n_files
 save_images = args.save_images
 save_baseline = args.save_baseline
 save_pickle = args.save_refined_clipseg
+model_path = args.model_path
 
-# cat = ["pediment", "dome", "portals","spires" ,"windows", "towers", "entrance", "portico", "colonnade"] #["portals","windows","spires"]   ["clock tower", "kuppel", "columns", "gargoyle", "statue", "clock"]   #st_paul
-# cat = ["portals","spires", "windows", "entrance", "main door", "statue", "roof", "pediment", "Tympanum", "buttress", "gargoyle", "relief", "Lombard bands", "jambs", "flanks", "apse"]  # milano
-# cat = ["portals", "windows", "towers","entrance", "main door", "pediment", "rose window", "gargoyle", "entrance", "main door",  "statue", "Tympanum", "buttress",  "gargoyle", "jambs", "jamp figures", "Rosetta window", "crocket", "archivolt", "Gable", "lintel", "Trumeau", "pinnacles", "spires", "roof", "apse", "gate", "relief", "sculpture", "lancets"]
-# cat = ["portals", "windows", "domes", "minarets", "main door", "arches", "iwan", "muqarnas", "mihrab", "jali", "arches", "gates", "towers", "qibla wall", "gold", "court", "revak", "iron chain"] # 0209
-# cat = ["portals", "windows", "domes", "minarets", "main door", "arches", "iwan", "muqarnas", "mihrab", "jali", "arches", "gates", "towers", "qibla wall", "gold", "court", "revak", "iron chain"] # badshahi
-# cat = ["portals", "windows", "arches", "statues", "lancets", "organ", "altar", "relics", "chapel", "vaults", "door", "ceiling", "pillars", "columns", "nave", "choir", "chancel", "ambulatory", "aisle", "painting","triforium", "apse", "abside", "stained glass windows"] # seville_indoor
-# cat = ["dome", "chandelier", "portals", "windows", "arches", "statues", "lancets", "organ", "altar", "relics", "chapel", "vaults", "door", "ceiling", "pillars", "columns", "nave", "choir", "chancel", "ambulatory", "aisle", "painting","triforium", "apse", "abside", "stained glass windows"] # 62_0_undistorted
-# cat = ["dome", "portals", "windows", "arches", "fence", "staircase"]  # hurba outdoor
-# cat = ["dome", "windows", "arches", "fence", "staircase", "bimah", "paroket", "ark", "stained glass"]  # hurba_indoor
-# cat = ["pillars"] #["colonnade", "columns", "pillars"]
-# cat = ["portals", "domes", "windows"]
-# cat = ["pillars", "clock", "colonnade", "plaque", "belfry", "pediment"]   #"towers"  "spires" "domes", "minarets",    "windows", "towers"  "portals"
-# is_geo_occs = [False]
 
-# data_folder = '/home/cc/students/csguests/chendudai/Thesis/data/' # '/home/cc/students/csguests/chendudai/Thesis/data/' #'/net/projects/ranalab/itailang/chen/data/'
-# data_folder = '/net/projects/ranalab/itailang/chen/data/'
-
-if is_geo_occ:
-    csv_path = data_folder + scene_name + '_geometric_occlusions.csv'
-    # scene2save = scene2sav + '/geoOccRetrieval'
-    scene2save = scene2sav
-else:
-    csv_path = data_folder + 'retrieval_clip_ft_all_140523.csv'
-    # scene2save = scene2sav + '/ClipFtRetrieval'
-    scene2save = scene2sav
-
-# path_images = '/home/cc/students/csguests/chendudai/Thesis/data/' + scene_name + '/dense/images/'
-path_images = data_folder + scene_name+ '/dense/images/'
-
-# CKPT = '/home/cc/students/csguests/chendudai/Thesis/data/clipseg_ft_crops_10epochs/'
-CKPT = data_folder + 'clipseg_ft_crops_refined_plur_newcrops_10epochs/'
+CKPT = model_path
 CKPT_BASE = 'CIDAS/clipseg-rd64-refined'  #data_folder + 'clipseg-base_model/
-
-# CKPT = '/storage/morrisalper/notebooks/babel/checkpoints/clipseg_ft_crops_10epochs'
-# clipseg-base: CIDAS/clipseg-rd64-refined
-# clipseg-ft (old): /storage/morrisalper/notebooks/babel/correspondences/output/ckpts/clipseg_ft
-# clipseg-ft (new, 10 epochs): /storage/morrisalper/notebooks/babel/checkpoints/clipseg_ft_crops_10epochs
-
-
-
 colormap = plt.get_cmap('jet')
 hs = HorizSlider(CKPT=CKPT)
 hs_base = HorizSlider(CKPT=CKPT_BASE)
@@ -127,13 +90,13 @@ for c in cat:
     else:
         try:
             # imgs_list = get_k_files_clip(k, csv_path, c, scene_name)
-            imgs_list = os.listdir(path_images)
+            imgs_list = os.listdir(images_folder)
         except:
             print(f"indoor label {label} is not in the csv!")
             continue
 
-    folder2save_clipseg_base = os.path.join(os.path.join(CKPT, scene2save, 'clipseg_base'), c)
-    folder2save_clipseg_ft = os.path.join(os.path.join(CKPT, scene2save, 'clipseg_ft'), c)
+    folder2save_clipseg_base = os.path.join(os.path.join(folder_to_save, 'clipseg_base'), c)
+    folder2save_clipseg_ft = os.path.join(os.path.join(folder_to_save, 'clipseg_ft'), c)
     os.makedirs(folder2save_clipseg_base, exist_ok=True)
     os.makedirs(folder2save_clipseg_ft, exist_ok=True)
 
@@ -147,7 +110,7 @@ for c in cat:
     for img_name in imgs_list:
         print(f'{i}: {img_name}')
         i = i + 1
-        img = Image.open(os.path.join(path_images,img_name)).convert('RGB')
+        img = Image.open(os.path.join(images_folder,img_name)).convert('RGB')
         seg = hs.segment(img, label, building_type=BT)
 
         try:
