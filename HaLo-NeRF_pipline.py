@@ -43,8 +43,8 @@ for prompt in prompts:
         demo_categoryOnImages.main_clipseg(cfg['create_aug_flag'], cfg['files'], cfg['path_images'], cfg['folder2save'], cfg['prompt'], cfg['vis_prompt_data'], cfg['pos_confidence_values'])
 
     ## Train The Semantic Ha-NeRF
-    if cfg['train_SeRF_flag']:
-        print('Train SeRF')
+    if cfg['train_HaloNeRF_flag']:
+        print('Train HaLo-NeRF')
         hparam_train.root_dir = cfg['root_dir']
         hparam_train.save_dir = cfg['save_dir']
         hparam_train.img_downscale = cfg['img_downscale']

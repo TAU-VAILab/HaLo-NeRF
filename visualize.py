@@ -86,10 +86,10 @@ def get_opts():
                         help='The number of semantic classes')
 
 
-    # Flags For SeRF (do not change)
+    # Flags For HaLo-NeRF (do not change)
     parser.add_argument('--clipseg_flag', default=False, action="store_true")
     parser.add_argument('--create_aug_flag', default=False, action="store_true")
-    parser.add_argument('--train_SeRF_flag', default=False, action="store_true")
+    parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")
     parser.add_argument('--vis_flag', default=False, action="store_true")

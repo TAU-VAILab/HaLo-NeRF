@@ -1,29 +1,26 @@
 # HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild
 
-### TODO: change
+### TODO - add links to: project page, paper, arxiv, supp 
 
 **[Project Page](https://rover-xingyu.github.io/Ha-NeRF/) |
 [Paper](https://openaccess.thecvf.com/content/CVPR2022/papers/Chen_Hallucinated_Neural_Radiance_Fields_in_the_Wild_CVPR_2022_paper.pdf) |
 [Latest arXiv](https://arxiv.org/pdf/2111.15246.pdf) |
 [Supplementary](https://rover-xingyu.github.io/Ha-NeRF/files/Ha_NeRF_CVPR_2022_supp.pdf)**
 
-[Xingyu Chen¹](https://rover-xingyu.github.io/), 
-[Qi Zhang²](https://qzhang-cv.github.io/), 
-[Xiaoyu Li²](https://xiaoyu258.github.io/), 
-[Yue Chen¹](https://fanegg.github.io/), 
-[Ying Feng²](https://github.com/rover-xingyu/Ha-NeRF/),
-[Xuan Wang²](https://scholar.google.com/citations?user=h-3xd3EAAAAJ&hl=en/),
-[Jue Wang²](https://juewang725.github.io/). 
+Chen Dudai¹, 
+Morris Alper¹, 
+Hana Bezalel¹, 
+Rana Hanocka², 
+Itai lang²,
+Hadar Averbuch-Elor¹. 
 
-[¹Xi'an Jiaotong University)](http://en.xjtu.edu.cn/),
-[²Tencent AI Lab](https://ai.tencent.com/ailab/en/index/).
+¹Tel Aviv University,
+²The University of Chicago.
 
 
-This repository is an official implementation of [Ha-NeRF](https://rover-xingyu.github.io/Ha-NeRF/) (Hallucinated Neural Radiance Fields in the Wild) using pytorch ([pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning)). 
+This repository is an official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild) using pytorch ([pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning)). 
 
-<!-- I try to reproduce (some of) the results on the lego dataset (Section D). Training on [Phototourism real images](https://github.com/ubc-vision/image-matching-benchmark) (as the main content of the paper) has also passed. Please read the following sections for the results.
-
-The code is largely based on NeRF implementation (see master or dev branch), the main difference is the model structure and the rendering process, which can be found in the two files under `models/`. -->
+<!-- The code is largely based on Ha-NeRFNeRF implementation. -->
 
 # :computer: Installation
 
@@ -121,14 +118,14 @@ images.
 
 Run (example)
 ```
-python SeRF_pipline.py \
+python HaLo-NeRF_pipline.py \
 --root_dir {/path/to/the/dataset} \
  --xls_path {/path/to/the/retrival file for each image} \
  --save_dir ./sem_results/{folder to save} \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path ./save/ckpts/0_1_withoutSemantics/epoch=15.ckpt \
  --N_vocab 1500 --prompts '{first prompt};{second prompt};{third prompt}' --scene_name {scene name} \
- --train_SeRF_flag
+ --train_HaloNeRF_flag
 ```
 
 You can use as many prompts as you like with this format:

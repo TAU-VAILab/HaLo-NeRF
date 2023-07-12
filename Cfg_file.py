@@ -6,10 +6,8 @@ import os
 def get_opts():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--in_server', type=str, default='storage')   #'/home/cc/students/csguests/chendudai/Thesis/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv' #retrieval_clip_outdoor_020523.csv
-
+    parser.add_argument('--semantics_dir', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal/clipseg_ft')
     parser.add_argument('--scene_name', type=str, default='')
-
 
     # Flags
     parser.add_argument('--clipseg_flag', default=False, action="store_true") # Flase as dafault
@@ -18,7 +16,7 @@ def get_opts():
     parser.add_argument('--use_prepared_aug_flag', default=False, action="store_true")
     parser.add_argument('--is_indoor_scene', default=False, action="store_true")
 
-    parser.add_argument('--train_SeRF_flag', default=False, action="store_true")
+    parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")
     parser.add_argument('--vis_flag', default=False, action="store_true")
@@ -44,7 +42,7 @@ def get_opts():
     # Create Aug
     parser.add_argument('--use_rgb_loss', type=bool, default=False)
 
-    # Ha-NeRF Training - Semantic (SeRF)
+    # HaLo-NeRF Training
     parser.add_argument('--exp_name', type=str, default='top50_ds2_epoch2_lr5e-5')
     parser.add_argument('--img_downscale', type=int, default=2)
     parser.add_argument('--num_epochs', type=int, default=1)
@@ -66,7 +64,6 @@ def get_opts():
     parser.add_argument('--continue_train_semantic', type=bool, default=True)
     parser.add_argument('--enable_semantic', type=bool, default=True)
     parser.add_argument('--max_steps', type=int, default=12500)
-    parser.add_argument('--semantics_dir', type=str, default='')
 
     # save_semantic_for_metric
 
@@ -146,7 +143,7 @@ def getCfg(opts, prompt):
     cfg['create_aug_flag'] = opts.create_aug_flag
     cfg['use_prepared_aug_flag'] = opts.use_prepared_aug_flag
 
-    cfg['train_SeRF_flag'] = opts.train_SeRF_flag
+    cfg['train_HaloNeRF_flag'] = opts.train_HaloNeRF_flag
     cfg['save_for_metric_flag'] = opts.save_for_metric_flag
     cfg['calc_metrics_flag'] = opts.calc_metrics_flag
     cfg['vis_flag'] = opts.vis_flag
@@ -195,7 +192,7 @@ def getCfg(opts, prompt):
             cfg['neg_files'], cfg['pos_confidence_values'] = [], []
 
 
-    ## Ha-NeRF Training - Semantic (SeRF)
+    ## HaLo-NeRF Training
     cfg['save_dir'] = opts.save_dir
     cfg['img_downscale'] = opts.img_downscale
     cfg['num_epochs'] = opts.num_epochs
@@ -234,29 +231,12 @@ def getCfg(opts, prompt):
         print('No Category')
         # raise ValueError('no category')
 
-    if opts.use_refined_clipseg and opts.semantics_dir=='':
-        if opts.in_server == 'tlv':
-            # cfg['semantics_dir'] = '/home/cc/students/csguests/chendudai/Thesis/data/morris_npy/' + opts.scene_name + '/' + cfg['category'] clipseg_base  clipseg_ft
-            cfg['semantics_dir'] = '/home/cc/students/csguests/chendudai/Thesis/data/clipseg_ft_crops_refined_plur_newcrops_10epochs/' + opts.scene_name + '/horizontal/clipseg_ft/' + cfg['category']
-
-        elif opts.in_server == 'storage':
-
-            # cfg['semantics_dir'] = '/storage/chendudai/data/morris_npy/' + opts.scene_name + '/' + cfg['category']
-            cfg['semantics_dir'] = '/storage/chendudai/data/clipseg_ft_crops_refined_plur_newcrops_10epochs/' + opts.scene_name + '/horizontal/clipseg_ft/' + cfg['category']
-            print(cfg['semantics_dir'])
-
-        elif opts.in_server == 'chicago':
-            # cfg['semantics_dir'] = '/net/projects/ranalab/itailang/chen/data/morris_npy/' + opts.scene_name + '/' + cfg['category']
-            cfg['semantics_dir'] = '/net/projects/ranalab/itailang/chen/data/clipseg_ft_crops_refined_plur_newcrops_10epochs/' + opts.scene_name + '/horizontal/clipseg_ft/' + cfg['category']
-            print(cfg['semantics_dir'])
-
-        else:
-            raise ValueError('no server')
+    if opts.use_refined_clipseg:
+        cfg['semantics_dir'] = os.path.join(opts.semantics_dir, cfg['category'])
 
         if not os.path.exists(cfg['semantics_dir']):
-            print('semantics_dir: ')
-            print(cfg['semantics_dir'])
-            print(cfg['semantics_dir'] + ' does not exist')
+            raise ValueError('no semantics_dir')
+
     else:
         cfg['semantics_dir'] = '/'.join(opts.save_dir.split('/')[:-1]) + '/' + cfg['folder2save']  # load clipseg results for training the semantic
 
