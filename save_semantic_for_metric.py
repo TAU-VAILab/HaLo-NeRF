@@ -103,7 +103,7 @@ def get_opts():
     parser.add_argument('--save_training_vis', type=bool, default=True)
     parser.add_argument('--neg_prec', type=float, default=0.1)
     parser.add_argument('--use_threshold', type=bool, default=True)
-    parser.add_argument('--threshold', type=float, default=0.24)
+    parser.add_argument('--threshold', type=float, default=0.2)
     parser.add_argument('--vis_prompt_path', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/visual_prompts_v1.pk')
     parser.add_argument('--use_vis_prompt', default=False, action="store_true")
     parser.add_argument('--exp_name', type=str, default='exp',

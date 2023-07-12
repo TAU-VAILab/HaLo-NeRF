@@ -35,7 +35,6 @@ def get_opts():
 
     # Clipseg
     parser.add_argument('--top_k_files', type=int, default=50)
-    parser.add_argument('--threshold', type=float, default=0.24)
 
     parser.add_argument('--xls_path', type=str, default='/storage/chendudai/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv')   #'/home/cc/students/csguests/chendudai/Thesis/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv' #retrieval_clip_outdoor_020523.csv
     parser.add_argument('--save_dir', type=str, default='./sem_results/0_1_undistorted_ft_clip')
