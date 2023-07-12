@@ -134,8 +134,7 @@ def get_opts():
     parser.add_argument('--Train_with_clipseg', default=False, action="store_true",
                         help='whether to continue train the semantic without the RGB')
 
-    parser.add_argument('--use_highlighter_loss', default=False, action="store_true",
-                        help='whether to continue train with highlighter loss')
+
     parser.add_argument('--prompt', type=str, default='a photo of glowing windows with dark background',
                         help='category name')
     parser.add_argument('--semantics_dir', type=str, default= [],

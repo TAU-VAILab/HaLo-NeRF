@@ -49,10 +49,6 @@ class HaNeRFLoss(nn.Module):
         # self.Annealing = CosineAnnealingWeight(max = hparams.maskrs_max, min = hparams.maskrs_min, Tmax = hparams.num_epochs-1)
         self.Annealing = ExponentialAnnealingWeight(max = hparams.maskrs_max, min = hparams.maskrs_min, k = hparams.maskrs_k)
         self.BCE_loss = nn.BCELoss()
-    def highlighter_loss(self, highlighter_img, text):
-        loss = 1 - torch.nn.functional.cosine_similarity(highlighter_img, text)
-        return loss
-
 
     def forward(self, inputs, targets, semantics_gt, hparams, global_step):
         ret = {}
@@ -129,20 +125,11 @@ class HaNeRFLoss(nn.Module):
             # ret['semantics_coarse'] = 0.5*torch.mean(((1 - pt + 1e-5) ** self.gamma) * bce) +0.5*max_entropy_loss #+ 1* res_tv_loss  #
             ret['semantics_coarse'] = torch.mean(((1 - pt + 1e-5) ** self.gamma) * bce)
             
-        if 'highlighter_img_fine' in inputs:
-            ret['highlighter_img_fine'] = self.highlighter_loss(inputs['highlighter_img_fine'], inputs['encoded_text'])
-
-        if 'highlighter_img_coarse' in inputs:
-            ret['highlighter_img_coarse'] = self.highlighter_loss(inputs['highlighter_img_coarse'], inputs['encoded_text'])
 
 
         for k, v in ret.items():
             if k=='semantics_coarse' or  k=='semantics_fine':
                 ret[k] = 0.1 * v  #self.coef * v #0.02 * v
-            elif k=='highlighter_img_fine' or  k=='highlighter_img_coarse':
-                # ret['semantics_coarse'] = 0
-                # ret['semantics_fine'] = 0
-                ret[k] = 0.1 * v
             else:
                 ret[k] = self.coef * v
         return ret, self.Annealing.getWeight(global_step)

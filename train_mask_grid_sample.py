@@ -90,29 +90,13 @@ class NeRFSystem(LightningModule):
             self.embedding_view = torch.nn.Embedding(hparams.N_vocab, 128)
             self.models_to_train += [self.embedding_view]
 
-        if self.hparams.use_highlighter_loss:
-            # Load CLIP model
-            clip_model, preprocess = clip.load('ViT-L/14')
-            for parameter in clip_model.parameters():
-                parameter.requires_grad = False
-
-            self.clip_model = clip_model
-            self.preprocess = preprocess
-            self.encoded_text = encode_text(self.hparams.prompt, self.clip_model)
-
-            full_colors = [[0, 0, 0.], [204 / 255, 1., 0.]]
-
-
-            self.colors = torch.tensor(full_colors).cuda()
-            self.highlighter_img_fine = []
-            self.highlighter_img_coarse = []
 
     def get_progress_bar_dict(self):
         items = super().get_progress_bar_dict()
         items.pop("v_num", None)
         return items
 
-    def forward(self, rays, ts, whole_img, W, H, rgb_idx, uv_sample, test_blender, all_img): #all_img
+    def forward(self, rays, ts, whole_img, W, H, rgb_idx, uv_sample, test_blender):
         results = defaultdict(list)
         kwargs ={}
         if self.hparams.encode_a:
@@ -160,70 +144,11 @@ class NeRFSystem(LightningModule):
 
         if self.hparams.encode_a:
             results['a_embedded'] = kwargs['a_embedded_from_img']
-            if self.hparams.encode_random and not self.hparams.use_highlighter_loss:
+            if self.hparams.encode_random:
                 results['a_embedded_random'] = kwargs['a_embedded_random']
                 rec_img_random = results['rgb_fine_random'].view(1, H, W, 3).permute(0, 3, 1, 2) * 2 - 1
                 results['a_embedded_random_rec'] = self.enc_a(rec_img_random)
                 self.embedding_a_list[ts[0]] = kwargs['a_embedded_from_img'].clone().detach()
-
-        if self.hparams.use_highlighter_loss:
-
-            clip_normalizer = transforms.Normalize((0.48145466, 0.4578275, 0.40821073),
-                                                   (0.26862954, 0.26130258, 0.27577711))
-            clip_transform = transforms.Compose([
-                transforms.Resize((224, 224)),
-                clip_normalizer,
-            ])
-
-            _, _, H, W = all_img.shape
-            try:
-                pred_image = results['semantics_fine'].view(H, W, 2).cuda()
-            except:
-                pred_image = results['semantics_fine'].view(H//4, -1, 2).cuda()
-                pred_image = torch.nn.functional.interpolate(pred_image.permute(2,0,1).unsqueeze(dim=0), size=(H, W)).squeeze().permute(1,2,0)
-                print('except')
-
-            all_img = all_img[0,:,:,:]
-            image = all_img
-
-
-            blured_image = torch.zeros_like(image)
-
-            p = pred_image[:, :, 1]
-
-            p = transforms.functional.gaussian_blur(p.unsqueeze(dim=0).unsqueeze(dim=0), kernel_size=37, sigma=8).squeeze().squeeze()
-            highlighter_img = (1-p) * blured_image + p * image
-            highlighter_img = highlighter_img.permute(1,2,0)
-
-
-            highlighter_img = highlighter_img.permute(2,0,1).unsqueeze(dim=0)
-            highlighter_img = clip_transform(highlighter_img)
-            highlighter_img = self.clip_model.encode_image(highlighter_img)
-            highlighter_img = highlighter_img / highlighter_img.norm(dim=1, keepdim=True)
-            results['highlighter_img_fine'] = highlighter_img
-
-            try:
-                pred_image = results['semantics_coarse'].view(H, W, 2).cuda()
-            except:
-                pred_image = results['semantics_coarse'].view(H//4, -1, 2).cuda()
-                pred_image = torch.nn.functional.interpolate(pred_image.permute(2, 0, 1).unsqueeze(dim=0),
-                                                             size=(H, W)).squeeze().permute(1, 2, 0)
-                print('except')
-
-
-
-            p = pred_image[:, :, 1]
-            highlighter_img = (1 - p) * blured_image + p * image
-            highlighter_img = highlighter_img.permute(1, 2, 0)
-
-
-            highlighter_img = highlighter_img.permute(2,0,1).unsqueeze(dim=0)
-            highlighter_img = self.clip_model.encode_image(clip_transform(highlighter_img))
-            highlighter_img = highlighter_img / highlighter_img.norm(dim=1, keepdim=True)
-            results['highlighter_img_coarse'] = highlighter_img
-
-
-            results['encoded_text'] = self.encoded_text
 
         return results
 
@@ -238,7 +163,6 @@ class NeRFSystem(LightningModule):
             kwargs['scale_anneal'] = self.hparams.scale_anneal
             kwargs['min_scale'] = self.hparams.min_scale
             kwargs['Train_with_clipseg'] = self.hparams.Train_with_clipseg
-            kwargs['use_highlighter_loss'] = self.hparams.use_highlighter_loss
             kwargs['semantics_dir'] = self.hparams.semantics_dir
             kwargs['files_to_run'] = self.hparams.files_to_run
             kwargs['neg_files'] = self.hparams.neg_files
@@ -279,7 +203,6 @@ class NeRFSystem(LightningModule):
     def training_step(self, batch, batch_nb):
         rays, ts = batch['rays'].squeeze(), batch['ts'].squeeze()
         rgbs = batch['rgbs'].squeeze()
-        all_img = batch['all_img']
         semantics_gt = batch['semantics_gt'].squeeze()
         uv_sample = batch['uv_sample'].squeeze()
         if self.hparams.encode_a or self.hparams.use_mask:
@@ -293,7 +216,7 @@ class NeRFSystem(LightningModule):
 
         test_blender = False
         # try:
-        results = self(rays, ts, whole_img, W, H, rgb_idx, uv_sample, test_blender, all_img) #
+        results = self(rays, ts, whole_img, W, H, rgb_idx, uv_sample, test_blender) #
         # except:
         #     return
         self.hparams['W'] = W
@@ -357,7 +280,6 @@ class NeRFSystem(LightningModule):
     def validation_step(self, batch, batch_nb):
         rays, ts = batch['rays'].squeeze(), batch['ts'].squeeze()
         rgbs =  batch['rgbs'].squeeze()
-        all_img = batch['all_img']
         semantics_gt = batch['semantics_gt'].squeeze()
         if self.hparams.dataset_name == 'phototourism':
             uv_sample = batch['uv_sample'].squeeze()
@@ -378,7 +300,7 @@ class NeRFSystem(LightningModule):
             rgb_idx = None
 
         test_blender = (self.hparams.dataset_name == 'blender')
-        results = self(rays, ts, whole_img, W, H, rgb_idx, uv_sample, test_blender, all_img) #all_img
+        results = self(rays, ts, whole_img, W, H, rgb_idx, uv_sample, test_blender)
         self.hparams['W'] = W
         self.hparams['H'] = H
         loss_d, AnnealingWeight = self.loss(results, rgbs, semantics_gt, self.hparams, self.global_step)

@@ -28,7 +28,7 @@ class ImageData:
         self.camera_id = camera_id
 
 class PhototourismDataset(Dataset):
-    def __init__(self, root_dir, split='train', img_downscale=1, val_num=1, use_cache=False, batch_size=1024, scale_anneal=-1, min_scale=0.25, Train_with_clipseg = False, use_highlighter_loss=False, semantics_dir=[], files_to_run=[], neg_files=[], use_semantic_function='', use_refined_clipseg=False, threshold=0.2):
+    def __init__(self, root_dir, split='train', img_downscale=1, val_num=1, use_cache=False, batch_size=1024, scale_anneal=-1, min_scale=0.25, Train_with_clipseg = False, semantics_dir=[], files_to_run=[], neg_files=[], use_semantic_function='', use_refined_clipseg=False, threshold=0.2):
         """
         img_downscale: how much scale to downsample the training images.
                        The original image sizes are around 500~100, so value of 1 or 2
@@ -45,7 +45,6 @@ class PhototourismDataset(Dataset):
         self.use_refined_clipseg = use_refined_clipseg
         self.semantics_dir = semantics_dir
         self.Train_with_clipseg = Train_with_clipseg
-        self.use_highlighter_loss = use_highlighter_loss
         self.root_dir = root_dir
         self.split = split
         self.threshold = threshold
@@ -346,9 +345,7 @@ class PhototourismDataset(Dataset):
                     img_w, img_h = img.size
 
 
-                    if self.use_highlighter_loss:
-                        img = img.resize((8 * (img_w // 8), 8 * (img_h // 8)), Image.LANCZOS)
-                        img_w, img_h = img.size
+
 
 
 
@@ -488,20 +485,7 @@ class PhototourismDataset(Dataset):
             img_sample_points = (w + h * img_w).permute(1, 0).contiguous().view(-1).long()
             uv_sample = torch.cat((h_sb.permute(1, 0).contiguous().view(-1,1), w_sb.permute(1, 0).contiguous().view(-1,1)), -1)
 
-            id = self.img_ids[sample_ts]
-            all_img = Image.open(os.path.join(self.root_dir, 'dense/images',self.image_paths[id])).convert('RGB')
-            all_img = all_img.resize((img_w, img_h), Image.LANCZOS)
-            all_img = self.transform(all_img)  # (3, h, w)
-
-            # if True:
-            if self.use_highlighter_loss:
-                idx = self.all_rays[:, 8].long().unique()
-                rgb_sample_points = torch.where(self.all_rays[:, 8].long() == idx[sample_ts])[0]
-                x = rgb_sample_points.view(int(img_w), int(img_h))
-                x = x[0::4,0::4]
-                rgb_sample_points = x.reshape(-1,)
-            else:
-                rgb_sample_points = (img_sample_points + (self.all_imgs_wh[:sample_ts, 0] * self.all_imgs_wh[:sample_ts, 1]).sum()).long()
+            rgb_sample_points = (img_sample_points + (self.all_imgs_wh[:sample_ts, 0] * self.all_imgs_wh[:sample_ts, 1]).sum()).long()
 
             sample = {'rays': self.all_rays[rgb_sample_points, :8],
                       'ts': self.all_rays[rgb_sample_points, 8].long(),
@@ -511,8 +495,7 @@ class PhototourismDataset(Dataset):
                       'rgb_idx': img_sample_points,
                       'min_scale_cur': min_scale_cur,
                       'img_wh': self.all_imgs_wh[sample_ts],
-                      'uv_sample': uv_sample,
-                      'all_img': all_img}
+                      'uv_sample': uv_sample}
 
         elif self.split in ['val', 'test_train', 'test_test']:
             sample = {}
