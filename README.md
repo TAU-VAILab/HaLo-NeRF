@@ -162,9 +162,8 @@ python HaLo-NeRF_pipline.py \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path {ckpt path} \
  --N_vocab 1500 --prompts '{first prompt};{second prompt};{third prompt} etc...' --scene_name {scene name} \
- --train_HaloNeRF_flag
-  --top_k_files {number of files for retrieval} 
- --num_epochs {number of epochs} 
+ --train_HaloNeRF_flag \
+ --semantics_dir {path for semantic data}
 ```
 
 For example:
@@ -177,8 +176,8 @@ python HaLo-NeRF_pipline.py \
  --ckpt_path ./save/ckpts/st_pauls_cathedral/epoch=19.ckpt \
  --N_vocab 1500 --prompts 'portals;towers;windows' --scene_name st_paul \
  --train_HaloNeRF_flag \
+  --semantics_dir ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs/st_paul/horizontal/clipseg_ft/
  ```
-
 
 If you want to calculate the metrics please add the following flags:
 ```
