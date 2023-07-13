@@ -28,18 +28,18 @@ This repository is an official implementation of [HaLo-NeRF](https://github.com/
 
 ## Software
 
-* Clone this repo by `git clone https://github.com/chendudai/Ha-NeRF`
+* Clone this repo by `git clone https://github.com/TAU-VAILab/HaLo-NeRF`
 * Python>=3.8 (installation via [anaconda](https://www.anaconda.com/distribution/) is recommended, use `conda create -n HaLo-NeRF python=3.8` to create a conda environment and activate it by `conda activate HaLo-NeRF`)
 * Python libraries
     * Install core requirements by `pip install -r requirements.txt`
     * Install the following torch packages using the command:
   
-      `pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio===0.7.2 -f`
+      `pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio===0.7.2 -f https://download.pytorch.org/whl/torch_stable.html`
 
 
 
 
-# Part A: Train The Finetuned Clipseg Model
+# Part A: Training The Finetuned Clipseg Model
 TODO: Fill here
 
 ###  coming soon:
@@ -47,7 +47,7 @@ link for downloading the finetuned clipseg model.
 
 
 
-# Part B: Train The HaLo-NeRF Model
+# Part B: Training The HaLo-NeRF Model
 
 ## Data download - RGB Images and Colmap Model
 We are using 6 different scenes:
@@ -109,13 +109,14 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 ###  coming soon:
 link for downloading the trained RGB models of the scenes.
 
+# Part C: Training The HaLo-NeRF semantic 
 
-# Retrive the relevant images
+## Retrive the relevant images
 TODO: Fill here
 ###  coming soon:
 link for csv retrieval files.
 
-# Create the data for the semantic part
+## Create the data for the semantic part
 
 To create semantic data, for training the semantic part - run:
 ```
@@ -146,7 +147,7 @@ for example: 'towers;windows;portals'
 ###  coming soon:
 link for downloading the semantic data of the scenes.
 
-# Train the semantic part
+## Train the semantic part
 
 Run:
 ```
@@ -186,7 +187,8 @@ link for downloading the trained models of the scenes with the semantic part.
 also, we will add the link for the semantic ground truth masks.
 
 
-# Evaluation
+
+# Part D: Evaluation
 
 Use [eval.py](eval.py) to inference on all test data. It will create folder `{save_dir}/results/{dataset_name}/{scene_name}` and save the rendered
 images.
@@ -235,8 +237,6 @@ for example:
 --num_frames [24, 8]
 -images_ids [40, 588]
 ```
-
-
 
 
 
