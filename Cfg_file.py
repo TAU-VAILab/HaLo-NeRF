@@ -32,7 +32,7 @@ def get_opts():
     parser.add_argument('--prompts', type=str, default="towers;windows;portals") #spires;windows;portals;facade   towers;windows;portals   #statue
 
     # Clipseg
-    parser.add_argument('--top_k_files', type=int, default=50)
+    parser.add_argument('--top_k_files', type=int, default=150)
 
     parser.add_argument('--xls_path', type=str, default='/storage/chendudai/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv')   #'/home/cc/students/csguests/chendudai/Thesis/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv' #retrieval_clip_outdoor_020523.csv
     parser.add_argument('--save_dir', type=str, default='./sem_results/0_1_undistorted_ft_clip')
@@ -45,7 +45,7 @@ def get_opts():
     # HaLo-NeRF Training
     parser.add_argument('--exp_name', type=str, default='top50_ds2_epoch2_lr5e-5')
     parser.add_argument('--img_downscale', type=int, default=2)
-    parser.add_argument('--num_epochs', type=int, default=1)
+    parser.add_argument('--num_epochs', type=int, default=5)
     parser.add_argument('--lr', type=float, default=5e-5)
 
     parser.add_argument('--use_semantic_function', type=str, default='')

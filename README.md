@@ -125,20 +125,24 @@ python clipsef_ft_horiz_slider.py \
 --model_path '{the path to the clipseg ft model}' \
 --folder_to_save '{folder_to_save}' \
 --building_type '{cathedral or mosque or synagogue}' \
---data_folder '{data_folder}' \
+--images_folder '{RGB images folder}' \
 --csv_retrieval_path '{the path of the retrieval csv file}'
+--n_files {number of files for retrieval}
 ```
 
 for example:
 ```
-python clipseg_ft_horiz_slider.py \
---prompts 'spires;poles;colonnade' \
---model_path '../data/clipseg_ft_crops_refined_plur_newcrops_10epochs' \
---folder_to_save 'st_paul/horizontal' \
---building_type 'cathedral' \
---data_folder '/storage/chendudai/data/st_paul'
---csv_retrieval_path '../data/st_paul_geometric_occlusions.csv'
+python clipsef_ft_horiz_slider.py \
+--prompts 'spires;poles;colonnade' /
+--model_path ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs /
+--folder_to_save ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs/st_paul/horizontal
+--building_type 'cathedral' /
+--images_folder ../data/st_paul/dense/images /
+--csv_retrieval_path ../data/st_paul_geometric_occlusions.csv /
+--n_files 150
 ```
+
+
 
 You can use as many prompts as you like with this format:
 `--prompts '{first prompt};{second prompt};{third prompt}` etc.
@@ -159,6 +163,8 @@ python HaLo-NeRF_pipline.py \
  --ckpt_path {ckpt path} \
  --N_vocab 1500 --prompts '{first prompt};{second prompt};{third prompt} etc...' --scene_name {scene name} \
  --train_HaloNeRF_flag
+  --top_k_files {number of files for retrieval} 
+ --num_epochs {number of epochs} 
 ```
 
 For example:
@@ -170,16 +176,16 @@ python HaLo-NeRF_pipline.py \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path ./save/ckpts/st_pauls_cathedral/epoch=19.ckpt \
  --N_vocab 1500 --prompts 'portals;towers;windows' --scene_name st_paul \
- --train_HaloNeRF_flag
-```
+ --train_HaloNeRF_flag \
+ ```
 
 
 If you want to calculate the metrics please add the following flags:
-
-`--save_for_metric_flag 
+```
+--save_for_metric_flag 
 --calc_metrics_flag
---path_gt {/path/to/the/ground_truth_masks}
-`
+--path_gt {/path/to/the/ground_truth_masks} (for example: ..data/manually_gt_masks_0_1/)
+```
 
 ### coming soon:
 link for downloading the trained models of the scenes with the semantic part.
