@@ -1,4 +1,4 @@
-from horiz_slider import *
+from utils.horiz_slider import *
 import cv2
 import os
 import torch

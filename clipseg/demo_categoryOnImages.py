@@ -29,7 +29,7 @@ def print_img(image_path, output_file):
         )
 
 
-def main_clipseg(use_prepared_aug_flag, files, path_images, folder2save, prompts, vis_prompt=[], pos_confidence_values=0):
+def main_clipseg(files, path_images, folder2save, prompts, vis_prompt=[], pos_confidence_values=0):
 
     # load model
     model = CLIPDensePredT(version='ViT-B/16', reduce_dim=64, complex_trans_conv=True)
@@ -37,10 +37,7 @@ def main_clipseg(use_prepared_aug_flag, files, path_images, folder2save, prompts
     model.load_state_dict(torch.load('weights/rd64-uni-refined.pth'), strict=False)
 
 
-    if use_prepared_aug_flag:
-        list_images = os.listdir(path_images + '/images/')
-    else:
-        list_images = os.listdir(path_images)
+    list_images = os.listdir(path_images)
 
     transform = transforms.Compose([
         transforms.ToTensor(),

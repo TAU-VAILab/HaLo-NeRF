@@ -1,7 +1,7 @@
 import argparse
 # from datasets import WikiScenesDataset
 from datasets.phototourism_mask_grid_sample import PhototourismDataset
-from wikiscenes_utils import create_nerf_root_dir_from_ws
+from utils.wikiscenes_utils import create_nerf_root_dir_from_ws
 import numpy as np
 import os
 import pickle

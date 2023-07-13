@@ -6,7 +6,6 @@ import save_semantic_for_metric
 import metrics_example_averages
 import visualize
 import numpy as np
-import create_aug
 import os
 
 ## get Opts
@@ -31,16 +30,6 @@ for prompt in prompts:
         print('no categroy')
         # raise ValueError('no category')
 
-    ## Create Aug
-    if cfg['create_aug_flag']:
-        print('Create Aug')
-        create_aug.main_create_aug(cfg['aug_dir'], cfg['files'], cfg['path_images'], cfg['root_dir'], cfg['N_vocab'], cfg['ckpt_path'], cfg['scene_name'], cfg['use_rgb_loss'])
-        pass
-
-    ## Run clipseg
-    if cfg['clipseg_flag']:
-        print('Run clipseg')
-        demo_categoryOnImages.main_clipseg(cfg['create_aug_flag'], cfg['files'], cfg['path_images'], cfg['folder2save'], cfg['prompt'], cfg['vis_prompt_data'], cfg['pos_confidence_values'])
 
     ## Train The Semantic Ha-NeRF
     if cfg['train_HaloNeRF_flag']:
@@ -64,7 +53,6 @@ for prompt in prompts:
         hparam_train.use_semantic_function = cfg['use_semantic_function']
         hparam_train.max_steps = cfg['max_steps']
 
-        hparam_train.Train_with_clipseg = cfg['create_aug_flag']
         hparam_train.use_refined_clipseg = cfg['use_refined_clipseg']
         hparam_train.threshold = cfg['threshold']
 

@@ -12,8 +12,6 @@ def get_opts():
     # Flags
     parser.add_argument('--clipseg_flag', default=False, action="store_true") # Flase as dafault
     parser.add_argument('--use_refined_clipseg', type=bool, default=True)
-    parser.add_argument('--create_aug_flag', default=False, action="store_true")
-    parser.add_argument('--use_prepared_aug_flag', default=False, action="store_true")
     parser.add_argument('--is_indoor_scene', default=False, action="store_true")
 
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
@@ -39,7 +37,6 @@ def get_opts():
 
     parser.add_argument('--vis_prompt_path', type=str, default='/storage/chendudai/data/visual_prompts_top100_v3-clipseg-rd64.pk')  # '/home/cc/students/csguests/chendudai/Thesis/data/visual_prompts_top100_v3-clipseg-rd64.pk'
 
-    # Create Aug
     parser.add_argument('--use_rgb_loss', type=bool, default=False)
 
     # HaLo-NeRF Training
@@ -140,8 +137,6 @@ def getCfg(opts, prompt):
 
     # Flags
     cfg['clipseg_flag'] = opts.clipseg_flag
-    cfg['create_aug_flag'] = opts.create_aug_flag
-    cfg['use_prepared_aug_flag'] = opts.use_prepared_aug_flag
 
     cfg['train_HaloNeRF_flag'] = opts.train_HaloNeRF_flag
     cfg['save_for_metric_flag'] = opts.save_for_metric_flag
@@ -153,9 +148,7 @@ def getCfg(opts, prompt):
     cfg['max_steps'] = opts.max_steps
     cfg['threshold'] = opts.threshold
 
-    ## Create Aug
     cfg['use_rgb_loss'] = opts.use_rgb_loss
-    cfg['aug_dir'] = os.path.join(opts.save_dir, 'aug')
 
     ## Clipseg
     cfg['top_k_files'] = opts.top_k_files
@@ -165,10 +158,8 @@ def getCfg(opts, prompt):
 
     cfg['prompt'] = [prompt]
 
-    if cfg['create_aug_flag'] or cfg['use_prepared_aug_flag']:
-        cfg['path_images'] = cfg['aug_dir']
-    else:
-        cfg['path_images'] = cfg['root_dir'] + '/dense/images'
+
+    cfg['path_images'] = cfg['root_dir'] + '/dense/images'
     cfg['folder2save'] = opts.save_dir.split('/')[-1] + '/clipseg/' + cfg['prompt'][0].replace(' ','_').replace("\'",'') + '/top_' + str(cfg['top_k_files']) + '/'
     cfg['neg_prec'] = opts.neg_prec
     cfg['threshold'] = opts.threshold
