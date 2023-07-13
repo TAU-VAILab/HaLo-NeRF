@@ -191,18 +191,53 @@ also, we will add the link for the semantic ground truth masks.
 Use [eval.py](eval.py) to inference on all test data. It will create folder `{save_dir}/results/{dataset_name}/{scene_name}` and save the rendered
 images.
 
-Run (example)
+Run:
 ```
 python eval.py \
-  --root_dir /path/to/the/datasets/brandenburg_gate/ \
+  --root_dir {path to the dataset} \
   --save_dir save \
-  --dataset_name phototourism --scene_name HaNeRF_Trevi_Fountain \
+  --dataset_name phototourism --scene_name {scene name} \
+  --split {test / test_test / test_train / val} --img_downscale 2 \
+  --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
+  --N_vocab 1500 --encode_a \
+  --ckpt_path {the path of the CKPT of the model} \
+  --chunk 16384 --img_wh {image size}
+```
+
+For example:
+```
+python eval.py \
+  --root_dir ../data/st_paul \
+  --save_dir save \
+  --dataset_name phototourism --scene_name st_paul \
   --split test_test --img_downscale 2 \
   --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
   --N_vocab 1500 --encode_a \
-  --ckpt_path save/ckpts/HaNeRF_Brandenburg_Gate/epoch\=19.ckpt \
+  --ckpt_path  ./sem_results/st_paul_save/ckpts/epoch=19.ckpt \
   --chunk 16384 --img_wh 320 240
+  --enable_semantic
 ```
+
+The 'split' field defines on which dataset to run the evaluation:
+
+    test_test - will run it on the test dataset.
+    test_train - will run it on the train dataset.
+    val - will run it on the validation dataset.
+    test - will run it on your chosen cameras locations and interpulate between them.
+
+Please notice that if you use 'test' as split you can use the following flags:
+```
+--num_frames {number of frames to interpulate}
+-images_ids {images IDs locations to interpulate}
+```
+for example:
+```
+--num_frames [24, 8]
+-images_ids [40, 588]
+```
+
+
+
 
 
 # Cite
