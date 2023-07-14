@@ -131,9 +131,6 @@ def get_opts():
     parser.add_argument('--continue_train_semantic', default=False, action="store_true",
                         help='whether to continue train the semantic without the RGB')
 
-    parser.add_argument('--Train_with_clipseg', default=False, action="store_true",
-                        help='whether to continue train the semantic without the RGB')
-
 
     parser.add_argument('--prompt', type=str, default='a photo of glowing windows with dark background',
                         help='category name')
@@ -148,8 +145,6 @@ def get_opts():
 
 
     # Flags For HaLo-NeRF (do not change)
-    parser.add_argument('--clipseg_flag', default=False, action="store_true")
-    parser.add_argument('--use_refined_clipseg', default=False, action="store_true")
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")

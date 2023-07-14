@@ -19,10 +19,10 @@ from models.networks import E_attr, implicit_mask
 from utils import *
 
 # losses
-from losses import loss_dict
+from models.losses import loss_dict
 
 # metrics
-from metrics import *
+from utils.metrics import *
 
 # pytorch-lightning
 from pytorch_lightning.callbacks import ModelCheckpoint
@@ -162,12 +162,10 @@ class NeRFSystem(LightningModule):
             kwargs['batch_size'] = self.hparams.batch_size
             kwargs['scale_anneal'] = self.hparams.scale_anneal
             kwargs['min_scale'] = self.hparams.min_scale
-            kwargs['Train_with_clipseg'] = self.hparams.Train_with_clipseg
             kwargs['semantics_dir'] = self.hparams.semantics_dir
             kwargs['files_to_run'] = self.hparams.files_to_run
             kwargs['neg_files'] = self.hparams.neg_files
             kwargs['use_semantic_function'] = self.hparams.use_semantic_function
-            kwargs['use_refined_clipseg'] = self.hparams.use_refined_clipseg
             kwargs['threshold'] = self.hparams.threshold
 
         elif self.hparams.dataset_name == 'blender':

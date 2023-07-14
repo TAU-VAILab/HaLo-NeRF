@@ -10,8 +10,6 @@ def get_opts():
     parser.add_argument('--scene_name', type=str, default='')
 
     # Flags
-    parser.add_argument('--clipseg_flag', default=False, action="store_true") # Flase as dafault
-    parser.add_argument('--use_refined_clipseg', type=bool, default=True)
     parser.add_argument('--is_indoor_scene', default=False, action="store_true")
 
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
@@ -136,8 +134,6 @@ def getCfg(opts, prompt):
     cfg = {}
 
     # Flags
-    cfg['clipseg_flag'] = opts.clipseg_flag
-
     cfg['train_HaloNeRF_flag'] = opts.train_HaloNeRF_flag
     cfg['save_for_metric_flag'] = opts.save_for_metric_flag
     cfg['calc_metrics_flag'] = opts.calc_metrics_flag
@@ -197,7 +193,6 @@ def getCfg(opts, prompt):
     cfg['continue_train_semantic'] = opts.continue_train_semantic
     cfg['enable_semantic'] = opts.enable_semantic
     cfg['use_semantic_function'] = opts.use_semantic_function
-    cfg['use_refined_clipseg'] = opts.use_refined_clipseg
 
     cfg['files_to_run'] = cfg['files']
 
@@ -222,14 +217,10 @@ def getCfg(opts, prompt):
         print('No Category')
         # raise ValueError('no category')
 
-    if opts.use_refined_clipseg:
-        cfg['semantics_dir'] = os.path.join(opts.semantics_dir, cfg['category'])
+    cfg['semantics_dir'] = os.path.join(opts.semantics_dir, cfg['category'])
 
-        if not os.path.exists(cfg['semantics_dir']):
-            raise ValueError('no semantics_dir')
-
-    else:
-        cfg['semantics_dir'] = '/'.join(opts.save_dir.split('/')[:-1]) + '/' + cfg['folder2save']  # load clipseg results for training the semantic
+    if not os.path.exists(cfg['semantics_dir']):
+        raise ValueError('no semantics_dir')
 
     cfg['scene_name'] = prompt.replace(' ','_').replace("\'",'') + '_ds' + str(cfg['img_downscale']) # Where to save
     cfg['ckpt_path_eval'] = cfg['save_dir'] + '/ckpts/' + cfg['exp_name'] + '/epoch=' + str(cfg['num_epochs']-1) + '.ckpt'

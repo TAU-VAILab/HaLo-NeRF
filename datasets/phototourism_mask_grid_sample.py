@@ -28,7 +28,7 @@ class ImageData:
         self.camera_id = camera_id
 
 class PhototourismDataset(Dataset):
-    def __init__(self, root_dir, split='train', img_downscale=1, val_num=1, use_cache=False, batch_size=1024, scale_anneal=-1, min_scale=0.25, Train_with_clipseg = False, semantics_dir=[], files_to_run=[], neg_files=[], use_semantic_function='', use_refined_clipseg=False, threshold=0.2):
+    def __init__(self, root_dir, split='train', img_downscale=1, val_num=1, use_cache=False, batch_size=1024, scale_anneal=-1, min_scale=0.25, semantics_dir=[], files_to_run=[], neg_files=[], use_semantic_function='', threshold=0.2):
         """
         img_downscale: how much scale to downsample the training images.
                        The original image sizes are around 500~100, so value of 1 or 2
@@ -42,9 +42,7 @@ class PhototourismDataset(Dataset):
         self.files_to_run = files_to_run
         self.neg_files = neg_files
         self.use_semantic_function = use_semantic_function
-        self.use_refined_clipseg = use_refined_clipseg
         self.semantics_dir = semantics_dir
-        self.Train_with_clipseg = Train_with_clipseg
         self.root_dir = root_dir
         self.split = split
         self.threshold = threshold
@@ -64,10 +62,7 @@ class PhototourismDataset(Dataset):
         self.use_cache = use_cache
         self.define_transforms()
 
-        if Train_with_clipseg:
-            self.read_meta_clipseg()
-        else:
-            self.read_meta()
+        self.read_meta()
         self.white_back = False
 
         # no effect if scale_anneal<0, else the minimum scale decreases exponentially until converge to min_scale
@@ -508,64 +503,50 @@ class PhototourismDataset(Dataset):
 
             sample['c2w'] = c2w = torch.FloatTensor(self.poses_dict[id_])
 
-            if self.Train_with_clipseg:
-                img = Image.open(os.path.join(self.path, self.image_paths[id_])).convert('RGB')
-            else:
-                img = Image.open(os.path.join(self.root_dir, 'dense/images',
-                                                  self.image_paths[id_])).convert('RGB')
+
+            img = Image.open(os.path.join(self.root_dir, 'dense/images',
+                                                self.image_paths[id_])).convert('RGB')
             img_w, img_h = img.size
             if self.img_downscale >= 1:
                 img_w = img_w//self.img_downscale
                 img_h = img_h//self.img_downscale
                 img_s = img.resize((img_w, img_h), Image.LANCZOS)
 
-            if self.Train_with_clipseg:
-                # cat = 'windows'
-                p = Path(self.image_paths[id_])
-                name = p.name.split('.')[0]
-                semantic_file = name + '.pickle'
-                with open(os.path.join(self.path, cat, semantic_file), 'rb') as handle:
-                    semantics_gt = torch.load(handle)
 
-                semantics_gt = torch.nn.functional.interpolate(semantics_gt.unsqueeze(dim=0).unsqueeze(dim=0),
-                                                               size=(img_h, img_w))
-                semantics_gt = semantics_gt.squeeze(dim=0).permute(1, 2, 0)
+            semantics_gt = torch.Tensor([np.zeros(img_s.size)]).squeeze(dim=0)
 
-            else:
-                semantics_gt = torch.Tensor([np.zeros(img_s.size)]).squeeze(dim=0)
+            if self.semantics_dir != []:
+                path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'
 
-                if self.semantics_dir != []:
-                    path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'
+                print('path semantics:')
+                print(path_semantics)
 
-                    print('path semantics:')
-                    print(path_semantics)
+                if os.path.exists(path_semantics):
+                    try:
+                        with open(path_semantics, 'rb') as f:
+                            semantics_gt = torch.Tensor(torch.load(f))
+                    except:
+                        with open(path_semantics, 'rb') as f:
+                            semantics_gt = torch.Tensor(pickle.load(f))
 
-                    if os.path.exists(path_semantics):
-                        try:
-                            with open(path_semantics, 'rb') as f:
-                                semantics_gt = torch.Tensor(torch.load(f))
-                        except:
-                            with open(path_semantics, 'rb') as f:
-                                semantics_gt = torch.Tensor(pickle.load(f))
+                        if self.use_semantic_function != '':
+                            if self.use_semantic_function == 'sigmoid':
+                                semantics_gt = torch.sigmoid(semantics_gt)
+                            elif self.use_semantic_function == 'double':
+                                semantics_gt = semantics_gt ** 2
+                            elif self.use_semantic_function == 'triple':
+                                semantics_gt = semantics_gt ** 3
+                            else:
+                                ValueError('no semantic function')
 
-                            if self.use_semantic_function != '':
-                                if self.use_semantic_function == 'sigmoid':
-                                    semantics_gt = torch.sigmoid(semantics_gt)
-                                elif self.use_semantic_function == 'double':
-                                    semantics_gt = semantics_gt ** 2
-                                elif self.use_semantic_function == 'triple':
-                                    semantics_gt = semantics_gt ** 3
-                                else:
-                                    ValueError('no semantic function')
+                    semantics_gt = torch.nn.functional.interpolate(semantics_gt.unsqueeze(dim=0).unsqueeze(dim=0), size=(img_h, img_w))
 
-                        semantics_gt = torch.nn.functional.interpolate(semantics_gt.unsqueeze(dim=0).unsqueeze(dim=0), size=(img_h, img_w))
+                    semantics_gt = semantics_gt.squeeze(dim=0).permute(1,2,0)
 
-                        semantics_gt = semantics_gt.squeeze(dim=0).permute(1,2,0)
-
-                        semantics_gt[semantics_gt < self.threshold] = 0.01
-                        semantics_gt[semantics_gt >= self.threshold] = 1
-                    else:
-                        print('There is no: path_semantics')
+                    semantics_gt[semantics_gt < self.threshold] = 0.01
+                    semantics_gt[semantics_gt >= self.threshold] = 1
+                else:
+                    print('There is no: path_semantics')
 
             semantics_gt = semantics_gt.reshape(-1,)
             img_w, img_h = img_s.size
@@ -580,26 +561,15 @@ class PhototourismDataset(Dataset):
 
             sample['semantics_gt'] = semantics_gt
 
-            if self.Train_with_clipseg:
-                with open(os.path.join(self.path, name + '_imgData.pickle'), 'rb') as handle:
-                    img_data = pickle.load(handle)
-
-                sample['ts'] = img_data['sample']['ts']
-                sample['img_wh'] = img_data['sample']['img_wh']
-                sample['rays'] = img_data['sample']['rays']
-                sample['c2w'] = img_data['sample']['c2w']
-
-
-            else:
-                directions = get_ray_directions(img_h, img_w, self.Ks[id_])
-                rays_o, rays_d = get_rays(directions, c2w)
-                rays = torch.cat([rays_o, rays_d,
-                                  self.nears[id_]*torch.ones_like(rays_o[:, :1]),
-                                  self.fars[id_]*torch.ones_like(rays_o[:, :1])],
-                                  1) # (h*w, 8)
-                sample['rays'] = rays
-                sample['ts'] = id_ * torch.ones(len(rays), dtype=torch.long)
-                sample['img_wh'] = torch.LongTensor([img_w, img_h])
+            directions = get_ray_directions(img_h, img_w, self.Ks[id_])
+            rays_o, rays_d = get_rays(directions, c2w)
+            rays = torch.cat([rays_o, rays_d,
+                              self.nears[id_]*torch.ones_like(rays_o[:, :1]),
+                              self.fars[id_]*torch.ones_like(rays_o[:, :1])],
+                              1) # (h*w, 8)
+            sample['rays'] = rays
+            sample['ts'] = id_ * torch.ones(len(rays), dtype=torch.long)
+            sample['img_wh'] = torch.LongTensor([img_w, img_h])
 
 
             sample['rgb_idx'] = torch.LongTensor([i for i in range (0, (img_w*img_h))])

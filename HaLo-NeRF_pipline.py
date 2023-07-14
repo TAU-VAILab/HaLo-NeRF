@@ -1,10 +1,9 @@
 import train_mask_grid_sample
 import Cfg_file
 from opt import get_opts
-from clipseg import demo_categoryOnImages
-import save_semantic_for_metric
-import metrics_example_averages
-import visualize
+import utils.save_semantic_for_metric
+import utils.calculate_metrics
+import utils.visualize
 import numpy as np
 import os
 
@@ -53,7 +52,6 @@ for prompt in prompts:
         hparam_train.use_semantic_function = cfg['use_semantic_function']
         hparam_train.max_steps = cfg['max_steps']
 
-        hparam_train.use_refined_clipseg = cfg['use_refined_clipseg']
         hparam_train.threshold = cfg['threshold']
 
         train_mask_grid_sample.main_train_mask_grid_sample(hparam_train)
@@ -76,20 +74,20 @@ for prompt in prompts:
     ## save_semantic_for_metric
     if cfg['save_for_metric_flag']:
         print('save semantic for metric')
-        save_semantic_for_metric.main_eval(ts_list, cfg['root_dir'], cfg['N_vocab'], cfg['scene_name'], cfg['ckpt_path_eval'], cfg['save_dir_eval'], cfg['top_k_files'], cfg['num_epochs'])
+        utils.save_semantic_for_metric.main_eval(ts_list, cfg['root_dir'], cfg['N_vocab'], cfg['scene_name'], cfg['ckpt_path_eval'], cfg['save_dir_eval'], cfg['top_k_files'], cfg['num_epochs'])
 
 
 
     ## Calc Metrics
     if cfg['calc_metrics_flag']:
         print('calc metrics')
-        metrics.append(metrics_example_averages.main_metrics(cfg['path_pred'], cfg['path_gt'], cfg['category'], cfg['top_k_files'], cfg['num_epochs'], opts.scene_name, cfg['category'], ts_list))
+        metrics.append(utils.calculate_metrics.main_metrics(cfg['path_pred'], cfg['path_gt'], cfg['category'], cfg['top_k_files'], cfg['num_epochs'], opts.scene_name, cfg['category'], ts_list))
 
 
     ## Visualizaiton
     if cfg['vis_flag']:
         print('vis')
-        visualize.main_vis(cfg['save_training_vis'], cfg['files'], ts_list, cfg['root_dir'], cfg['N_vocab'], cfg['scene_name'], cfg['ckpt_path_eval'], cfg['save_dir_eval'], cfg['folder2save'],  cfg['path_gt'], prompt, cfg['top_k_files'], cfg['num_epochs'])
+        utils.visualize.main_vis(cfg['save_training_vis'], cfg['files'], ts_list, cfg['root_dir'], cfg['N_vocab'], cfg['scene_name'], cfg['ckpt_path_eval'], cfg['save_dir_eval'], cfg['folder2save'],  cfg['path_gt'], prompt, cfg['top_k_files'], cfg['num_epochs'])
 
 
 ## Calc Metrics - avarage_per_class_metrics

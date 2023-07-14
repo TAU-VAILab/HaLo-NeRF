@@ -10,7 +10,6 @@ from models.rendering import render_rays
 from models.nerf import *
 from utils.interpolate_cam_path import generate_camera_path
 from utils import load_ckpt
-import metrics
 import cv2
 from datasets import dataset_dict
 from datasets.depth_utils import *
@@ -87,7 +86,6 @@ def get_opts():
 
 
     # Flags For HaLo-NeRF (do not change)
-    parser.add_argument('--clipseg_flag', default=False, action="store_true")
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")
