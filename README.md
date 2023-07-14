@@ -8,7 +8,7 @@ Chen Dudai¹,
 Morris Alper¹, 
 Hana Bezalel¹, 
 Rana Hanocka², 
-Itai lang²,
+Itai Lang²,
 Hadar Averbuch-Elor¹. 
 
 ¹Tel Aviv University,
@@ -133,10 +133,10 @@ python clipsef_ft_horiz_slider.py \
 for example:
 ```
 python clipsef_ft_horiz_slider.py \
---prompts 'spires;poles;colonnade' /
+--prompts spires;poles;colonnade /
 --model_path ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs /
 --folder_to_save ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs/st_paul/horizontal
---building_type 'cathedral' /
+--building_type cathedral /
 --images_folder ../data/st_paul/dense/images /
 --csv_retrieval_path ../data/st_paul_geometric_occlusions.csv /
 --n_files 150
@@ -174,7 +174,7 @@ python HaLo-NeRF_pipline.py \
  --save_dir ./sem_results/st_paul_save \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path ./save/ckpts/st_pauls_cathedral/epoch=19.ckpt \
- --N_vocab 1500 --prompts 'portals;towers;windows' --scene_name st_paul \
+ --N_vocab 1500 --prompts portals;towers;windows --scene_name st_paul \
  --train_HaloNeRF_flag \
   --semantics_dir ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs/st_paul/horizontal/clipseg_ft/
  ```
