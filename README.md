@@ -85,7 +85,7 @@ python train_mask_grid_sample.py \
 for example:
 ```
 python train_mask_grid_sample.py \
-  --root_dir ../data/st_paul --dataset_name phototourism \
+  --root_dir data/st_paul --dataset_name phototourism \
   --save_dir save \
   --img_downscale 2 \
   --N_importance 64 --N_samples 64 \
@@ -120,25 +120,25 @@ link for csv retrieval files.
 
 To create semantic data, for training the semantic part - run:
 ```
-python clipsef_ft_horiz_slider.py \
+python clipseg_ft_horiz_slider.py \
 --prompts '{prompt1};{prompt2};{prompt3} etc...' \
 --model_path '{the path to the clipseg ft model}' \
 --folder_to_save '{folder_to_save}' \
 --building_type '{cathedral or mosque or synagogue}' \
 --images_folder '{RGB images folder}' \
---csv_retrieval_path '{the path of the retrieval csv file}'
+--csv_retrieval_path '{the path of the retrieval csv file}' \
 --n_files {number of files for retrieval}
 ```
 
 for example:
 ```
-python clipsef_ft_horiz_slider.py \
---prompts spires;poles;colonnade /
---model_path ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs /
---folder_to_save ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs/st_paul/horizontal
---building_type cathedral /
---images_folder ../data/st_paul/dense/images /
---csv_retrieval_path ../data/st_paul_geometric_occlusions.csv /
+python clipseg_ft_horiz_slider.py \
+--prompts "spires;poles;colonnade" \
+--model_path data/clipseg_ft_model \
+--folder_to_save data/clipseg_ft_inference/st_paul \
+--building_type cathedral \
+--images_folder data/st_paul/dense/images \
+--csv_retrieval_path data/retrieval/st_paul_geometric_occlusions.csv \
 --n_files 150
 ```
 
@@ -169,21 +169,21 @@ python HaLo-NeRF_pipline.py \
 For example:
 ```
 python HaLo-NeRF_pipline.py \
---root_dir ../data/st_paul \
- --xls_path ..data/st_paul_geometric_occlusions.csv \
+--root_dir data/st_paul \
+ --xls_path data/st_paul_geometric_occlusions.csv \
  --save_dir ./sem_results/st_paul_save \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path ./save/ckpts/st_pauls_cathedral/epoch=19.ckpt \
- --N_vocab 1500 --prompts portals;towers;windows --scene_name st_paul \
+ --N_vocab 1500 --prompts "portals;towers;windows" --scene_name st_paul \
  --train_HaloNeRF_flag \
-  --semantics_dir ../data/clipseg_ft_crops_refined_plur_newcrops_10epochs/st_paul/horizontal/clipseg_ft/
+  --semantics_dir data/clipseg_ft_inference/st_paul/clipseg_ft/
  ```
 
 If you want to calculate the metrics please add the following flags:
 ```
 --save_for_metric_flag 
 --calc_metrics_flag
---path_gt {/path/to/the/ground_truth_masks} (for example: ..data/manually_gt_masks_0_1/)
+--path_gt {/path/to/the/ground_truth_masks} (for example: data/manually_gt_masks_0_1/)
 ```
 
 ### coming soon:
@@ -214,14 +214,14 @@ python eval.py \
 For example:
 ```
 python eval.py \
-  --root_dir ../data/st_paul \
+  --root_dir data/st_paul \
   --save_dir save \
   --dataset_name phototourism --scene_name st_paul \
   --split test_test --img_downscale 2 \
   --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
   --N_vocab 1500 --encode_a \
   --ckpt_path  ./sem_results/st_paul_save/ckpts/epoch=19.ckpt \
-  --chunk 16384 --img_wh 320 240
+  --chunk 16384 --img_wh 320 240 \
   --enable_semantic
 ```
 

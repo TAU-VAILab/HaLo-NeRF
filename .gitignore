@@ -8,3 +8,5 @@
 *.dae
 data/*
 logs/*
+*.idea
+save/*

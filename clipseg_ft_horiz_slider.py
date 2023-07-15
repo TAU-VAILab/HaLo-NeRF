@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 import pandas
 import base64
 import argparse
-
+from tqdm import tqdm
 
 def print_img(image_path, output_file):
     """
@@ -106,10 +106,8 @@ for c in cat:
         print('<head><meta charset="UTF-8"></head>', file=html_out)
         print("<h1>Results</h1>", file=html_out)
 
-    i = 0
-    for img_name in imgs_list:
-        print(f'{i}: {img_name}')
-        i = i + 1
+    for i in tqdm(range(len(imgs_list))):
+        img_name = imgs_list[i]
         img = Image.open(os.path.join(images_folder,img_name)).convert('RGB')
         seg = hs.segment(img, label, building_type=BT)
 

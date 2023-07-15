@@ -7,7 +7,7 @@ import pandas as pd
 import pickle
 from PIL import Image
 from torchvision import transforms as T
-
+from tqdm import tqdm
 from matplotlib import pyplot as plt
 from .ray_utils import *
 from .colmap_utils import \
@@ -317,10 +317,10 @@ class PhototourismDataset(Dataset):
 
                 is_neg = False
                 is_pos = False
-                for id_ in self.img_ids_train:
-                    print(q)
-                    q = q + 1
 
+                print('Loading Data')
+                for q in tqdm(range(len(self.img_ids_train))):
+                    id_ = self.img_ids_train[q]
                     if self.neg_files != [] or self.files_to_run != []:
 
                         is_neg = (self.neg_files != [] and id_ in neg_files)
@@ -518,8 +518,8 @@ class PhototourismDataset(Dataset):
             if self.semantics_dir != []:
                 path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'
 
-                print('path semantics:')
-                print(path_semantics)
+                # print('path semantics:')
+                # print(path_semantics)
 
                 if os.path.exists(path_semantics):
                     try:
