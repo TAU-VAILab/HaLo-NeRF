@@ -6,7 +6,7 @@ import os
 def get_opts():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument('--semantics_dir', type=str, default='/home/cc/students/csguests/chendudai/Thesis/data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal/clipseg_ft')
+    parser.add_argument('--semantics_dir', type=str, default='data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal/clipseg_ft')
     parser.add_argument('--scene_name', type=str, default='')
 
     # Flags
@@ -23,18 +23,17 @@ def get_opts():
     parser.add_argument('--neg_prec', type=float, default=0)
 
     # main
-    parser.add_argument('--root_dir', type=str, default='/storage/chendudai/data/st_pauls_cathedral/',   #'/home/cc/students/csguests/chendudai/Thesis/data/0_1_undistorted'    #/home/cc/students/csguests/chendudai/Thesis/data/0209_megaDepth_mosque/
+    parser.add_argument('--root_dir', type=str, default='data/st_pauls_cathedral/',
                         help='root directory of dataset')
     parser.add_argument('--prompts', type=str, default="towers;windows;portals") #spires;windows;portals;facade   towers;windows;portals   #statue
 
     # Clipseg
     parser.add_argument('--top_k_files', type=int, default=150)
 
-    parser.add_argument('--xls_path', type=str, default='/storage/chendudai/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv')   #'/home/cc/students/csguests/chendudai/Thesis/data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv' #retrieval_clip_outdoor_020523.csv
+    parser.add_argument('--xls_path', type=str, default='data/ft_clip_sims_v0.3-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24-nodups.csv')
     parser.add_argument('--save_dir', type=str, default='./sem_results/0_1_undistorted_ft_clip')
 
-    parser.add_argument('--vis_prompt_path', type=str, default='/storage/chendudai/data/visual_prompts_top100_v3-clipseg-rd64.pk')  # '/home/cc/students/csguests/chendudai/Thesis/data/visual_prompts_top100_v3-clipseg-rd64.pk'
-
+    parser.add_argument('--vis_prompt_path', type=str, default='data/visual_prompts_top100_v3-clipseg-rd64.pk')
     parser.add_argument('--use_rgb_loss', type=bool, default=False)
 
     # HaLo-NeRF Training
@@ -48,7 +47,7 @@ def get_opts():
 
     parser.add_argument('--batch_size', type=int, default=7225)
     parser.add_argument('--N_vocab', type=int, default=4000)
-    parser.add_argument('--ckpt_path', type=str, default='./save/ckpts/st_pauls_cathedral/epoch=19.ckpt') #'/storage/chendudai/repos/Ha-NeRF/sem_results/0_1_undistorted_ft_clip_top15_ds2_ep2_lr5-5_continueTrainRGB_facadeOnly/ckpts/top745_ds2_epoch2_lr5e-5/facade/epoch=0.ckpt'
+    parser.add_argument('--ckpt_path', type=str, default='./save/ckpts/st_pauls_cathedral/epoch=19.ckpt')
     # parser.add_argument('--ckpt_path', type=str, default='./save/ckpts/0_1_withoutSemantics/epoch=15.ckpt')
     # parser.add_argument('--ckpt_path', type=str, default='./save/ckpts/0209_megaDepth_mosque/epoch=13.ckpt')
     # parser.add_argument('--ckpt_path', type=str, default='./save/ckpts/0237_megaDepth_mosque/epoch=1.ckpt')
@@ -64,7 +63,7 @@ def get_opts():
 
 
     # Calc Metrics
-    parser.add_argument('--path_gt', type=str, default='/storage/chendudai/data/manually_gt_masks_st_paul/')    #'/home/cc/students/csguests/chendudai/Thesis/data/manually_gt_masks_0_1/'
+    parser.add_argument('--path_gt', type=str, default='data/manually_gt_masks_st_paul/')
     parser.add_argument('--PRED_THRESHOLD', type=float, default=0.5)
 
     # Vis

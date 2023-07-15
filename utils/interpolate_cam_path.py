@@ -13,7 +13,7 @@ from scipy.spatial.transform import Rotation
 
 # notre - portals: [22,71] , notre - towers: [22, 102] notre - rose: [22, 1686] interpolate_times=[24,0]    # milano- portal:img_id_list= [40,558]
 #       towers - [83,81]       blue mosque -minarets -  [383,103]
-# st_pual - pediment/colonnade - /home/cc/students/csguests/chendudai/Thesis/data/morris_path_for_video/st_paul/colonnade/colonnade_path_24_flipx.npy
+# st_pual - pediment/colonnade
 # st paul - [41,168]
 # 639
 # blue mosque - windows:

@@ -72,89 +72,6 @@ class PhototourismDataset(Dataset):
         self.batch_size = batch_size
 
 
-    def read_meta_clipseg(self):
-        path = '/home/cc/students/csguests/chendudai/Thesis/repos/Ha-NeRF/save/results/phototourism/0_1_frontview/'
-        self.path = path
-        cat = 'windows'
-        files = os.listdir(path)
-        self.poses = []
-        self.files = []
-        self.image_paths = []
-        imdata = []
-        i = 0
-        for f in files:
-            if f[-7:] == '.pickle':
-                full_path = os.path.join(path, f)
-                with open(full_path, 'rb') as handle:
-                    img_data = pickle.load(handle)
-                self.poses += [img_data['poses']]
-                data = ImageData(i, full_path, i)
-                imdata.append(data)
-                self.image_paths += [os.path.join(path, f.split('_')[0]+ '.png')]
-                i = i + 1
-
-        self.poses_dict = {i: self.poses[i] for i, id_ in enumerate(self.poses)}
-        self.N_images_train = len((self.poses))
-        self.N_images_test = 0
-        self.img_ids_train = range(0, self.N_images_train,1)
-        self.img_ids_test = []
-        self.img_ids = self.img_ids_train
-
-
-        if  self.split in ['train']:
-
-            imdata = []
-            i = 0
-            self.all_rays = []
-            self.all_rgbs = []
-            self.all_semantics_gt = []
-            self.all_imgs = []
-            self.all_imgs_wh = []
-
-            for i, f in enumerate(files):
-                if f[-7:] == '.pickle':
-                    full_path = os.path.join(path, f)
-                    with open(full_path, 'rb') as handle:
-                        img_data = pickle.load(handle)
-
-                    sample = img_data['sample']
-
-                    sample['ts'] = sample['ts'] + i # TODO: Change to the eval creating data part
-
-
-                    self.all_rays += [torch.cat((sample['rays'], sample['ts'].unsqueeze(dim=1)), dim=1)]
-
-
-                    [img_w, img_h, c] = img_data['rgb'].shape
-                    self.all_rgbs += [torch.Tensor(img_data['rgb'].reshape([img_w * img_h, 3])) / 255]
-
-
-                    semantic_file = f.split('_')[0] + '.pickle'
-                    with open(os.path.join(path, cat, semantic_file), 'rb') as handle:
-                        semantics_gt = torch.load(handle)
-                    semantics_gt = torch.nn.functional.interpolate(semantics_gt.unsqueeze(dim=0).unsqueeze(dim=0),
-                                                                       size=(img_h, img_w))
-                    semantics_gt = semantics_gt.reshape(-1,)
-                    self.all_semantics_gt += [semantics_gt]
-                    self.all_imgs += [img_data['whole_img'].squeeze(dim=0)]
-                    self.all_imgs_wh += [torch.Tensor([img_w, img_h]).unsqueeze(0)]
-                    self.poses += [img_data['poses']]
-
-
-            self.all_rays = torch.cat(self.all_rays, 0) # ((N_images-1)*h*w, 8)
-            self.all_rgbs = torch.cat(self.all_rgbs, 0) # ((N_images-1)*h*w, 8)
-            self.all_semantics_gt = torch.cat(self.all_semantics_gt, 0) # ((N_images-1)*h*w, 8)
-            self.all_imgs_wh = torch.cat(self.all_imgs_wh, 0)  # ((N_images-1)*h*w, 3)
-
-
-
-
-        elif self.split in ['val', 'test_train']:
-            self.val_id = 0
-        else:
-            pass
-
-
     def read_meta(self):
         # read all files in the tsv first (split to train and test later)
         tsv = glob.glob(os.path.join(self.root_dir, '*.tsv'))[0]
@@ -351,7 +268,6 @@ class PhototourismDataset(Dataset):
 
                     semantics_gt = torch.Tensor([np.zeros(img_rs.size)]).squeeze(dim=0)
                     # semantics_dir = os.path.join(self.root_dir, 'dense/semantics')
-                    # semantics_dir = '/storage/chendudai/data/0_1_undistorted/dense/door/'
 
                     if (self.semantics_dir != []) and not is_neg:
                         path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'

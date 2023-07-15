@@ -7,7 +7,6 @@ import glob
 
 # root_dir = '/storage/chendudai/data/st_pauls_cathedral/dense/images/'
 # save_dir = '/storage/chendudai/data/st_pauls_cathedral/WikiScenes.tsv'
-
 root_dir = '/home/cc/students/csguests/chendudai/Thesis/data/0148_megaDepth/dense/images/'
 save_dir = '/home/cc/students/csguests/chendudai/Thesis/data/0148_megaDepth/WikiScenes.tsv'
 
