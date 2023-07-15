@@ -273,7 +273,7 @@ class PhototourismDataset(Dataset):
                         path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'
 
                         if os.path.exists(path_semantics):
-                            print(path_semantics)
+                            # print(path_semantics)
                             try:
                                 with open(path_semantics, 'rb') as f:
                                     semantics_gt = torch.Tensor(torch.load(f))

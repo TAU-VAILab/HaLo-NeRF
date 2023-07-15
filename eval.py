@@ -143,7 +143,6 @@ def eulerAnglesToRotationMatrix(theta):
 
 if __name__ == "__main__":
     args = get_opts()
-    # args.split = 'test_train'
 
     kwargs = {'root_dir': args.root_dir,
               'split': args.split}
@@ -152,8 +151,6 @@ if __name__ == "__main__":
     else:
         kwargs['img_downscale'] = args.img_downscale
         kwargs['use_cache'] = args.use_cache
-
-    # kwargs['split'] = 'test_train'
 
     dataset = dataset_dict[args.dataset_name](**kwargs)
     scene = os.path.basename(args.root_dir.strip('/'))

@@ -208,12 +208,6 @@ def eulerAnglesToRotationMatrix(theta):
 
 def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k, num_epochs):
 
-    # args = get_opts()
-    # args.root_dir = root_dir
-    # args.N_vocab = N_vocab
-    # args.scene_name = scene_name
-    # args.ckpt_path = ckpt_path
-    # args.save_dir = save_dir
     N_a = 48
     N_emb_xyz = 15
     N_emb_dir = 4
@@ -236,10 +230,6 @@ def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k
 
 
     dataset = dataset_dict[dataset_name](**kwargs)
-
-    # kwargs['split'] = 'test_test'
-    #
-    # dataset_test = dataset_dict[args.dataset_name](**kwargs)
 
 
     embedding_xyz = PosEmbedding(N_emb_xyz-1, N_emb_xyz)
@@ -313,50 +303,5 @@ def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k
         imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_semantic.png'), sem_pred_)
 
 
-
-
-
-    #
-    # for i in tqdm(range(0, len(dataset_test), 1)):
-    #
-    #     sample = dataset_test[i]
-    #     rays = sample['rays']
-    #     ts = sample['ts']
-    #
-    #     if ts[0] not in ts_list:
-    #         continue
-    #
-    #     # ts = torch.zeros(len(rays), dtype=torch.long)
-    #     if (args.split == 'test_train' or args.split == 'test_test') and args.encode_a:
-    #         whole_img = sample['whole_img'].unsqueeze(0).cuda()
-    #         kwargs['a_embedded_from_img'] = enc_a(whole_img)
-    #     results = batched_inference(models, embeddings, rays.cuda(), ts.cuda(),
-    #                                 args.N_samples, args.N_importance, args.use_disp,
-    #                                 args.chunk,
-    #                                 dataset_test.white_back,
-    #                                 **kwargs)
-    #
-    #     w, h = sample['img_wh']
-    #
-    #     try:
-    #         images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.jpg')
-    #         real_img = Image.open(images_path)
-    #     except:
-    #         print('JPG File')
-    #         images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.JPG')
-    #         real_img = Image.open(images_path)
-    #
-    #     real_w, real_h = real_img.size
-    #
-    #     sem_pred = results['semantics_fine'][:, 1].view(h, w, 1).cpu().numpy()
-    #     sem_pred = 1 - sem_pred
-    #     sem_pred = torch.Tensor(sem_pred.squeeze())
-    #     sem_pred = torch.nn.functional.interpolate(sem_pred.unsqueeze(dim=0).unsqueeze(dim=0),
-    #                                                size=(real_h, real_w), mode='bilinear').squeeze().numpy()
-    #     sem_pred_ = (sem_pred * 255).astype(np.uint8)
-    #     imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_semantic.png'), sem_pred_)
-
 if __name__ == "__main__":
     pass
-    # ts_list = [1, 2]
-    # main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path)

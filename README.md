@@ -133,7 +133,7 @@ python clipseg_ft_horiz_slider.py \
 for example:
 ```
 python clipseg_ft_horiz_slider.py \
---prompts "spires;poles;colonnade" \
+--prompts "windows;poles;colonnade" \
 --model_path data/clipseg_ft_model \
 --folder_to_save data/clipseg_ft_inference/st_paul \
 --building_type cathedral \
@@ -164,6 +164,7 @@ python HaLo-NeRF_pipline.py \
  --N_vocab 1500 --prompts '{first prompt};{second prompt};{third prompt} etc...' --scene_name {scene name} \
  --train_HaloNeRF_flag \
  --semantics_dir {path for semantic data}
+ --max_steps 12500
 ```
 
 For example:
@@ -177,6 +178,7 @@ python HaLo-NeRF_pipline.py \
  --N_vocab 1500 --prompts "portals;towers;windows" --scene_name st_paul \
  --train_HaloNeRF_flag \
   --semantics_dir data/clipseg_ft_inference/st_paul/clipseg_ft/
+  --max_steps 12500
  ```
 
 If you want to calculate the metrics please add the following flags:
@@ -185,6 +187,8 @@ If you want to calculate the metrics please add the following flags:
 --calc_metrics_flag
 --path_gt {/path/to/the/ground_truth_masks} (for example: data/manually_gt_masks_0_1/)
 ```
+
+Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic part.
 
 ### coming soon:
 link for downloading the trained models of the scenes with the semantic part.
@@ -204,11 +208,13 @@ python eval.py \
   --root_dir {path to the dataset} \
   --save_dir save \
   --dataset_name phototourism --scene_name {scene name} \
-  --split {test / test_test / test_train / val} --img_downscale 2 \
+  --split {test / test_train / val} --img_downscale 2 \
   --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
   --N_vocab 1500 --encode_a \
   --ckpt_path {the path of the CKPT of the model} \
-  --chunk 16384 --img_wh {image size}
+  --chunk 16384 --img_wh {image size} \
+  --enable_semantic \
+  --save_imgs
 ```
 
 For example:
@@ -217,30 +223,30 @@ python eval.py \
   --root_dir data/st_paul \
   --save_dir save \
   --dataset_name phototourism --scene_name st_paul \
-  --split test_test --img_downscale 2 \
+  --split test_train --img_downscale 2 \
   --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
   --N_vocab 1500 --encode_a \
-  --ckpt_path  ./sem_results/st_paul_save/ckpts/epoch=19.ckpt \
+  --ckpt_path  ./sem_results/st_paul_save/ckpts/test/windows/epoch=3.ckpt \
   --chunk 16384 --img_wh 320 240 \
-  --enable_semantic
+  --enable_semantic \
+  --save_imgs
 ```
 
 The 'split' field defines on which dataset to run the evaluation:
 
-    test_test - will run it on the test dataset.
     test_train - will run it on the train dataset.
     val - will run it on the validation dataset.
-    test - will run it on your chosen cameras locations and interpulate between them.
+    test - will run it on your chosen cameras locations and interpolate between them.
 
 Please notice that if you use 'test' as split you can use the following flags:
 ```
---num_frames {number of frames to interpulate}
--images_ids {images IDs locations to interpulate}
+--num_frames {number of frames to interpolate}
+--images_ids {images IDs locations to interpolate}
 ```
 for example:
 ```
 --num_frames [24, 8]
--images_ids [40, 588]
+--images_ids [40, 588]
 ```
 
 
