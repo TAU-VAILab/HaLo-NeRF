@@ -10,7 +10,6 @@ from models.rendering import render_rays
 from models.nerf import *
 from utils.interpolate_cam_path import generate_camera_path
 from utils import load_ckpt
-import metrics
 
 from datasets import dataset_dict
 from datasets.depth_utils import *

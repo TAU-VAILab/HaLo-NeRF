@@ -10,3 +10,4 @@ data/*
 logs/*
 *.idea
 save/*
+sem_results/*

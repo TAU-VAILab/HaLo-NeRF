@@ -170,10 +170,10 @@ For example:
 ```
 python HaLo-NeRF_pipline.py \
 --root_dir data/st_paul \
- --xls_path data/st_paul_geometric_occlusions.csv \
+ --xls_path data/retrieval/st_paul_geometric_occlusions.csv \
  --save_dir ./sem_results/st_paul_save \
  --exp_name test --top_k_files 150 --num_epochs 10 \
- --ckpt_path ./save/ckpts/st_pauls_cathedral/epoch=19.ckpt \
+ --ckpt_path ./save/ckpts/st_paul/epoch=19.ckpt \
  --N_vocab 1500 --prompts "portals;towers;windows" --scene_name st_paul \
  --train_HaloNeRF_flag \
   --semantics_dir data/clipseg_ft_inference/st_paul/clipseg_ft/
