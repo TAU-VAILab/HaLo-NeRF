@@ -1,6 +1,6 @@
 import train_mask_grid_sample
-import Cfg_file
-from opt import get_opts
+import config.halonerf_config as Cfg_file
+from config.opt import get_opts
 import utils.save_semantic_for_metric
 import utils.calculate_metrics
 import utils.visualize
@@ -26,7 +26,7 @@ for prompt in prompts:
         ts_list = [int(f[:4]) for f in list_dir if f.endswith('jpg')]
 
     if ts_list == []:
-        print('no categroy')
+        print('no category')
         # raise ValueError('no category')
 
 

@@ -1,7 +1,7 @@
 import os
 
 from numpy.lib.utils import who
-from opt import get_opts
+from config.opt import get_opts
 import torch
 from collections import defaultdict
 
