@@ -1,4 +1,4 @@
-import train_mask_grid_sample
+from train_rgb import main_train
 import config.halonerf_config as Cfg_file
 from config.opt import get_opts
 import utils.save_semantic_for_metric
@@ -54,7 +54,7 @@ for prompt in prompts:
 
         hparam_train.threshold = cfg['threshold']
 
-        train_mask_grid_sample.main_train_mask_grid_sample(hparam_train)
+        main_train(hparam_train)
 
 
     # in case it didn't end all the epochs

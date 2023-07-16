@@ -363,7 +363,7 @@ class NeRFSystem(LightningModule):
             self.log('val/r_ms', torch.stack([x['r_ms'] for x in outputs]).mean())
             self.log('val/r_md', torch.stack([x['r_md'] for x in outputs]).mean())
 
-def main_train_mask_grid_sample(hparams):
+def main_train(hparams):
     os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
     # torch.multiprocessing.set_start_method('spawn')
     system = NeRFSystem(hparams)
@@ -470,4 +470,4 @@ def main_train_mask_grid_sample(hparams):
 
 if __name__ == '__main__':
     hparams = get_opts()
-    main_train_mask_grid_sample(hparams)
+    main_train(hparams)

@@ -68,7 +68,7 @@ Train the RGB model before training the semantic model.
 
 Run:
 ```
-python train_mask_grid_sample.py \
+python train_rgb.py \
   --root_dir {path to the dataset} --dataset_name phototourism \
   --save_dir save \
   --img_downscale 2 \
@@ -83,7 +83,7 @@ python train_mask_grid_sample.py \
 
 for example:
 ```
-python train_mask_grid_sample.py \
+python train_rgb.py \
   --root_dir data/st_paul --dataset_name phototourism \
   --save_dir save \
   --img_downscale 2 \
