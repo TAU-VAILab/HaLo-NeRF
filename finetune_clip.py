@@ -16,7 +16,7 @@ def get_opts():
     parser.add_argument('--batch_size', '-b', type=int, default=2 ** 7, help="batch size")
     parser.add_argument('--num_workers', '-n', type=int, default=0, help="number of dataloader workers")
     parser.add_argument('--output', '-o', type=str, default="data/clip_ckpt", help="output checkpoint directory")
-    parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory data is stored in (under /")
+    parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory data is stored in")
     return parser.parse_args()
 
 def row2ex(row, data_dir):
