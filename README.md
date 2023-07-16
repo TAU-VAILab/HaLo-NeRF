@@ -71,14 +71,9 @@ Run:
 python train_rgb.py \
   --root_dir {path to the dataset} --dataset_name phototourism \
   --save_dir save \
-  --img_downscale 2 \
-  --N_importance 64 --N_samples 64 \
-  --num_epochs 20 --batch_size 1024 \
-  --optimizer adam --lr 5e-4 --lr_scheduler cosine \
+  --num_epochs 20 \
   --exp_name {folder to save} \
-  --N_emb_xyz 15 --N_vocab 1500 \
-  --encode_a --N_a 48 --weightKL 1e-5 --encode_random --weightRecA 1e-3 --weightMS 1e-6 \
-  --num_gpus 1
+  --N_vocab 1500
 ```
 
 for example:
@@ -86,14 +81,9 @@ for example:
 python train_rgb.py \
   --root_dir data/st_paul --dataset_name phototourism \
   --save_dir save \
-  --img_downscale 2 \
-  --N_importance 64 --N_samples 64 \
-  --num_epochs 20 --batch_size 1024 \
-  --optimizer adam --lr 5e-4 --lr_scheduler cosine \
+  --num_epochs 20 \
   --exp_name st_paul \
-  --N_emb_xyz 15 --N_vocab 1500 \
-  --encode_a --N_a 48 --weightKL 1e-5 --encode_random --weightRecA 1e-3 --weightMS 1e-6 \
-  --num_gpus 1
+  --N_vocab 1500
 ```
 
 
