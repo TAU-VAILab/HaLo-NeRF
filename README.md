@@ -61,7 +61,7 @@ TODO: Fill here
 
 ## Part B: Training The HaLo-NeRF RGB Model
 
-Train the RGB model before train the semantic part.
+Train the RGB model before training the semantic model.
 
 Run:
 ```
