@@ -39,6 +39,7 @@ You may download the relevant scenes and pretrained models at the links below.
 Download links:
 
 * Scene images and COLMAP reconstructions: (Link TBA)
+* GT semantic masks: (Link TBA)
 * Segmentation model: (Link TBA)
 * Scene semantic segmentation data: (Link TBA)
 * Retrieval data: (Link TBA)
@@ -177,12 +178,6 @@ If you want to calculate the metrics please add the following flags:
 ```
 
 Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic part.
-
-### coming soon:
-link for downloading the trained models of the scenes with the semantic part.
-
-also, we will add the link for the semantic ground truth masks.
-
 
 
 # Part D: Evaluation
