@@ -163,7 +163,7 @@ python HaLo-NeRF_pipline.py \
  --ckpt_path {ckpt path} \
  --N_vocab 1500 --prompts '{first prompt};{second prompt};{third prompt} etc...' --scene_name {scene name} \
  --train_HaloNeRF_flag \
- --semantics_dir {path for semantic data}
+ --semantics_dir {path for semantic data} \
  --max_steps 12500
 ```
 
@@ -177,7 +177,7 @@ python HaLo-NeRF_pipline.py \
  --ckpt_path ./save/ckpts/st_paul/epoch=19.ckpt \
  --N_vocab 1500 --prompts "portals;towers;windows" --scene_name st_paul \
  --train_HaloNeRF_flag \
-  --semantics_dir data/clipseg_ft_inference/st_paul/clipseg_ft/
+  --semantics_dir data/clipseg_ft_inference/st_paul/clipseg_ft/ \
   --max_steps 12500
  ```
 
@@ -208,7 +208,7 @@ python eval.py \
   --root_dir {path to the dataset} \
   --save_dir save \
   --dataset_name phototourism --scene_name {scene name} \
-  --split {test / test_train / val} --img_downscale 2 \
+  --split {test / train} --img_downscale 2 \
   --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
   --N_vocab 1500 --encode_a \
   --ckpt_path {the path of the CKPT of the model} \
@@ -223,7 +223,7 @@ python eval.py \
   --root_dir data/st_paul \
   --save_dir save \
   --dataset_name phototourism --scene_name st_paul \
-  --split test_train --img_downscale 2 \
+  --split train --img_downscale 2 \
   --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
   --N_vocab 1500 --encode_a \
   --ckpt_path  ./sem_results/st_paul_save/ckpts/test/windows/epoch=3.ckpt \
@@ -234,8 +234,7 @@ python eval.py \
 
 The 'split' field defines on which dataset to run the evaluation:
 
-    test_train - will run it on the train dataset.
-    val - will run it on the validation dataset.
+    train - will run it on the training dataset.
     test - will run it on your chosen cameras locations and interpolate between them.
 
 Please notice that if you use 'test' as split you can use the following flags:

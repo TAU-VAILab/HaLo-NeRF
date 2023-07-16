@@ -35,8 +35,8 @@ def get_opts():
                         help='which dataset to validate')
     parser.add_argument('--scene_name', type=str, default='test',
                         help='scene name, used as output folder name')
-    parser.add_argument('--split', type=str, default='test_test',
-                        choices=['val', 'test', 'test_train', 'test_test'])
+    parser.add_argument('--split', type=str, default='train',
+                        choices=['test', 'train'])
     parser.add_argument('--img_wh', nargs="+", type=int, default=[800, 800],
                         help='resolution (img_w, img_h) of the image')
     # for phototourism
@@ -143,6 +143,9 @@ def eulerAnglesToRotationMatrix(theta):
 
 if __name__ == "__main__":
     args = get_opts()
+
+    if args.split == 'train':
+        args.split = 'test_train'
 
     kwargs = {'root_dir': args.root_dir,
               'split': args.split}
@@ -299,22 +302,6 @@ if __name__ == "__main__":
         if args.save_imgs:
             imageio.imwrite(os.path.join(dir_name, f'{i:03d}.png'), img_pred_)
 
-
-        if args.split == 'test_test':
-            img_GT = np.clip(sample['rgbs'].view(h, w, 3).cpu().numpy(), 0, 1)
-            img_GT_ = (img_GT*255).astype(np.uint8)
-
-            try:
-                images_path = os.path.join(args.root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.jpg')
-                real_img = Image.open(images_path)
-            except:
-                print('JPG File')
-                images_path = os.path.join(args.root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.JPG')
-                real_img = Image.open(images_path)
-
-            real_w, real_h = real_img.size
-
-            imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_GT_RGB.png'), img_GT_)
 
         if args.enable_semantic:
             sem_pred = results_sem['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()

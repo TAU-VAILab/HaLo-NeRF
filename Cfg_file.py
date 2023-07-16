@@ -195,27 +195,7 @@ def getCfg(opts, prompt):
 
     cfg['files_to_run'] = cfg['files']
 
-    ## save_semantic_for_metric
-
-    if 'spire' in prompt:
-        cfg['category'] = 'spires'
-    elif 'portal' in prompt or 'door' in prompt:
-        cfg['category'] = 'portals'
-    elif 'facade' in prompt:
-        cfg['category'] = 'facade'
-    elif 'window' in prompt:
-        cfg['category'] = 'windows'
-    elif 'tower' in prompt:
-        cfg['category'] = 'towers'
-    elif 'dome' in prompt:
-        cfg['category'] = 'domes'
-    elif 'minaret' in prompt:
-        cfg['category'] = 'minarets'
-    else:
-        cfg['category'] = prompt
-        print('No Category')
-        # raise ValueError('no category')
-
+    cfg['category'] = prompt
     cfg['semantics_dir'] = os.path.join(opts.semantics_dir, cfg['category'])
 
     if not os.path.exists(cfg['semantics_dir']):

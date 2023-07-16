@@ -26,7 +26,7 @@ for prompt in prompts:
         ts_list = [int(f[:4]) for f in list_dir if f.endswith('jpg')]
 
     if ts_list == []:
-        print('no categroy')
+        print("There are no ground truth images in 'path_gt' ")
         # raise ValueError('no category')
 
 
