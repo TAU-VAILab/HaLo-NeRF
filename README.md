@@ -57,6 +57,8 @@ Note that we use six different scenes:
 
 # Training
 
+Note: For each command, you may pass `--help` to see additional flags and configuration options.
+
 ## Part A: Training The Finetuned Clipseg Model
 TODO: Fill here
 
