@@ -15,3 +15,7 @@ Make sure that WikiScenes(+mosques) images are stored under `data/wikiscenes` (o
 ```
 python finetune_clip.py -p data/pseudolabels.csv
 ```
+
+## Step 2: Fine-tune 2D segmentation (CLIPSeg)
+
+TBD
