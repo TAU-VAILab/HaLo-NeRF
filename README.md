@@ -27,6 +27,7 @@ Download links:
 
 * Scene images and COLMAP reconstructions: (Link TBA)
 * GT semantic masks: (Link TBA)
+* Fine-tuned CLIP model: (Link TBA)
 * Segmentation model: (Link TBA)
 * Scene semantic segmentation data: (Link TBA)
 * Retrieval data: (Link TBA)
