@@ -4,7 +4,6 @@ import numpy as np
 from collections import defaultdict
 from tqdm import tqdm
 import imageio
-import pickle
 from models.rendering import render_rays
 from models.nerf import *
 from utils.interpolate_cam_path import generate_camera_path
@@ -14,16 +13,13 @@ from datasets import dataset_dict
 from datasets.depth_utils import *
 
 from models.networks import E_attr
-from math import sqrt
 import math
-import json
 from PIL import Image
 from torchvision import transforms as T
 import matplotlib.pyplot as plt
 from config.eval_config import get_opts
 
 torch.backends.cudnn.benchmark = True
-import cv2
 
 
 @torch.no_grad()

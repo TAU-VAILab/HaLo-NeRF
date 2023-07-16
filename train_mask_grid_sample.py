@@ -1,6 +1,5 @@
 import os
 
-from numpy.lib.utils import who
 from config.opt import get_opts
 import torch
 from collections import defaultdict
@@ -33,8 +32,6 @@ from datasets import global_val
 
 import random
 import clip
-from torchvision import transforms
-from matplotlib import pyplot as plt
 
 def encode_text(prompt, clip_model):
     with torch.no_grad():
