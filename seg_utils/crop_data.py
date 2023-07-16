@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from collections import namedtuple
 import torch
+import os
 
 CropTuple = namedtuple('CropTuple', 'C x0 y0 x1 y1 x0_ y0_ x1_ y1_')
 
@@ -40,14 +41,16 @@ CropRes = namedtuple("CropRes", "img, coords, coords_, label")
 
 class CropDS(IterableDataset):
     
-    def __init__(self, crop_metadata_filename, res=352):
+    def __init__(self, data_dir, crop_metadata_filename, res=352):
+        self.data_dir = data_dir
         self.df = pd.read_csv(crop_metadata_filename)
         self.res = res
         
     def __iter__(self):
         while True:
             row = self.df.sample().iloc[0]
-            img = Image.open(row.fn).convert('RGB')
+            fn = os.path.join(self.data_dir, row.fn)
+            img = Image.open(fn).convert('RGB')
             coords = eval(row.coords)
             label = row.label
             w, h = img.size
