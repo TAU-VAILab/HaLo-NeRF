@@ -1,5 +1,4 @@
 import numpy as np
-from datasets import dataset_dict
 from scipy.spatial.transform import Rotation
 
 # milano: img_id_list=[52, 144, 167, 722, 745, 749, 189], interpolate_times=[1, 1, 1, 1, 1, 1, 1]    [52, 722, 745]

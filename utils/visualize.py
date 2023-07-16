@@ -5,21 +5,14 @@ from collections import defaultdict
 from tqdm import tqdm
 import imageio
 from argparse import ArgumentParser
-import pickle
 from models.rendering import render_rays
 from models.nerf import *
-from utils.interpolate_cam_path import generate_camera_path
 from utils import load_ckpt
-import cv2
 from datasets import dataset_dict
 from datasets.depth_utils import *
 
 from models.networks import E_attr
-from math import sqrt
-import math
-import json
 from PIL import Image
-from torchvision import transforms as T
 from sklearn.metrics import average_precision_score
 
 torch.backends.cudnn.benchmark = True
