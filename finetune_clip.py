@@ -18,27 +18,32 @@ def get_opts():
     parser.add_argument('--batch_size', '-b', type=int, default=2 ** 7, help="batch size")
     parser.add_argument('--num_workers', '-n', type=int, default=20, help="number of dataloader workers")
     parser.add_argument('--output', '-o', type=str, default="data/clip_ckpt", help="output checkpoint directory")
+    parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory data is stored in (under /")
     return parser.parse_args()
 
-def row2ex(row):
-    ps, fn = row.pseudolabel, row.fn
+def row2ex(row, data_dir):
+    ps, fn_ = row.pseudolabel, row.fn
+    fn = os.path.join(data_dir, fn_)
     img = Image.open(fn).convert('RGB')
     return InputExample(texts=[img, ps])
 
 class DS(Dataset):
     
-    def __init__(self, df):
+    def __init__(self, df, data_dir):
         self.df = df
+        self.data_dir = data_dir
         
     def __len__(self):
         return self.df.shape[0]
     
     def __getitem__(self, idx):
-        return row2ex(self.df.iloc[idx])
+        return row2ex(self.df.iloc[idx], self.data_dir)
 
 def main():
 
     args = get_opts()
+
+    assert os.path.exists(args.data_dir), f'Missing data directory: {args.data_dir}'
 
     print("Loading pseudolabel table...")
     fn = args.pseudolabels
@@ -55,7 +60,7 @@ def main():
 
     df_train = df[df.spl == 'train'].copy()
 
-    ds = DS(df_train)
+    ds = DS(df_train, args.data_dir)
 
     print("Loading CLIP model...")
     model = SentenceTransformer('clip-ViT-B-32')

@@ -6,7 +6,7 @@ Download links for all provided data and pretrained models are listed below.
 
 * WikiScenes (+mosques) image data: (link TBA)
   * Partially available from [WikiScenes repo](https://github.com/tgxs002/wikiscenes/tree/main) (high-res 1200px images)
-  * Store these in `data/cathedrals` and `data/mosques`
+  * Store these in `data/wikiscenes/cathedrals` and `data/wikiscenes/mosques`
 * WikiScenes (+mosques) metadata (`metadata.csv`): (Link TBA)
 * Distilled semantic pseudo-labels (`pseudolabels.csv`) for WikiScenes (+mosques): (Link TBA)
 
