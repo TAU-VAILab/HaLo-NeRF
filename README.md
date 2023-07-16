@@ -1,23 +1,19 @@
 # HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild
 
-### Coming soon
-links to the project page, paper, arxiv, supplementary
+(TBA) **project page | paper**
 
-
-Chen Dudai¹, 
-Morris Alper¹, 
+*Chen Dudai¹, 
+[Morris Alper](https://morrisalp.github.io/)¹, 
 Hana Bezalel¹, 
-Rana Hanocka², 
-Itai Lang²,
-Hadar Averbuch-Elor¹. 
+[Rana Hanocka](https://people.cs.uchicago.edu/~ranahanocka/)², 
+[Itai Lang](https://scholar.google.com/citations?user=q0bBhtsAAAAJ)²,
+[Hadar Averbuch-Elor](https://www.elor.sites.tau.ac.il/)¹*
 
-¹Tel Aviv University,
-²The University of Chicago.
+*¹[Tel Aviv University](https://english.tau.ac.il/),
+²[The University of Chicago](https://www.uchicago.edu/)*
 
 
-This repository is an official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild) using pytorch ([pytorch-lightning](https://github.com/PyTorchLightning/pytorch-lightning)). 
-
-<!-- The code is largely based on Ha-NeRFNeRF implementation. -->
+This repository is the official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild).
 
 # Installation
 
@@ -251,11 +247,11 @@ for example:
 
 
 
-# Cite
-If you find our work useful, please consider citing:
-### Coming soon - cite
+# Citation
+If you find this project useful, you may cite us as follows:
 ```
+(TBA)
 ```
 
-# Acknowledge
-Our code is based on the pytorch implementation of [Ha-NeRF](https://rover-xingyu.github.io/Ha-NeRF/). We appreciate all the contributors.
+# Acknowledgements
+This implementation is based on the official repository of [Ha-NeRF](https://rover-xingyu.github.io/Ha-NeRF/).
