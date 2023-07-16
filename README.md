@@ -80,10 +80,7 @@ python train_rgb.py \
   --num_epochs 20 --exp_name st_paul --N_vocab 1500
 ```
 
-
 `--N_vocab` should be set to an integer larger than the number of images (dependent on different scenes). For example, "notre_dame_front_facade" has in total 3764 images (under `dense/images/`), so any number larger than 3764 works (no need to set to exactly the same number). **Attention!** If you forget to set this number, or it is set smaller than the number of images, the program will yield `RuntimeError: CUDA error: device-side assert triggered` (which comes from `torch.nn.Embedding`).
-
-See [Cfg_file.py](Cfg_file.py) for all configurations.
 
 The checkpoints and logs will be saved to `{save_dir}/ckpts/{scene_name} ` and `{save_dir}/logs/{scene_name}`, respectively.
 
