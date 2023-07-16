@@ -88,7 +88,7 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 
 # Part C: Training The HaLo-NeRF Semantic Model
 
-## Retrive the relevant images
+## Retrieve the relevant images
 TODO: Fill here
 
 ## Create the data for the semantic model
