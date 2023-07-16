@@ -18,8 +18,7 @@ from transformers import CLIPProcessor, CLIPModel
 from argparse import ArgumentParser
 import os
 import pandas as pd
-from utils.crop_utils import rand_crop, search_crops
-from datasets.seg_datasets import HashDS
+from datasets.seg_datasets import HashDS, rand_crop, search_crops
 
 def get_opts():
     parser = ArgumentParser()
