@@ -84,9 +84,7 @@ def main():
         optimizer_params={'lr': args.lr}
     )
 
-    out_fn = f'{args.output}/last'
-    print("Saving final model to:", out_fn)
-    model.save(out_fn)
+    print("Model saved to:", args.output)
 
     print("done")
 
