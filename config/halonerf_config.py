@@ -1,4 +1,3 @@
-import numpy as np
 import pandas
 from argparse import ArgumentParser
 import pickle
