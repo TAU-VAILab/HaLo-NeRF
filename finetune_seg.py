@@ -38,7 +38,7 @@ def main():
 
     assert os.path.exists(args.crop_metadata), f'Missing crop metadata file: {args.crop_metadata}'
     assert os.path.exists(args.hash_metadata), f'Missing hash metadata file: {args.hash_metadata}'
-    assert os.path.exists(args.hash_data), f'Missing hash data directory: {args.hash_metadata}'
+    assert os.path.exists(args.hash_data), f'Missing hash data directory: {args.hash_data}'
     assert os.path.exists(args.clip_ft), f'Missing finetuned CLIP directory: {args.clip_ft}'
 
     print("Loading models...")
