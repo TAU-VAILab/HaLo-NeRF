@@ -10,6 +10,7 @@ import os
 from collections import namedtuple
 import torch
 
+
 CropTuple = namedtuple('CropTuple', 'C x0 y0 x1 y1 x0_ y0_ x1_ y1_')
 
 def rand_crop(img_, h=352, w=352):
