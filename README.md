@@ -114,7 +114,7 @@ TODO: Fill here
 
 To create semantic data, for training the semantic model - run:
 ```
-python clipseg_ft_horiz_slider.py \
+python run_segmentation.py \
 --prompts '{prompt1};{prompt2};{prompt3} etc...' \
 --model_path '{the path to the clipseg ft model}' \
 --folder_to_save '{folder_to_save}' \
@@ -126,7 +126,7 @@ python clipseg_ft_horiz_slider.py \
 
 for example:
 ```
-python clipseg_ft_horiz_slider.py \
+python run_segmentation.py \
 --prompts "windows;poles;colonnade" \
 --model_path data/clipseg_ft_model \
 --folder_to_save data/clipseg_ft_inference/st_paul \
