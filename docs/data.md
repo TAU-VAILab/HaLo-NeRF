@@ -7,11 +7,11 @@ Download links for all provided data and pretrained models are listed below.
 * WikiScenes (+mosques) image data: (link TBA)
   * Partially available from [WikiScenes repo](https://github.com/tgxs002/wikiscenes/tree/main) (high-res 1200px images)
   * Store these in `data/wikiscenes/cathedrals` and `data/wikiscenes/mosques`
-* WikiScenes (+mosques) metadata (`metadata.csv`): (Link TBA)
-* Distilled semantic pseudo-labels (`pseudolabels.csv`) for WikiScenes (+mosques): (Link TBA)
+* WikiScenes (+mosques) metadata (`metadata.csv`) ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
+* Distilled semantic pseudo-labels (`pseudolabels.csv`) for WikiScenes (+mosques) ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
 * Correspondence- and crop-based data for finetuning segmentation:
-  * Metadata files: `data/seg_crop_metadata.csv`, `data/seg_hash_metadata.csv`
-  * Correspondence-based data: `hashdata.tar.gz`; extract to `data/hashdata`
+  * Metadata files: `data/seg_crop_metadata.csv`, `data/seg_hash_metadata.csv` ([link for both](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
+  * Correspondence-based data: `hashdata.tar.gz`; extract to `data/hashdata` ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
   * Crop-based data: ...
 
 ## Test scene data
@@ -21,7 +21,7 @@ Download links for all provided data and pretrained models are listed below.
 
 ## Pretrained models
 
-* Fine-tuned CLIP model: (Link TBA)
+* Fine-tuned CLIP model ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
 * Segmentation model: (Link TBA)
 * RGB NeRF models: (Link TBA)
 * Semantic NeRF models: (Link TBA)
