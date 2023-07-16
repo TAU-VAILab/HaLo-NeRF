@@ -18,6 +18,8 @@ python finetune_clip.py -p data/pseudolabels.csv
 
 This uses a single dataloader worker by default; add `-n` with a positive integer to use more workers for possibly faster training.
 
+This saves checkpoints to `data/clip_ckpt` by default.
+
 ## Step 2: Fine-tune 2D segmentation (CLIPSeg)
 
 TBD
