@@ -59,7 +59,7 @@ Note that we use six different scenes:
 
 Note: For each command, you may pass `--help` to see additional flags and configuration options.
 
-## Part A: Training The Finetuned Clipseg Model
+## Part A: Training The Finetuned Segmentation Model
 TODO: Fill here
 
 ## Part B: Training The HaLo-NeRF RGB Model
@@ -97,7 +97,7 @@ To create semantic data, for training the semantic model - run:
 ```
 python run_segmentation.py \
 --prompts '{prompt1};{prompt2};{prompt3} etc...' \
---model_path '{the path to the clipseg ft model}' \
+--model_path '{the path to the segmentation model}' \
 --folder_to_save '{folder_to_save}' \
 --building_type '{cathedral or mosque or synagogue}' \
 --images_folder '{RGB images folder}' \
