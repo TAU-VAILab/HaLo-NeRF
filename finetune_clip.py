@@ -1,6 +1,4 @@
 import pandas as pd
-# import torch
-# from tqdm.auto import tqdm
 from argparse import ArgumentParser
 import os
 from PIL import Image
