@@ -108,9 +108,9 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 ## Retrive the relevant images
 TODO: Fill here
 
-## Create the data for the semantic part
+## Create the data for the semantic model
 
-To create semantic data, for training the semantic part - run:
+To create semantic data, for training the semantic model - run:
 ```
 python clipseg_ft_horiz_slider.py \
 --prompts '{prompt1};{prompt2};{prompt3} etc...' \
@@ -140,7 +140,7 @@ You can use as many prompts as you like with this format:
 `--prompts '{first prompt};{second prompt};{third prompt}` etc.
 for example: 'towers;windows;portals'
 
-## Train the semantic part
+## Train the semantic model
 
 Run:
 ```
@@ -177,7 +177,7 @@ If you want to calculate the metrics please add the following flags:
 --path_gt {/path/to/the/ground_truth_masks} (for example: data/manually_gt_masks_0_1/)
 ```
 
-Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic part.
+Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic model.
 
 
 # Part D: Evaluation
