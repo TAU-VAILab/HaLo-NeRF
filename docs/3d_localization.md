@@ -24,7 +24,7 @@ The checkpoints and logs will be saved to `{save_dir}/ckpts/{scene_name} ` and `
 
 You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{scene_name} --port=8600` and go to `localhost:8600` in your browser.
 
-## Step 2: Retrieve relevant mages
+## Step 2: Retrieve relevant images
 
 TODO
 
