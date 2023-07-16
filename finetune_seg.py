@@ -160,7 +160,7 @@ def main():
             losses1.append(loss_e.item())
             
             
-            c = search_crops(x.img_, label_orig, n_crops=n_crops)
+            c = search_crops(x.img_, label_orig, clip_proc, clip, n_crops=n_crops)
             out_crop = out[c.y0:c.y1, c.x0:c.x1]
             out_crop = rsz(out_crop[None])[0]
             inp_crop = processor(
