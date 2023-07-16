@@ -26,6 +26,7 @@ You may download the relevant scenes and pretrained models at the links below.
 Download links:
 
 * Scene images and COLMAP reconstructions: (Link TBA)
+* Required WikiScenes metadata (`metadata.csv`): (Link TBA)
 * GT semantic masks: (Link TBA)
 * Distilled semantic pseudo-labels: (Link TBA)
 * Fine-tuned CLIP model: (Link TBA)

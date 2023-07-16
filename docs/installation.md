@@ -8,7 +8,15 @@ Tested on:
 
 ## Installation Instructions
 
-* Clone this repo with `git clone https://github.com/TAU-VAILab/HaLo-NeRF`
+Clone this repo with `git clone https://github.com/TAU-VAILab/HaLo-NeRF`.
+
+Requirements are slightly different for the different stages of training, so create seperate environments for each:
+
+### Concept Distillation and Semantic Adaptation
+* Run in a Python>=3.8 environment. Recommended: create and use conda environment via `conda create -n HaLo-NeRF-2D python=3.8` and `conda activate HaLo-NeRF-2D`
+* Install core requirements with `pip install -r requirements-2d.txt`
+
+### 3D Localization
 * Run in a Python>=3.8 environment. Recommended: create and use conda environment via `conda create -n HaLo-NeRF python=3.8` and `conda activate HaLo-NeRF`
 * Install core requirements with `pip install -r requirements.txt`
 * Install the following torch packages using the command:
