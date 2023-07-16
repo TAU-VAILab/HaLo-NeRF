@@ -19,31 +19,19 @@ This repository is the official implementation of [HaLo-NeRF](https://github.com
 
 See the linked [installation instructions](docs/installation.md).
 
-# Data Downloads
+# Data and Downloads
 
-You may download the relevant scenes and pretrained models at the links below.
+Domain-specific concepts and semantic segmentation are learned from a large set of cathedral and mosque scenes (excluding the ones used for testing, described below).
 
-Download links:
-
-* Scene images and COLMAP reconstructions: (Link TBA)
-* Required WikiScenes metadata (`metadata.csv`): (Link TBA)
-* GT semantic masks: (Link TBA)
-* Distilled semantic pseudo-labels: (Link TBA)
-* Fine-tuned CLIP model: (Link TBA)
-* Segmentation model: (Link TBA)
-* Scene semantic segmentation data: (Link TBA)
-* Retrieval data: (Link TBA)
-* RGB NeRF models: (Link TBA)
-* Semantic NeRF models: (Link TBA)
-
-
-Note that we use six different scenes:
+We use six different scenes to evaluate HaLo-NeRF for text-guided 3D localization:
 
 * Three cathedrals - [Milan Cathedral](https://en.wikipedia.org/wiki/Milan_Cathedral), [St Paul's Cathedral](https://en.wikipedia.org/wiki/St_Paul%27s_Cathedral), [Notre-Dame](https://en.wikipedia.org/wiki/Notre-Dame_de_Paris)
 
 * Two mosques - [Badshahi Mosque](https://en.wikipedia.org/wiki/Badshahi_Mosque), [Blue Mosque](https://en.wikipedia.org/wiki/Blue_Mosque,_Istanbul)
 
 * One synagogue - [Hurva Synagogue](https://en.wikipedia.org/wiki/Hurva_Synagogue) 
+
+You may download the relevant scenes and pretrained models at links provided in the [data documentation](docs/data.md).
 
 # Training
 
@@ -52,7 +40,7 @@ HaLo-NeRF is trained in multiple stages; instructions on training these from scr
 * [Concept Distillation and Semantic Adaptation](docs/distillation_adaptation.md)
 * [3D Localization](docs/3d_localization.md)
 
-Altenratively, you may use the pretrained results, downloadable from the links given above.
+Altenratively, you may use the pretrained results, downloadable from the links provided in the [data documentation](docs/data.md).
 
 
 Note: For each command, you may pass `--help` to see additional flags and configuration options.
