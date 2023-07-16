@@ -9,6 +9,7 @@ def get_opts():
     parser = ArgumentParser()
     parser.add_argument('--input_table', '-i', type=str, required=True, help="filename of csv table containing image metadata")
     parser.add_argument('--output_table', '-o', type=str, required=True, help="csv filename to output to")
+    parser.add_argument('--batch_size', '-b', type=int, default=2, help="batch size for text generation")
     return parser.parse_args()
 
 def make_prompt(row):
@@ -50,7 +51,7 @@ def main():
         'length_penalty': 0,
         'early_stopping': True
     }
-    BSZ = 2
+    BSZ = args.batch_size
 
     df['batch'] = df.index // BSZ
 
@@ -58,7 +59,7 @@ def main():
     df['prompt'] = df.progress_apply(make_prompt, axis=1)
 
     preds = []
-    for _, subdf in tqdm(df.groupby('batch'), desc="Generating pseudo-labels"):
+    for _, subdf in tqdm(df.groupby('batch'), desc=f"Generating pseudo-labels (batch size {BSZ})"):
         prompts = subdf.prompt.to_list()
         inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True)
         with torch.no_grad():
@@ -67,6 +68,16 @@ def main():
     
     preds_flat = pd.Series([y for x in preds for y in x])
     df['pseudolabel'] = preds_flat
+
+    print("Filtering...")
+
+    df.pseudolabel = df.pseudolabel.str.lower()
+    df.loc[df.pseudolabel.str.startswith('un'), 'pseudolabel'] = ''
+    df.pseudolabel = df.pseudolabel.str.replace(
+        '^(north|east|south|west)(ern)? ?(north|east|south|west)?(ern)? ',
+        '',
+        regex=True
+    )
 
     fn = args.output_table
     print("Saving to:", fn)
