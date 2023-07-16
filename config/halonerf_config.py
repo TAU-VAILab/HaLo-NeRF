@@ -1,10 +1,11 @@
 import numpy as np
 import pandas
-import argparse
+from argparse import ArgumentParser
 import pickle
 import os
+
 def get_opts():
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
 
     parser.add_argument('--semantics_dir', type=str, default='data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal/clipseg_ft')
     parser.add_argument('--scene_name', type=str, default='')

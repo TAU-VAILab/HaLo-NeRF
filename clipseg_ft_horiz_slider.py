@@ -6,8 +6,8 @@ from PIL import Image
 from matplotlib import pyplot as plt
 import pandas
 import base64
-import argparse
 from tqdm import tqdm
+from config.seg_config import get_opts
 
 def print_img(image_path, output_file):
     """
@@ -41,21 +41,6 @@ def get_k_files_clip(k, csv_path, prompt, scene_name):
     files_pos = col_sorted_descending[:k]
     names_pos = xls_file['base_fn'][files_pos.index]
     return names_pos.values.tolist()
-
-def get_opts():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--prompts', type=str, default='windows')
-    parser.add_argument('--folder_to_save', type=str, default='data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal')
-    parser.add_argument('--model_path', type=str, default='data/clipseg_ft_crops_refined_plur_newcrops_10epochs')
-    parser.add_argument('--building_type', type=str, default='cathedral')  #'mosque' 'cathedral' 'synagogue'
-    parser.add_argument('--csv_retrieval_path', type=str, default='data/milano_geometric_occlusions.csv')
-    parser.add_argument('--images_folder', type=str, default='data/0_1_undistorted/dense/images/')
-    parser.add_argument('--is_geo_occ', type=bool, default=True)
-    parser.add_argument('--n_files', type=int, default=150)
-    parser.add_argument('--save_images', type=bool, default=False)
-    parser.add_argument('--save_baseline', type=bool, default=False)
-    parser.add_argument('--save_refined_clipseg', type=bool, default=True)
-    return parser.parse_args()
 
 
 args = get_opts()
