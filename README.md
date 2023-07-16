@@ -15,51 +15,51 @@ Hana Bezalel¹,
 
 This repository is the official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild).
 
-# Installation
+# Requirements and Installation
 
 ## Hardware
 
+Tested on:
 * OS: Ubuntu 20.04
 * NVIDIA GPU with CUDA=11.4 (tested with 1 RTXA5000)
 
-## Software
+## Installation Instructions
 
-* Clone this repo by `git clone https://github.com/TAU-VAILab/HaLo-NeRF`
-* Python>=3.8 (installation via [anaconda](https://www.anaconda.com/distribution/) is recommended, use `conda create -n HaLo-NeRF python=3.8` to create a conda environment and activate it by `conda activate HaLo-NeRF`)
-* Python libraries
-    * Install core requirements by `pip install -r requirements.txt`
-    * Install the following torch packages using the command:
+* Clone this repo with `git clone https://github.com/TAU-VAILab/HaLo-NeRF`
+* Run in a Python>=3.8 environment. Recommended: create and use conda environment via `conda create -n HaLo-NeRF python=3.8` and `conda activate HaLo-NeRF`
+* Install core requirements with `pip install -r requirements.txt`
+* Install the following torch packages using the command:
   
       `pip install torch==1.7.1+cu110 torchvision==0.8.2+cu110 torchaudio===0.7.2 -f https://download.pytorch.org/whl/torch_stable.html`
 
+# Data Downloads
+
+You may download the relevant scenes and pretrained models at the links below.
+
+Download links:
+
+* Scene images and COLMAP reconstructions: (Link TBA)
+* Segmentation model: (Link TBA)
+* Scene semantic segmentation data: (Link TBA)
+* Retrieval data: (Link TBA)
+* RGB NeRF models: (Link TBA)
+* Semantic NeRF models: (Link TBA)
 
 
+Note that we use six different scenes:
 
-# Part A: Training The Finetuned Clipseg Model
+* 3 Cathedrals - Milano, St Paul's Cathedral, Notre-Dame
+
+* 2 Mosques - Badshahi Mosque, Blue-Mosque
+
+* 1 Synagogue - Hurba 
+
+# Training
+
+## Part A: Training The Finetuned Clipseg Model
 TODO: Fill here
 
-###  coming soon:
-link for downloading the finetuned clipseg model.
-
-
-
-# Part B: Training The HaLo-NeRF Model
-
-## Data download - RGB Images and Colmap Model
-We are using 6 different scenes:
-
-3 Cathedrals - Milano, St Paul's Cathedral, Notre-Dame
-
-2 Mosques - Badshahi Mosque, Blue-Mosque
-
-1 Synagogue - Hurba 
-
-
-###  coming soon:
-link for downloading the data of the scenes.
-
-
-## Training the RGB model
+## Part B: Training The HaLo-NeRF RGB Model
 
 Train the RGB model before train the semantic part.
 
@@ -102,15 +102,10 @@ The checkpoints and logs will be saved to `{save_dir}/ckpts/{scene_name} ` and `
 
 You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{scene_name} --port=8600` and go to `localhost:8600` in your browser.
 
-###  coming soon:
-link for downloading the trained RGB models of the scenes.
-
-# Part C: Training The HaLo-NeRF semantic 
+# Part C: Training The HaLo-NeRF Semantic Model
 
 ## Retrive the relevant images
 TODO: Fill here
-###  coming soon:
-link for csv retrieval files.
 
 ## Create the data for the semantic part
 
@@ -143,9 +138,6 @@ python clipseg_ft_horiz_slider.py \
 You can use as many prompts as you like with this format:
 `--prompts '{first prompt};{second prompt};{third prompt}` etc.
 for example: 'towers;windows;portals'
-
-###  coming soon:
-link for downloading the semantic data of the scenes.
 
 ## Train the semantic part
 
