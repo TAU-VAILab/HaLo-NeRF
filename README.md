@@ -69,21 +69,15 @@ Train the RGB model before training the semantic model.
 Run:
 ```
 python train_rgb.py \
-  --root_dir {path to the dataset} --dataset_name phototourism \
-  --save_dir save \
-  --num_epochs 20 \
-  --exp_name {folder to save} \
-  --N_vocab 1500
+  --root_dir {path to the dataset} --dataset_name phototourism --save_dir save \
+  --num_epochs 20 --exp_name {folder to save} --N_vocab 1500
 ```
 
 for example:
 ```
 python train_rgb.py \
-  --root_dir data/st_paul --dataset_name phototourism \
-  --save_dir save \
-  --num_epochs 20 \
-  --exp_name st_paul \
-  --N_vocab 1500
+  --root_dir data/st_paul --dataset_name phototourism --save_dir save \
+  --num_epochs 20 --exp_name st_paul --N_vocab 1500
 ```
 
 
