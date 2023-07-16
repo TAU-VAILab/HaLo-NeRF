@@ -5,3 +5,4 @@ numpy==1.24.4
 torch==2.0.1
 sentence-transformers==2.2.2
 Pillow==10.0.0
+opencv-python==4.8.0.74
