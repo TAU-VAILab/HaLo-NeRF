@@ -84,13 +84,13 @@ for prompt in prompts:
         metrics.append(utils.calculate_metrics.main_metrics(cfg['path_pred'], cfg['path_gt'], cfg['category'], cfg['top_k_files'], cfg['num_epochs'], opts.scene_name, cfg['category'], ts_list))
 
 
-    ## Visualizaiton
+    ## Visualization
     if cfg['vis_flag']:
         print('vis')
         utils.visualize.main_vis(cfg['save_training_vis'], cfg['files'], ts_list, cfg['root_dir'], cfg['N_vocab'], cfg['scene_name'], cfg['ckpt_path_eval'], cfg['save_dir_eval'], cfg['folder2save'],  cfg['path_gt'], prompt, cfg['top_k_files'], cfg['num_epochs'])
 
 
-## Calc Metrics - avarage_per_class_metrics
+## Calc Metrics - average_per_class_metrics
 
 if cfg['calc_metrics_flag']:
 
