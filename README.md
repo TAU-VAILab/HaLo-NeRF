@@ -191,13 +191,10 @@ python eval.py \
   --root_dir {path to the dataset} \
   --save_dir save \
   --dataset_name phototourism --scene_name {scene name} \
-  --split {test / test_train / val} --img_downscale 2 \
-  --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
-  --N_vocab 1500 --encode_a \
+  --split {test / test_train / val} \
+  --N_vocab 1500 \
   --ckpt_path {the path of the CKPT of the model} \
-  --chunk 16384 --img_wh {image size} \
-  --enable_semantic \
-  --save_imgs
+  --img_wh {image size}
 ```
 
 For example:
@@ -206,13 +203,10 @@ python eval.py \
   --root_dir data/st_paul \
   --save_dir save \
   --dataset_name phototourism --scene_name st_paul \
-  --split test_train --img_downscale 2 \
-  --N_samples 256 --N_importance 256 --N_emb_xyz 15 \
-  --N_vocab 1500 --encode_a \
+  --split test_train \
+  --N_vocab 1500 \
   --ckpt_path  ./sem_results/st_paul_save/ckpts/test/windows/epoch=3.ckpt \
-  --chunk 16384 --img_wh 320 240 \
-  --enable_semantic \
-  --save_imgs
+  --img_wh 320 240
 ```
 
 The 'split' field defines on which dataset to run the evaluation:
