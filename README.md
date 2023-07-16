@@ -49,11 +49,11 @@ Download links:
 
 Note that we use six different scenes:
 
-* 3 Cathedrals - Milano, St Paul's Cathedral, Notre-Dame
+* Three cathedrals - [Milan Cathedral](https://en.wikipedia.org/wiki/Milan_Cathedral), [St Paul's Cathedral](https://en.wikipedia.org/wiki/St_Paul%27s_Cathedral), [Notre-Dame](https://en.wikipedia.org/wiki/Notre-Dame_de_Paris)
 
-* 2 Mosques - Badshahi Mosque, Blue-Mosque
+* Two mosques - [Badshahi Mosque](https://en.wikipedia.org/wiki/Badshahi_Mosque), [Blue Mosque](https://en.wikipedia.org/wiki/Blue_Mosque,_Istanbul)
 
-* 1 Synagogue - Hurba 
+* One synagogue - [Hurva Synagogue](https://en.wikipedia.org/wiki/Hurva_Synagogue) 
 
 # Training
 
