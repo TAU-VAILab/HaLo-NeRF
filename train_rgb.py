@@ -1,4 +1,4 @@
-from config.opt import get_opts
+from config.train_config import get_opts
 from train import run_train
 
 if __name__ == '__main__':

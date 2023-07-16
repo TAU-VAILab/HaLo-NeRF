@@ -1,6 +1,6 @@
 from train import run_train
 import config.halonerf_config as Cfg_file
-from config.opt import get_opts
+from config.train_config import get_opts
 import utils.save_semantic_for_metric
 import utils.calculate_metrics
 import utils.visualize
