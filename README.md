@@ -47,10 +47,9 @@ Note that we use six different scenes:
 
 # Training
 
-HaLo-NeRF is trained in three stages; instructions on training these from scratch can be found at their respective documentation pages:
+HaLo-NeRF is trained in multiple stages; instructions on training these from scratch can be found at their respective documentation pages:
 
-* [LLM-Based Concept Distillation](docs/concept_distillation.md)
-* [Semantic Adaptation](docs/semantic_adaptation.md)
+* [Concept Distillation and Semantic Adaptation](docs/distillation_adaptation.md)
 * [3D Localization](docs/3d_localization.md)
 
 Altenratively, you may use the pretrained results, downloadable from the links given above.
