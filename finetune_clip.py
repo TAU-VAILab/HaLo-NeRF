@@ -3,12 +3,38 @@ import pandas as pd
 # from tqdm.auto import tqdm
 from argparse import ArgumentParser
 import os
+from PIL import Image
+from sentence_transformers import InputExample
+from torch.utils.data import Dataset
+from sentence_transformers import SentenceTransformer
+from sentence_transformers import losses
+from torch.utils.data import DataLoader
 
 def get_opts():
     parser = ArgumentParser()
     parser.add_argument('--pseudolabels', '-p', type=str, required=True, help="filename of pseudolabel csv file")
+    parser.add_argument('--epochs', '-e', type=int, default=5, help="epochs")
+    parser.add_argument('--lr', '-l', type=float, default=1e-6, help="learning rate")
+    parser.add_argument('--batch_size', '-b', type=int, default=2 ** 7, help="batch size")
+    parser.add_argument('--num_workers', '-n', type=int, default=20, help="number of dataloader workers")
+    parser.add_argument('--output', '-o', type=str, default="data/clip_ckpt", help="output checkpoint directory")
     return parser.parse_args()
 
+def row2ex(row):
+    ps, fn = row.pseudolabel, row.fn
+    img = Image.open(fn).convert('RGB')
+    return InputExample(texts=[img, ps])
+
+class DS(Dataset):
+    
+    def __init__(self, df):
+        self.df = df
+        
+    def __len__(self):
+        return self.df.shape[0]
+    
+    def __getitem__(self, idx):
+        return row2ex(self.df.iloc[idx])
 
 def main():
 
@@ -20,60 +46,42 @@ def main():
     df = pd.read_csv(fn)
     print("Pseudolabel table loaded")
 
-    # device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(f"{len(df)} rows")
+    df = df[df.pseudolabel.notna()].copy()
+    print(f"Only using {len(df)} rows with non-empty pseudolabels")
 
-    # print(f"Loading LM.... (device: {device})")
-    # model_id = "google/flan-t5-xl"
+    print("Train-test split:")
+    print(df.spl.value_counts())
 
-    # tokenizer = AutoTokenizer.from_pretrained(model_id)
+    df_train = df[df.spl == 'train'].copy()
 
-    # model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+    ds = DS(df_train)
 
-    # model.to(device)
-    # model.eval()
+    print("Loading CLIP model...")
+    model = SentenceTransformer('clip-ViT-B-32')
+    print("CLIP model loaded")
 
-    # print("LM loaded")
-
-    # generate_kwargs = {
-    #     'do_sample': False,
-    #     'num_beams': 4,
-    #     'length_penalty': 0,
-    #     'early_stopping': True
-    # }
-    # BSZ = args.batch_size
-
-    # df['batch'] = df.index // BSZ
-
-    # tqdm.pandas(desc="Making prompts")
-    # df['prompt'] = df.progress_apply(make_prompt, axis=1)
-
-    # preds = []
-    # for _, subdf in tqdm(df.groupby('batch'), desc=f"Generating pseudo-labels (batch size {BSZ})"):
-    #     prompts = subdf.prompt.to_list()
-    #     inputs = tokenizer(prompts, return_tensors="pt", padding=True, truncation=True)
-    #     with torch.no_grad():
-    #         outputs = model.generate(**inputs.to('cuda'), **generate_kwargs)
-    #     preds.append(tokenizer.batch_decode(outputs.cpu(), skip_special_tokens=True))
+    dl = DataLoader(
+        ds,
+        shuffle=True,
+        batch_size=args.batch_size,
+        num_workers=args.num_workers,
+        collate_fn=model.smart_batching_collate,
+        pin_memory=True)
     
-    # preds_flat = pd.Series([y for x in preds for y in x])
-    # df['pseudolabel'] = preds_flat
+    loss = losses.MultipleNegativesRankingLoss(model=model)
 
-    # print("Filtering...")
+    print("Training model...")
+    model.fit(
+        train_objectives=[(dl, loss)],
+        epochs=args.epochs,
+        output_path=args.output,
+        optimizer_params={'lr': args.lr}
+    )
 
-    # df.pseudolabel = df.pseudolabel.str.lower()
-    # df.loc[df.pseudolabel.str.startswith('un'), 'pseudolabel'] = ''
-    # df.pseudolabel = df.pseudolabel.str.replace(
-    #     '^(north|east|south|west)(ern)? ?(north|east|south|west)?(ern)? ',
-    #     '',
-    #     regex=True
-    # )
-
-    # fn = args.output_table
-    # print("Saving to:", fn)
-    # if os.path.exists(fn):
-    #     print(f"Warning: overwriting existing file {fn}")
-    # df.to_csv(fn, index=False)
-
+    out_fn = f'{args.output}/last'
+    print("Saving final model to:", out_fn)
+    model.save(out_fn)
 
     print("done")
 
