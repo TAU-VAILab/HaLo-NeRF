@@ -17,7 +17,7 @@ def get_opts():
     parser.add_argument('--img_wh', nargs="+", type=int, default=[800, 800],
                         help='resolution (img_w, img_h) of the image')
     # for phototourism
-    parser.add_argument('--img_downscale', type=int, default=1,
+    parser.add_argument('--img_downscale', type=int, default=2,
                         help='how much to downscale the images for phototourism dataset')
     parser.add_argument('--use_cache', default=False, action="store_true",
                         help='whether to use ray cache (make sure img_downscale is the same)')
@@ -42,13 +42,13 @@ def get_opts():
     parser.add_argument('--N_vocab', type=int, default=100,
                         help='''number of vocabulary (number of images) 
                                 in the dataset for nn.Embedding''')
-    parser.add_argument('--encode_a', default=False, action="store_true",
+    parser.add_argument('--encode_a', default=True, action="store_true",
                         help='whether to encode appearance')
     parser.add_argument('--N_a', type=int, default=48,
                         help='number of embeddings for appearance')
     parser.add_argument('--use_mask', default=False, action="store_true",
                         help='whether to use mask')
-    parser.add_argument('--encode_random', default=False, action="store_true",
+    parser.add_argument('--encode_random', default=True, action="store_true",
                         help='whether to encode_random')
 
     # Loss parameters

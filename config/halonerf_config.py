@@ -1,10 +1,10 @@
-import numpy as np
 import pandas
-import argparse
+from argparse import ArgumentParser
 import pickle
 import os
+
 def get_opts():
-    parser = argparse.ArgumentParser()
+    parser = ArgumentParser()
 
     parser.add_argument('--semantics_dir', type=str, default='data/clipseg_ft_crops_refined_plur_newcrops_10epochs/milano/horizontal/clipseg_ft')
     parser.add_argument('--scene_name', type=str, default='')
@@ -86,22 +86,6 @@ def get_k_files(k, csv_path, prompt, neg_prec):
     pos_confidence_values = files_pos.values.tolist()
 
     return [names_pos.values.tolist(), names_neg.values.tolist(), pos_confidence_values]
-
-
-def get_k_files_clip(k, csv_path, prompt, scene_name):
-    xls_file = pandas.read_csv(csv_path)
-    xls_file = xls_file[xls_file['building'] == scene_name]
-    col = xls_file[prompt]
-
-    col_sorted_descending = col.sort_values(by=prompt, ascending=False)
-
-    files_pos = col_sorted_descending[:k]
-
-    names_pos = xls_file['base_fn'][files_pos.index]
-
-    pos_confidence_values = files_pos.values.tolist()
-    neg = []
-    return [names_pos.values.tolist(), neg, pos_confidence_values]
 
 def get_files_with_threshold(csv_path, prompt, neg_prec, threshold=0.24):
     # Note: variable "prompt" is a List[str] with one element
