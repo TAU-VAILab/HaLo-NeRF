@@ -6,7 +6,6 @@
 # from matplotlib import pyplot as plt
 # import cv2
 # from torch import nn
-# import pandas as pd
 # import pickle
 from transformers import AutoProcessor, CLIPSegForImageSegmentation
 from transformers import CLIPProcessor, CLIPModel
@@ -18,23 +17,29 @@ from transformers import CLIPProcessor, CLIPModel
 # from PIL import Image
 from argparse import ArgumentParser
 import os
+import pandas as pd
+from utils.crop_utils import rand_crop, search_crops
+from datasets.seg_datasets import HashDS
 
 def get_opts():
     parser = ArgumentParser()
-    # parser.add_argument('--pseudolabels', '-p', type=str, required=True, help="filename of pseudolabel csv file")
-    # parser.add_argument('--epochs', '-e', type=int, default=5, help="epochs")
-    # parser.add_argument('--lr', '-l', type=float, default=1e-6, help="learning rate")
-    # parser.add_argument('--batch_size', '-b', type=int, default=2 ** 7, help="batch size")
-    # parser.add_argument('--num_workers', '-n', type=int, default=0, help="number of dataloader workers")
-    # parser.add_argument('--output', '-o', type=str, default="data/clip_ckpt", help="output checkpoint directory")
-    # parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory data is stored in (under /")
-
+    
     parser.add_argument('--clip_ft', '-c', type=str, default="data/clip_ckpt/0_CLIPModel", help="directory of fine-tuned CLIP checkpoint")
+    parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory WikiScenes data is stored in")
+    parser.add_argument('--crop_metadata', '-cm', type=str, default="data/seg_crop_metadata.csv", help="crop metadata filename")
+    parser.add_argument('--hash_metadata', '-hm', type=str, default="data/seg_hash_metadata.csv", help="hash metadata filename")
+    parser.add_argument('--hash_data', '-hd', type=str, default="data/hashdata", help="hash data (correspondence-based data) directory")
+    parser.add_argument('--pseudolabels', '-p', type=str, default="data/pseudolabels.csv", help="filename of pseudolabel csv file")
 
     return parser.parse_args()
 
 def main():
     args = get_opts()
+
+    assert os.path.exists(args.crop_metadata), f'Missing crop metadata file: {args.crop_metadata}'
+    assert os.path.exists(args.hash_metadata), f'Missing hash metadata file: {args.hash_metadata}'
+    assert os.path.exists(args.hash_data), f'Missing hash data directory: {args.hash_metadata}'
+    assert os.path.exists(args.clip_ft), f'Missing finetuned CLIP directory: {args.clip_ft}'
 
     print("Loading models...")
     processor = AutoProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
@@ -48,13 +53,25 @@ def main():
     for param in model_orig.parameters():
         param.requires_grad = False
 
-    assert os.path.exists(args.clip_ft), f'Missing finetuned CLIP directory: {args.clip_ft}'
     clip_proc = CLIPProcessor.from_pretrained(args.clip_ft)
     clip = CLIPModel.from_pretrained(args.clip_ft)
     clip.to('cuda')
     clip.eval()
 
     print("Models loaded")
+
+    print("Loading data...")
+
+    name2spl = pd.read_csv(args.pseudolabels,
+                   usecols=['name', 'spl']).set_index('name').spl.to_dict()
+    name2bt = pd.read_csv(args.pseudolabels,
+                   usecols=['name', 'building_type']).set_index('name').building_type.to_dict()
+
+    ds = HashDS(args.hash_data, args.hash_metadata, name2spl, name2bt, neg_only=False)
+    ds_test = HashDS(args.hash_data, args.hash_metadata, neg_only=True, spl='test')
+
+    print("done")
+    
 
 if __name__ == "__main__":
     main()

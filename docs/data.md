@@ -9,6 +9,10 @@ Download links for all provided data and pretrained models are listed below.
   * Store these in `data/wikiscenes/cathedrals` and `data/wikiscenes/mosques`
 * WikiScenes (+mosques) metadata (`metadata.csv`): (Link TBA)
 * Distilled semantic pseudo-labels (`pseudolabels.csv`) for WikiScenes (+mosques): (Link TBA)
+* Correspondence- and crop-based data for finetuning segmentation:
+  * Metadata files: `data/seg_crop_metadata.csv`, `data/seg_hash_metadata.csv`
+  * Correspondence-based data: `hashdata.tar.gz`; extract to `data/hashdata`
+  * Crop-based data: ...
 
 ## Test scene data
 

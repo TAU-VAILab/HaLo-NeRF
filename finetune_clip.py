@@ -10,13 +10,13 @@ from torch.utils.data import DataLoader
 
 def get_opts():
     parser = ArgumentParser()
-    parser.add_argument('--pseudolabels', '-p', type=str, required=True, help="filename of pseudolabel csv file")
+    parser.add_argument('--pseudolabels', '-p', type=str, default="data/pseudolabels.csv", help="filename of pseudolabel csv file")
     parser.add_argument('--epochs', '-e', type=int, default=5, help="epochs")
     parser.add_argument('--lr', '-l', type=float, default=1e-6, help="learning rate")
     parser.add_argument('--batch_size', '-b', type=int, default=2 ** 7, help="batch size")
     parser.add_argument('--num_workers', '-n', type=int, default=0, help="number of dataloader workers")
     parser.add_argument('--output', '-o', type=str, default="data/clip_ckpt", help="output checkpoint directory")
-    parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory data is stored in")
+    parser.add_argument('--data_dir', '-d', type=str, default="data/wikiscenes", help="directory WikiScenes data is stored in")
     return parser.parse_args()
 
 def row2ex(row, data_dir):
@@ -41,6 +41,7 @@ def main():
 
     args = get_opts()
 
+    assert os.path.exists(args.pseudolabels), f'Missing pseudolabel file: {args.pseudolabels}'
     assert os.path.exists(args.data_dir), f'Missing data directory: {args.data_dir}'
 
     print("Loading pseudolabel table...")

@@ -40,7 +40,7 @@ HaLo-NeRF is trained in multiple stages; instructions on training these from scr
 * [Concept Distillation and Semantic Adaptation](docs/distillation_adaptation.md)
 * [3D Localization](docs/3d_localization.md)
 
-Altenratively, you may use the pretrained results, downloadable from the links provided in the [data documentation](docs/data.md).
+Alternatively, you may use the pretrained results, downloadable from the links provided in the [data documentation](docs/data.md).
 
 
 Note: For each command, you may pass `--help` to see additional flags and configuration options.
