@@ -146,7 +146,7 @@ for example: 'towers;windows;portals'
 
 Run:
 ```
-python HaLo-NeRF_pipline.py \
+python train_semantic.py \
 --root_dir {path to the dataset} \
  --xls_path {path to the retrival file for each image} \
  --save_dir ./sem_results/{folder to save} \
@@ -160,7 +160,7 @@ python HaLo-NeRF_pipline.py \
 
 For example:
 ```
-python HaLo-NeRF_pipline.py \
+python train_semantic.py \
 --root_dir data/st_paul \
  --xls_path data/retrieval/st_paul_geometric_occlusions.csv \
  --save_dir ./sem_results/st_paul_save \
