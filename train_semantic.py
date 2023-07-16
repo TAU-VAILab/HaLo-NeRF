@@ -29,8 +29,7 @@ def main():
             ts_list = [int(f[:4]) for f in list_dir if f.endswith('jpg')]
 
         if ts_list == []:
-            print('no category')
-            # raise ValueError('no category')
+            print("There are no ground truth images in 'path_gt' ")
 
 
         ## Train The Semantic Ha-NeRF
