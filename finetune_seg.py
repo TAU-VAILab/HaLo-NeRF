@@ -72,7 +72,7 @@ def main():
                    usecols=['name', 'building_type']).set_index('name').building_type.to_dict()
 
     hash_ds = HashDS(args.hash_data, args.hash_metadata, name2spl, name2bt, neg_only=False)
-    hash_ds_test = HashDS(args.hash_data, args.hash_metadata, neg_only=True, spl='test')
+    # hash_ds_test = HashDS(args.hash_data, args.hash_metadata, name2spl, name2bt, neg_only=True, spl='test')
 
     crop_ds = CropDS(args.crop_metadata)
 
