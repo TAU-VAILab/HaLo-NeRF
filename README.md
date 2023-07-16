@@ -1,4 +1,4 @@
-# HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild
+# 😇  HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild
 
 (TBA) **project page | paper**
 
