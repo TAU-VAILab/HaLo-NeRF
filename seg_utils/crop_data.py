@@ -1,12 +1,7 @@
-from torch.utils.data import Dataset
+from torch.utils.data import IterableDataset
 import pandas as pd
 import numpy as np
-import json
-import pandas as pd
-from glob import glob
 from PIL import Image
-import cv2
-import os
 from collections import namedtuple
 import torch
 
@@ -39,3 +34,23 @@ def search_crops(img_, label, clip_proc, clip, n_crops=10):
         logits = logits.cpu().numpy()[:, 0]
         
     return crops[logits.argmax().item()]
+
+
+CropRes = namedtuple("CropRes", "img, coords, coords_, label")
+
+class CropDS(IterableDataset):
+    
+    def __init__(self, crop_metadata_filename, res=352):
+        self.df = pd.read_csv(crop_metadata_filename)
+        self.res = res
+        
+    def __iter__(self):
+        while True:
+            row = self.df.sample().iloc[0]
+            img = Image.open(row.fn).convert('RGB')
+            coords = eval(row.coords)
+            label = row.label
+            w, h = img.size
+            coords_ = (coords[0] / w, coords[1] / h, coords[2] / w, coords[3] / h)
+            coords_ = tuple(int(x * self.res) for x in coords_)
+            yield CropRes(img, coords, coords_, label)

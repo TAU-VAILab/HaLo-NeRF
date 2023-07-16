@@ -2,10 +2,10 @@ from torch.utils.data import Dataset
 import pandas as pd
 import numpy as np
 import json
-import pandas as pd
 from glob import glob
 from PIL import Image
 import os
+import cv2
 
 def resize_img(img, max_dim):
     # resize image so no dimension is greater than max_dim
