@@ -22,4 +22,9 @@ This saves checkpoints to `data/clip_ckpt` by default.
 
 ## Step 2: Fine-tune 2D segmentation (CLIPSeg)
 
-TBD
+```
+python finetune_seg.py
+```
+
+This by default looks for the fine-tuned CLIP checkpoint in `data/clip_ckpt/0_CLIPModel`; you may pass a different directory with `-c`.
+
