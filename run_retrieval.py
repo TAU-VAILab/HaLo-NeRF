@@ -17,6 +17,7 @@ def get_opts():
     parser.add_argument('--min_area', type=float, default=0.1, help="minimum area for geometric retrieval")
     parser.add_argument('--max_area', type=float, default=0.9, help="maximum area for geometric retrieval")
     parser.add_argument('--clipseg_threshold', type=float, default=0.5, help="threshold for clipseg in occlusion scoring")
+    parser.add_argument('--output', '-o', type=str, required=True, help="output filename")
     return parser.parse_args()
 
 def main():
@@ -24,6 +25,8 @@ def main():
 
     assert os.path.exists(args.images_folder), f'Missing images directory: {args.images_folder}'
     assert os.path.exists(args.rgb_reconstruction_folder), f'Missing reconstructed images directory: {args.rgb_reconstruction_folder}'
+    if os.path.exists(args.output):
+        print("Warning: will overwrite existing file", args.output)
 
     bt = args.building_type
     print("Building type:", bt)
@@ -90,11 +93,13 @@ def main():
     df = df_occ.copy().rename(columns={'score': 'occ_score'})
     df['geo_score'] = df.ID.map(id2geo)
     df['score'] = df.geo_score + df.occ_score
+    df = df[['fn_orig', 'score']].rename(columns={'fn_orig': 'fn'})
 
-    print("df_geo")
-    print(df_geo.head())
-    print("df_occ")
-    print(df_occ.head())
+    print("Saving to:", args.output)
+    dirname = os.path.dirname(args.output)
+    if dirname != '' and not os.path.exists(dirname):
+        os.makedirs(dirname, exist_ok=True)
+    df.to_csv(args.output, index=False)
 
     print("done")
 

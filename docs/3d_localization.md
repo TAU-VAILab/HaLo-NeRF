@@ -29,7 +29,8 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 ```
 python run_retrieval.py -b {building type} \
 --images_folder '{RGB images folder}' \
---rgb_reconstruction_folder '{RGB reconstruction images folder}'
+--rgb_reconstruction_folder '{RGB reconstruction images folder}' \
+-o {output filename}
 ```
 
 The building type may be e.g. "cathedral", "mosque", "synagogue" etc.
@@ -39,7 +40,8 @@ For example:
 ```
 python run_retrieval.py -b cathedral \
 --images_folder data/st_paul/dense/images \
---rgb_reconstruction_folder data/nerf/st_paul
+--rgb_reconstruction_folder data/nerf/st_paul \
+-o data/retrieval/st_paul_geometric_occlusions.csv
 ```
 
 Note: The filenames of corresponding RGB images and RGB reconstructions must match up to leading zeros (e.g. `100.jpg` vs. `0100.jpg`) and are assumed to be up to four digits long.
