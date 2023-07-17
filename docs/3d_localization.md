@@ -26,7 +26,19 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 
 ## Step 2: Retrieve relevant images
 
-TODO
+```
+python run_retrieval.py -b {building type} \
+--images_folder '{RGB images folder}'
+```
+
+The building type may be e.g. "cathedral", "mosque", "synagogue" etc.
+
+For example:
+
+```
+python run_retrieval.py -b cathedral \
+--images_folder data/st_paul/dense/images
+```
 
 ## Step 3: Perform 2D segmentation on images
 
