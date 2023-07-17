@@ -94,6 +94,7 @@ def main():
     df['geo_score'] = df.ID.map(id2geo)
     df['score'] = df.geo_score + df.occ_score
     df = df[['fn_orig', 'score']].rename(columns={'fn_orig': 'fn'})
+    df = df[df.score.notna()].copy()
 
     print("Saving to:", args.output)
     dirname = os.path.dirname(args.output)
