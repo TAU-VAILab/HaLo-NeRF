@@ -45,6 +45,8 @@ def main():
     area_cond = ((df_geo.score_area > args.min_area) & (df_geo.score_area < args.max_area))
     df_geo['score'] = df_geo.score_min + area_cond
     df_geo = df_geo.drop(columns=[c for c in df_geo.columns if 'score_' in c])
+    df_geo['ID'] = df_geo.fn.str.split('/').apply(lambda x: x[-1].split('.')[0])
+    df_geo.ID = df_geo.ID.apply(lambda x: '0' * (4 - len(x)) + x)
 
     print("Running occlusion scoring...")
     print("Loading CLIP...")
@@ -82,6 +84,12 @@ def main():
             img_nerf = Image.open(row.fn_nerf).convert('RGB')
             s, M = occ_score_pair(img, img_nerf)
             df_occ.score.iloc[i] = s
+
+    print("Combining scores...")
+    id2geo = df_geo.set_index('ID').score.to_dict()
+    df = df_occ.copy().rename(columns={'score': 'occ_score'})
+    df['geo_score'] = df.ID.map(id2geo)
+    df['score'] = df.geo_score + df.occ_score
 
     print("df_geo")
     print(df_geo.head())
