@@ -22,7 +22,6 @@ def get_opts():
 
 if __name__ == '__main__':
     args = get_opts()
-    # create_nerf_root_dir_from_ws(args.input_dir, args.root_dir)
 
     if not os.path.exists(args.root_dir):
         create_nerf_root_dir_from_ws(args.input_dir, args.root_dir)

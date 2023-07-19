@@ -80,8 +80,8 @@ def get_k_files(k, csv_path, prompt, neg_prec):
     files_pos = col_sorted_descending[:k]
     files_neg = col_sorted_ascending[:int(k*neg_prec)]
 
-    names_pos = xls_file['filename'][files_pos.index]
-    names_neg = xls_file['filename'][files_neg.index]
+    names_pos = xls_file['fn'][files_pos.index]
+    names_neg = xls_file['fn'][files_neg.index]
 
     pos_confidence_values = files_pos.values.tolist()
 
@@ -153,12 +153,12 @@ def getCfg(opts, prompt):
         [cfg['files'], cfg['neg_files'], cfg['pos_confidence_values']]= get_files_with_threshold(cfg['xls_path'], cfg['prompt'], cfg['neg_prec'], cfg['threshold'])
     else:
         if not opts.is_indoor_scene:
-            [cfg['files'], cfg['neg_files'], cfg['pos_confidence_values']] = get_k_files(cfg['top_k_files'], cfg['xls_path'], ["a picture of a cathedral's facade"], cfg['neg_prec'])
+            [cfg['files'], cfg['neg_files'], cfg['pos_confidence_values']] = get_k_files(cfg['top_k_files'], cfg['xls_path'], ["score"], cfg['neg_prec'])
             print('geo occ (facade) retrieval: ')
-            print(cfg['files'])
+            # print(cfg['files'])
         else:
             cfg['files'] = os.listdir(cfg['path_images'])
-            print(cfg['files'])
+            # print(cfg['files'])
             cfg['neg_files'], cfg['pos_confidence_values'] = [], []
 
 
