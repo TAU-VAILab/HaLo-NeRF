@@ -77,55 +77,12 @@ class HaNeRFLoss(nn.Module):
         if 'semantics_fine' in inputs:
             p = inputs['semantics_fine'][:, 1]
             gt = semantics_gt.cuda()
-            # ret['semantics_fine'] = 0.5*(self.BCE_loss(p, semantics_gt.cuda()) + torch.mean(p*(1-p)))
-            # ret['semantics_fine'] = -torch.mean(gt * (gt*torch.log(p)+(1-gt)*torch.log(1-p)))
-            # ret['semantics_fine'] = self.BCE_loss(p, semantics_gt.cuda()) #+ 0.05*(1/(p+0.1))
-
-            # bce = -(0.67*gt*torch.log(p)+0.33*(1-gt)*torch.log(1-p))
-            bce = -(gt * torch.log(p) + (1 - gt) * torch.log(1 - p))
-            # bce = self.BCE_loss(p, semantics_gt.cuda())
-
-            max_entropy_loss = -(p * torch.log(p) + (1 - p) * torch.log(1 - p))
-            max_entropy_loss = torch.mean(max_entropy_loss)
-            pt = torch.exp(-bce)
-            self.gamma = 0
-            #
-            # tv_loss = kornia.losses.TotalVariation()
-            # l = len(p)
-            # p_reshaped = p.reshape(1, 1, hparams['H'], hparams['W'])
-            # res_tv_loss = tv_loss(p_reshaped) / l
-
-            # ret['semantics_fine'] = 0.5 * torch.mean(((1-pt + 1e-5)**self.gamma) * bce) + 0.5 * max_entropy_loss #1* res_tv_loss # +
-            ret['semantics_fine'] = torch.mean(((1 - pt + 1e-5) ** self.gamma) * bce)
+            ret['semantics_fine'] = self.BCE_loss(p, gt)
 
         if 'semantics_coarse' in inputs:
             p = inputs['semantics_coarse'][:, 1]
             gt = semantics_gt.cuda()
-            # ret['semantics_coarse'] = self.BCE_loss(p, semantics_gt.cuda())
-
-            # ret['semantics_coarse'] = 0.5*(self.BCE_loss(p, semantics_gt.cuda()) + torch.mean(p*(1-p)))
-            # ret['semantics_coarse'] = -torch.mean(gt * (gt*torch.log(p)+(1-gt)*torch.log(1-p)))
-
-            # bce = -(0.67*gt * torch.log(p) +0.33*(1 - gt) * torch.log(1 - p))
-
-            bce = -(gt * torch.log(p) + (1 - gt) * torch.log(1 - p))
-            # bce = self.BCE_loss(p, semantics_gt.cuda())
-
-            max_entropy_loss = -(p * torch.log(p) + (1 - p) * torch.log(1 - p))
-            max_entropy_loss = torch.mean(max_entropy_loss)
-
-            pt = torch.exp(-bce)
-            self.gamma = 0
-
-            # tv_loss = kornia.losses.TotalVariation()
-            # l = len(p)
-            # p_reshaped = p.reshape(1, 1, hparams['H'], hparams['W'])
-            # res_tv_loss = tv_loss(p_reshaped) / l
-
-            # ret['semantics_coarse'] = 0.5*torch.mean(((1 - pt + 1e-5) ** self.gamma) * bce) +0.5*max_entropy_loss #+ 1* res_tv_loss  #
-            ret['semantics_coarse'] = torch.mean(((1 - pt + 1e-5) ** self.gamma) * bce)
-            
-
+            ret['semantics_coarse'] = self.BCE_loss(p, gt)
 
         for k, v in ret.items():
             if k=='semantics_coarse' or  k=='semantics_fine':
