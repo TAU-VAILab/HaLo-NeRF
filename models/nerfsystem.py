@@ -168,14 +168,14 @@ class NeRFSystem(LightningModule):
     def train_dataloader(self):
         return DataLoader(self.train_dataset,
                           shuffle=False,
-                          num_workers=32,
+                          num_workers=0,
                           batch_size=1, # self.hparams.batch_size a time
                           pin_memory=False)
 
     def val_dataloader(self):
         return DataLoader(self.val_dataset,
                           shuffle=False,
-                          num_workers=32,
+                          num_workers=0,
                           batch_size=1, # validate one image (H*W rays) at a time
                           pin_memory=False)
     
