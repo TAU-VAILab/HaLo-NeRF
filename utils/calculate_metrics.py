@@ -64,12 +64,6 @@ class MetricCalculator:
             file.write(f'\tDice score (F1):\t {metrics.dice}, Threshold: {self.PRED_THRESHOLD}')
             file.close()
 
-        # print(f'Metrics for single image (GT: {gt_fn}; preds: {pred_fn})')
-        # print('\tAP (average precision):\t', metrics.ap)
-        # print('\tBalanced accuracy:\t', metrics.ba)
-        # print('\tJaccard score (IoU):\t', metrics.jaccard, f'(Threshold: {self.PRED_THRESHOLD})')
-        # print('\tDice score (F1):\t', metrics.dice, f'(Threshold: {self.PRED_THRESHOLD})')
-        #
         return metrics
     
     def process_all_images(self, pred_fns, gt_fns, labels):

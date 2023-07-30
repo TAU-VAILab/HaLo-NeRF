@@ -24,7 +24,6 @@ cat = ['portals','domes', 'windows'] #'portals', 'domes', 'minarets', 'windows'
 for c in cat:
 
     path_warp = '/storage/chendudai/for_morris/warps_fixed_mosques_and_hurba/hurba/' + c
-    # path_warp = '/storage/chendudai/for_morris_st_paul_warp/domes/'
     path_images = '/storage/chendudai/data/hurba/dense/images/'
     path2save = '/storage/chendudai/for_morris/gt_warps/vis/hurba_fixed/' + c
 

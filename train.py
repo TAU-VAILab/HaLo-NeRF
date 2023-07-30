@@ -1,21 +1,15 @@
 import os
-
 # models
 from models.nerf import *
 from models.rendering import *
 from models.networks import E_attr
-
-# optimizer, scheduler, visualization
 from utils import *
-
 # metrics
 from utils.metrics import *
-
 # pytorch-lightning
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TestTubeLogger
-
 from models.nerfsystem import NeRFSystem
 
 

@@ -1,5 +1,3 @@
-# Author: Hadar Elor
-
 import os, shutil
 from datasets.colmap_utils import read_model, write_model
 import csv
@@ -16,19 +14,6 @@ def create_nerf_root_dir_from_ws(input_dir, root_dir):
     os.makedirs(images_folder, exist_ok=True)
     images_input_dir = os.path.join(input_dir, '../../../..', 'WikiScenes1200px', 'cathedrals')
     image_file_list = []
-
-    # with open(os.path.join(root_dir, 'res.txt'), 'rb') as f:
-    #     images_selected = f.readlines()
-    #
-    # # Convert to the correct format
-    # for j,i in enumerate(images_selected):
-    #     images_selected[j] = i[0:8].decode("utf-8")
-
-    # with open(os.path.join('names.txt'), 'wt', encoding='utf-8') as out_file:
-    #     for i, image in enumerate(images):
-    #         image_output_filename = str(i).zfill(4) + os.path.splitext(images[image].name)[1]  # + '_' + os.path.basename(images[image].name)
-    #         tsv_writer = csv.writer(out_file, delimiter='\t')
-    #         tsv_writer.writerow([image_output_filename, images[image].name])
 
     j = 0
     for i,image in enumerate(images):

@@ -1,11 +1,7 @@
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
-import functools
-from torch.optim import lr_scheduler
-import torch.nn.functional as F
 
-# E_attr, implicit_mask
+
 class E_attr(nn.Module):
   def __init__(self, input_dim_a, output_nc=8):
     super(E_attr, self).__init__()

@@ -74,7 +74,6 @@ for c in cat:
         imgs_list = get_k_files(k, csv_path)
     else:
         try:
-            # imgs_list = get_k_files_clip(k, csv_path, c, scene_name)
             imgs_list = os.listdir(images_folder)
         except:
             print(f"indoor label {label} is not in the csv!")
@@ -107,7 +106,6 @@ for c in cat:
 
         name = img_name.split('.')[0]
         img = img.resize((img.size[0] // 2, img.size[1] // 2))
-        # img = img.resize()
 
         seg = cv2.resize(seg, (img.size[0], img.size[1]))
         if save_baseline:

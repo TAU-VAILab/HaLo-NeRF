@@ -2,8 +2,6 @@ import numpy as np
 import os
 import cv2
 import imageio
-from matplotlib import pyplot as plt
-
 
 def unique(list1):
     unique_list = []
@@ -53,10 +51,6 @@ for num in l_dir:
     results_green += [result_green]
     results_yellow += [result_yellow]
 
-    # imageio.imwrite(os.path.join(path, f'{num}_new_vis_green.png'), results_green)
-    # imageio.imwrite(os.path.join(path, f'{num}_new_vis_yellow.png'), results_yellow)
-    #
-
 
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img_gray = np.expand_dims(img_gray, axis=2)
@@ -69,9 +63,6 @@ for num in l_dir:
 
     results_green_gray += [result_green_gray]
     results_yellow_gray += [result_yellow_gray]
-
-    # imageio.imwrite(os.path.join(path, f'{num}_new_vis_green_gray.png'), result_green_gray)
-    # imageio.imwrite(os.path.join(path, f'{num}_new_vis_yellow_gray.png'), result_yellow_gray)
 
 res_iterp = []
 
@@ -100,12 +91,3 @@ results_yellow_with_rev = results_yellow + results_yellow_rev
 
 imageio.mimsave(os.path.join(path, 'vid_sem_green_with_rev.mp4'), results_green_with_rev, fps=24)
 imageio.mimsave(os.path.join(path, 'vid_sem_yellow_with_rev.mp4'), results_yellow_with_rev, fps=24)
-
-
-
-# imageio.mimsave(os.path.join(path, 'vid_sem_green.mp4'), results_green, fps=24)
-# imageio.mimsave(os.path.join(path, 'vid_sem_yellow.mp4'), results_yellow, fps=24)
-#
-# imageio.mimsave(os.path.join(path, 'vid_sem_green_gray.mp4'), results_green_gray, fps=24)
-# imageio.mimsave(os.path.join(path, 'vid_sem_yellow_gray.mp4'), results_yellow_gray, fps=24)
-

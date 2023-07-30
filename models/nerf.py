@@ -33,18 +33,6 @@ class PosEmbedding(nn.Module):
 def fc_block(in_f, num_semantic_classes):
     out_f = in_f // 2
     return nn.Sequential(
-        # nn.Linear(in_f, in_f),
-        # nn.ReLU(in_f),
-        # nn.Linear(in_f, in_f),
-        # nn.ReLU(in_f),
-        # nn.Linear(in_f, in_f),
-        # nn.ReLU(in_f),
-        # nn.Linear(in_f, in_f),
-        # nn.ReLU(in_f),
-        # nn.Linear(in_f, in_f),
-        # nn.ReLU(in_f),
-        # nn.Linear(in_f, in_f),
-        # nn.ReLU(in_f),
         nn.Linear(in_f, in_f),
         nn.ReLU(in_f),
         nn.Linear(in_f, in_f),

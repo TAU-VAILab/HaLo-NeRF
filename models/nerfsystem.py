@@ -1,30 +1,21 @@
 import torch
 from collections import defaultdict
-
 from torch.utils.data import DataLoader
 from datasets import dataset_dict
-
 from math import sqrt
-
 # models
 from models.nerf import *
 from models.rendering import *
 from models.networks import E_attr, implicit_mask
-
 # optimizer, scheduler, visualization
 from utils import *
-
 # losses
 from models.losses import loss_dict
-
 # metrics
 from utils.metrics import *
-
 # pytorch-lightning
 from pytorch_lightning import LightningModule
-
 from datasets import global_val
-
 import random
 
 class NeRFSystem(LightningModule):
@@ -145,8 +136,6 @@ class NeRFSystem(LightningModule):
             kwargs['min_scale'] = self.hparams.min_scale
             kwargs['semantics_dir'] = self.hparams.semantics_dir
             kwargs['files_to_run'] = self.hparams.files_to_run
-            kwargs['neg_files'] = self.hparams.neg_files
-            kwargs['use_semantic_function'] = self.hparams.use_semantic_function
             kwargs['threshold'] = self.hparams.threshold
 
         elif self.hparams.dataset_name == 'blender':

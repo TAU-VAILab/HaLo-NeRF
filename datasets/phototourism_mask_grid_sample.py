@@ -1,4 +1,3 @@
-import torch
 from torch.utils.data import Dataset
 import glob
 import numpy as np
@@ -8,18 +7,12 @@ import pickle
 from PIL import Image
 from torchvision import transforms as T
 from tqdm import tqdm
-from matplotlib import pyplot as plt
 from .ray_utils import *
 from .colmap_utils import \
     read_cameras_binary, read_images_binary, read_points3d_binary
-
 from math import sqrt, exp
-import random
-import imageio
-from torchvision import transforms
 from . import global_val
-# from skimage.transform import resize
-from pathlib import Path
+import torch
 
 class ImageData:
     def __init__(self, id, name, camera_id):
@@ -28,7 +21,7 @@ class ImageData:
         self.camera_id = camera_id
 
 class PhototourismDataset(Dataset):
-    def __init__(self, root_dir, split='train', img_downscale=1, val_num=1, use_cache=False, batch_size=1024, scale_anneal=-1, min_scale=0.25, semantics_dir=[], files_to_run=[], neg_files=[], use_semantic_function='', threshold=0.2):
+    def __init__(self, root_dir, split='train', img_downscale=1, val_num=1, use_cache=False, batch_size=1024, scale_anneal=-1, min_scale=0.25, semantics_dir=[], files_to_run=[], threshold=0.2):
         """
         img_downscale: how much scale to downsample the training images.
                        The original image sizes are around 500~100, so value of 1 or 2
@@ -40,8 +33,6 @@ class PhototourismDataset(Dataset):
                    data loading, especially for multigpu!)
         """
         self.files_to_run = files_to_run
-        self.neg_files = neg_files
-        self.use_semantic_function = use_semantic_function
         self.semantics_dir = semantics_dir
         self.root_dir = root_dir
         self.split = split
@@ -49,12 +40,7 @@ class PhototourismDataset(Dataset):
 
         assert img_downscale >= 1, 'image can only be downsampled, please set img_downscale>=1!'
         self.img_downscale = img_downscale
-
-        if ('hagia_sophia_interior' in self.root_dir) or ('taj_mahal' in self.root_dir):
-            self.img_downscale_appearance = 4
-        else:
-            # self.img_downscale_appearance = 1
-            self.img_downscale_appearance = 4
+        self.img_downscale_appearance = 4
 
         if split == 'val': # image downscale=1 will cause OOM in val mode
             self.img_downscale = max(1, self.img_downscale)
@@ -97,8 +83,6 @@ class PhototourismDataset(Dataset):
         else:
             imdata = read_images_binary(os.path.join(self.root_dir, 'dense/sparse/images.bin'))
 
-            # with open(os.path.join(self.root_dir, 'res.txt'), 'rb') as f:
-            #     images_selected = f.readlines()
 
             img_path_to_id = {}
             for v in imdata.values():
@@ -107,9 +91,6 @@ class PhototourismDataset(Dataset):
             self.image_paths = {} # {id: filename}
             self.cam_ids = []
 
-            # Convert to the correct format
-            # for j,i in enumerate(images_selected):
-            #     images_selected[j] = i[0:8].decode("utf-8")
 
             for filename in list(self.files['filename']):
                 # if filename in img_path_to_id and filename in images_selected:
@@ -212,8 +193,6 @@ class PhototourismDataset(Dataset):
                 all_rgbs = np.load(os.path.join(self.root_dir,
                                                 f'cache/rgbs{self.img_downscale}.npy'))
                 self.all_rgbs = torch.from_numpy(all_rgbs)
-                # with open(os.path.join(self.root_dir, f'cache/all_imgs{self.img_downscale}.pkl'), 'rb') as f:
-                #     self.all_imgs = pickle.load(f)
                 with open(os.path.join(self.root_dir, f'cache/all_imgs{8}.pkl'), 'rb') as f:
                     self.all_imgs = pickle.load(f)
                 all_imgs_wh = np.load(os.path.join(self.root_dir,
@@ -229,35 +208,22 @@ class PhototourismDataset(Dataset):
 
                 if self.files_to_run != []:
                     files_to_run = [int(f[:4]) for f in self.files_to_run]
-                if self.neg_files != []:
-                    neg_files = [int(f[:4]) for f in self.neg_files]
-
-                is_neg = False
-                is_pos = False
 
                 print('Loading Data')
                 for q in tqdm(range(len(self.img_ids_train))):
                     id_ = self.img_ids_train[q]
-                    if self.neg_files != [] or self.files_to_run != []:
+                    if self.files_to_run != []:
 
-                        is_neg = (self.neg_files != [] and id_ in neg_files)
                         is_pos = (self.files_to_run != [] and id_ in files_to_run)
 
-                        if not is_neg and not is_pos:
+                        if not is_pos:
                             continue
 
 
-
                     c2w = torch.FloatTensor(self.poses_dict[id_])
-
                     img = Image.open(os.path.join(self.root_dir, 'dense/images',
                                                   self.image_paths[id_])).convert('RGB')
-
-
                     img_w, img_h = img.size
-
-
-
 
 
 
@@ -267,29 +233,17 @@ class PhototourismDataset(Dataset):
                         img_rs = img.resize((img_w, img_h), Image.LANCZOS)
 
                     semantics_gt = torch.Tensor([np.zeros(img_rs.size)]).squeeze(dim=0)
-                    # semantics_dir = os.path.join(self.root_dir, 'dense/semantics')
 
-                    if (self.semantics_dir != []) and not is_neg:
+                    if (self.semantics_dir != []):
                         path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'
 
                         if os.path.exists(path_semantics):
-                            # print(path_semantics)
                             try:
                                 with open(path_semantics, 'rb') as f:
                                     semantics_gt = torch.Tensor(torch.load(f))
                             except:
                                 with open(path_semantics, 'rb') as f:
                                     semantics_gt = torch.Tensor(pickle.load(f))
-
-                                if self.use_semantic_function != '':
-                                    if self.use_semantic_function == 'sigmoid':
-                                        semantics_gt = 1 / (1 + torch.exp(-15 * (semantics_gt - 0.2)))
-                                    elif self.use_semantic_function == 'double':
-                                        semantics_gt = semantics_gt ** 2
-                                    elif self.use_semantic_function == 'triple':
-                                        semantics_gt = semantics_gt ** 3
-                                    else:
-                                        ValueError('no semantic function')
 
                             semantics_gt = torch.nn.functional.interpolate(semantics_gt.unsqueeze(dim=0).unsqueeze(dim=0),
                                                                            size=(img_h, img_w))
@@ -313,7 +267,7 @@ class PhototourismDataset(Dataset):
 
                     img_8 = img.resize((img_w//self.img_downscale_appearance, img_h//self.img_downscale_appearance), Image.LANCZOS)
 
-
+                    # fixing size if the image is too small
                     const_minSize = 33
                     if img_8.size[0] < const_minSize:
                         a = img_8.size[0] / const_minSize
@@ -434,9 +388,6 @@ class PhototourismDataset(Dataset):
             if self.semantics_dir != []:
                 path_semantics = os.path.join(self.semantics_dir, self.image_paths[id_].split('.')[0]) + '.pickle'
 
-                # print('path semantics:')
-                # print(path_semantics)
-
                 if os.path.exists(path_semantics):
                     try:
                         with open(path_semantics, 'rb') as f:
@@ -444,16 +395,6 @@ class PhototourismDataset(Dataset):
                     except:
                         with open(path_semantics, 'rb') as f:
                             semantics_gt = torch.Tensor(pickle.load(f))
-
-                        if self.use_semantic_function != '':
-                            if self.use_semantic_function == 'sigmoid':
-                                semantics_gt = torch.sigmoid(semantics_gt)
-                            elif self.use_semantic_function == 'double':
-                                semantics_gt = semantics_gt ** 2
-                            elif self.use_semantic_function == 'triple':
-                                semantics_gt = semantics_gt ** 3
-                            else:
-                                ValueError('no semantic function')
 
                     semantics_gt = torch.nn.functional.interpolate(semantics_gt.unsqueeze(dim=0).unsqueeze(dim=0), size=(img_h, img_w))
 
@@ -496,6 +437,7 @@ class PhototourismDataset(Dataset):
 
             img_8 = img.resize((img_w//self.img_downscale_appearance, img_h//self.img_downscale_appearance), Image.LANCZOS)
 
+            # fixing size if the image is too small
             const_minSize = 33
             if img_8.size[0] < const_minSize:
                 a = img_8.size[0] / const_minSize

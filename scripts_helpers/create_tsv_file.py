@@ -1,12 +1,7 @@
 import csv
-import os
 import glob
 
-# images = os.listdir(r'C:\Users\chen\Documents\TAU\Thesis\Ha-NeRF\data\WikiScenes\Wells_Cathedral\dense\images')
-# root_dir = r'C:\Users\chen\Documents\TAU\Thesis\Towers_Of_Babel\data\WikiScenes1200px\cathedrals\50'
 
-# root_dir = '/storage/chendudai/data/st_pauls_cathedral/dense/images/'
-# save_dir = '/storage/chendudai/data/st_pauls_cathedral/WikiScenes.tsv'
 root_dir = '/home/cc/students/csguests/chendudai/Thesis/data/0148_megaDepth/dense/images/'
 save_dir = '/home/cc/students/csguests/chendudai/Thesis/data/0148_megaDepth/WikiScenes.tsv'
 

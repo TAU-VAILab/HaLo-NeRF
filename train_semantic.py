@@ -13,10 +13,7 @@ def main():
     ## get Opts
     opts = Cfg_file.get_opts()
     prompts = opts.prompts.split(';')
-
     metrics = []
-    ts_list = []
-
     hparam_train = get_opts()
 
     for prompt in prompts:
@@ -50,12 +47,8 @@ def main():
             hparam_train.exp_name = cfg['exp_name']
             hparam_train.ckpt_path = cfg['ckpt_path']
             hparam_train.files_to_run = cfg['files_to_run']
-            hparam_train.neg_files = cfg['neg_files']
-            hparam_train.use_semantic_function = cfg['use_semantic_function']
             hparam_train.max_steps = cfg['max_steps']
-
             hparam_train.threshold = cfg['threshold']
-
             run_train(hparam_train)
 
 
@@ -73,11 +66,11 @@ def main():
             new_path = cfg['ckpt_path_eval']
             print(f'ckpt: {old_path} does not exist, takes instead: {new_path}')
 
+
         ## save_semantic_for_metric
         if cfg['save_for_metric_flag']:
             print('save semantic for metric')
             utils.save_semantic_for_metric.main_eval(ts_list, cfg['root_dir'], cfg['N_vocab'], cfg['scene_name'], cfg['ckpt_path_eval'], cfg['save_dir_eval'], cfg['top_k_files'], cfg['num_epochs'])
-
 
 
         ## Calc Metrics
@@ -93,7 +86,6 @@ def main():
 
 
     ## Calc Metrics - average_per_class_metrics
-
     if cfg['calc_metrics_flag']:
 
         ap_mean = np.mean([x['ap'] for x in metrics])
@@ -105,9 +97,6 @@ def main():
         print(ba_mean)
         print(jaccard_mean)
         print(dice_mean)
-
-        k = cfg['top_k_files']
-        num_epochs = cfg['num_epochs']
 
         PRED_THRESHOLD = cfg['PRED_THRESHOLD']
         with open(cfg['path_pred'] +'/avarage_per_class_metrics.txt', 'w') as f:

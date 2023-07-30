@@ -1,17 +1,13 @@
-import torch
 from torch.utils.data import Dataset
 import json
 import numpy as np
 import os
 from PIL import Image, ImageDraw
 from torchvision import transforms as T
-import random
-
 from math import sqrt, exp
-
 from .ray_utils import *
-
 from . import global_val
+import torch
 
 def add_perturbation(img, perturbation, seed):
     if 'occ' in perturbation:

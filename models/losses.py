@@ -1,10 +1,6 @@
-import kornia.losses
 import torch
 from torch import nn
 import math
-import numpy as np
-
-
 
 class ColorLoss(nn.Module):
     def __init__(self, coef=1):
@@ -22,7 +18,6 @@ class ColorLoss(nn.Module):
 class CosineAnnealingWeight():
     def __init__(self, max, min, Tmax):
         super().__init__()
-        # 5e-2
         self.max = max
         self.min = min
         self.Tmax = Tmax
@@ -33,7 +28,6 @@ class CosineAnnealingWeight():
 class ExponentialAnnealingWeight():
     def __init__(self, max, min, k):
         super().__init__()
-        # 5e-2
         self.max = max
         self.min = min
         self.k = k
@@ -46,7 +40,6 @@ class HaNeRFLoss(nn.Module):
         super().__init__()
         self.coef = coef
         self.lambda_u = lambda_u
-        # self.Annealing = CosineAnnealingWeight(max = hparams.maskrs_max, min = hparams.maskrs_min, Tmax = hparams.num_epochs-1)
         self.Annealing = ExponentialAnnealingWeight(max = hparams.maskrs_max, min = hparams.maskrs_min, k = hparams.maskrs_k)
         self.BCE_loss = nn.BCELoss()
 
@@ -86,7 +79,7 @@ class HaNeRFLoss(nn.Module):
 
         for k, v in ret.items():
             if k=='semantics_coarse' or  k=='semantics_fine':
-                ret[k] = 0.1 * v  #self.coef * v #0.02 * v
+                ret[k] = 0.1 * v
             else:
                 ret[k] = self.coef * v
         return ret, self.Annealing.getWeight(global_step)
@@ -94,7 +87,7 @@ class HaNeRFLoss(nn.Module):
     def mask_regularize(self, mask, size_delta, digit_delta):
         focus_epsilon = 0.02
 
-        # # l2 regularize
+        # l2 regularize
         loss_focus_size = torch.pow(mask, 2)
         loss_focus_size = torch.mean(loss_focus_size) * size_delta
 
