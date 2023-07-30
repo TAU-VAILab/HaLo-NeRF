@@ -17,7 +17,7 @@ Download links for all provided data and pretrained models are listed below.
 
 * Test scene images and COLMAP reconstructions: (Link TBA)
 * GT semantic masks: (Link TBA)
-* RGB reconstructions (used for retrieval): (Link TBA)
+* RGB reconstructions (`rgb_reconstructions.tar.gz`, used for retrieval): ([link]((https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing)))
 
 ## Pretrained models
 

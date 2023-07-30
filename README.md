@@ -2,15 +2,15 @@
 
 (TBA) **project page | paper**
 
-*Chen Dudai¹, 
-[Morris Alper](https://morrisalp.github.io/)¹, 
+*Chen Dudai¹\*, 
+[Morris Alper](https://morrisalp.github.io/)¹\*, 
 Hana Bezalel¹, 
 [Rana Hanocka](https://people.cs.uchicago.edu/~ranahanocka/)², 
 [Itai Lang](https://scholar.google.com/citations?user=q0bBhtsAAAAJ)²,
 [Hadar Averbuch-Elor](https://www.elor.sites.tau.ac.il/)¹*
 
 *¹[Tel Aviv University](https://english.tau.ac.il/),
-²[The University of Chicago](https://www.uchicago.edu/)*
+²[The University of Chicago](https://www.uchicago.edu/)&nbsp;&nbsp;&nbsp;&nbsp;\*Equal contribution*
 
 
 This repository is the official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild).
