@@ -24,14 +24,41 @@ The checkpoints and logs will be saved to `{save_dir}/ckpts/{scene_name} ` and `
 
 You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{scene_name} --port=8600` and go to `localhost:8600` in your browser.
 
-## Step 2: Retrieve relevant images
+## Step 2: Create the RGB images from the NeRF
+
+If you want to use the occlusion section in the retrieval you will need the RGB results from the NeRF model.
+You can skip this part and not use the `--use_occlusion` flag in step 3.
+For creating the RGB results please run:
+```
+python eval.py --root_dir data/{scene name}/ --save_dir save \
+--dataset_name phototourism --scene_name {folder name to save} \
+--split train --img_downscale 2 --N_samples 64 --N_importance 64 \
+--N_emb_xyz 15 --N_vocab 4000 --encode_a \
+--ckpt_path {ckpt path} --chunk 16384 --save_imgs
+```
+
+for example 
+```
+Python eval.py --root_dir data/st_paul/ --save_dir save \
+--dataset_name phototourism --scene_name st_paul_rgb \
+--split train --img_downscale 2 --N_samples 64 --N_importance 64 \
+--N_emb_xyz 15 --N_vocab 4000 --encode_a \
+--ckpt_path ./save/ckpts/st_paul/epoch=19.ckpt --chunk 16384 --save_imgs
+```
+
+
+## Step 3: Retrieve relevant images
 
 ```
 python run_retrieval.py -b {building type} \
 --images_folder '{RGB images folder}' \
 --rgb_reconstruction_folder '{RGB reconstruction images folder}' \
 -o {output filename}
+--use_occlusion
 ```
+
+If you are not using the occlusion please remove the `--use_occlusion` flag
+
 
 The building type may be e.g. "cathedral", "mosque", "synagogue" etc.
 
@@ -46,7 +73,7 @@ python run_retrieval.py -b cathedral \
 
 Note: The filenames of corresponding RGB images and RGB reconstructions must match up to leading zeros (e.g. `100.jpg` vs. `0100.jpg`) and are assumed to be up to four digits long.
 
-## Step 3: Perform 2D segmentation on images
+## Step 4: Perform 2D segmentation on images
 
 To create semantic data, for training the semantic model - run:
 ```
@@ -76,7 +103,7 @@ You can use as many prompts as you like with this format:
 `--prompts '{first prompt};{second prompt};{third prompt}` etc.
 for example: 'towers;windows;portals'
 
-## Step 4: Train the 3D semantic model on 2D segmentations
+## Step 5: Train the 3D semantic model on 2D segmentations
 
 Run:
 ```

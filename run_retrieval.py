@@ -18,13 +18,12 @@ def get_opts():
     parser.add_argument('--max_area', type=float, default=0.9, help="maximum area for geometric retrieval")
     parser.add_argument('--clipseg_threshold', type=float, default=0.5, help="threshold for clipseg in occlusion scoring")
     parser.add_argument('--output', '-o', type=str, required=True, help="output filename")
+    parser.add_argument('--use_occlusion', action='store_true', help="flag to enable occlusion scoring")
     return parser.parse_args()
 
 def main():
     args = get_opts()
 
-    assert os.path.exists(args.images_folder), f'Missing images directory: {args.images_folder}'
-    assert os.path.exists(args.rgb_reconstruction_folder), f'Missing reconstructed images directory: {args.rgb_reconstruction_folder}'
     if os.path.exists(args.output):
         print("Warning: will overwrite existing file", args.output)
 
@@ -51,51 +50,59 @@ def main():
     df_geo['ID'] = df_geo.fn.str.split('/').apply(lambda x: x[-1].split('.')[0])
     df_geo.ID = df_geo.ID.apply(lambda x: '0' * (4 - len(x)) + x)
 
-    print("Running occlusion scoring...")
-    print("Loading CLIP...")
-    proc = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
-    model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined")
-    model.to('cuda')
-    model.eval()
+    if args.use_occlusion:
+        print("Running occlusion scoring...")
+        print("Loading CLIP...")
+        proc = CLIPSegProcessor.from_pretrained("CIDAS/clipseg-rd64-refined")
+        model = CLIPSegForImageSegmentation.from_pretrained("CIDAS/clipseg-rd64-refined")
+        model.to('cuda')
+        model.eval()
 
-    def occ_score_pair(img, img_nerf):
-        inp = proc(text=[bt] * 2, images=[img, img_nerf], padding="max_length", return_tensors="pt").to('cuda')
-        with torch.no_grad():
-            out = model(**inp)
-            S = out.logits.sigmoid().cpu().numpy()
-        s0, s1 = S[0] > args.clipseg_threshold, S[1] > args.clipseg_threshold
-        score = 0. if s1.sum() == 0 else (1 - ((~s0) & s1).sum() / s1.sum())
-        M = (s0 & s1) + 2 * ((~s0) & s1)
-        return score, M
-    
-    nerf_fns = glob(os.path.join(args.rgb_reconstruction_folder, '*'))
-    print("Using", len(nerf_fns), "RGB reconstruction images")
+        def occ_score_pair(img, img_nerf):
+            inp = proc(text=[bt] * 2, images=[img, img_nerf], padding="max_length", return_tensors="pt").to('cuda')
+            with torch.no_grad():
+                out = model(**inp)
+                S = out.logits.sigmoid().cpu().numpy()
+            s0, s1 = S[0] > args.clipseg_threshold, S[1] > args.clipseg_threshold
+            score = 0. if s1.sum() == 0 else (1 - ((~s0) & s1).sum() / s1.sum())
+            M = (s0 & s1) + 2 * ((~s0) & s1)
+            return score, M
 
-    orig_df = pd.DataFrame({'fn': fns})
-    nerf_df = pd.DataFrame({'fn': nerf_fns})
-    for df_ in (orig_df, nerf_df):
-        df_['ID'] = df_.fn.str.split('/').apply(lambda x: x[-1].split('.')[0])
-        df_.ID = df_.ID.apply(lambda x: '0' * (4 - len(x)) + x)
-    df_occ = pd.merge(orig_df, nerf_df, on=['ID'],
-              how='outer', indicator=True, suffixes=('_orig', '_nerf'))
-    df_occ['score'] = np.nan
+        nerf_fns = glob(os.path.join(args.rgb_reconstruction_folder, '*'))
+        print("Using", len(nerf_fns), "RGB reconstruction images")
 
-    for i in trange(len(df_occ)):
-        row = df_occ.iloc[i]
-        if row._merge == 'both':
-            img = Image.open(row.fn_orig).convert('RGB')
-            img_nerf = Image.open(row.fn_nerf).convert('RGB')
-            s, M = occ_score_pair(img, img_nerf)
-            df_occ.score.iloc[i] = s
+        orig_df = pd.DataFrame({'fn': fns})
+        nerf_df = pd.DataFrame({'fn': nerf_fns})
+        for df_ in (orig_df, nerf_df):
+            df_['ID'] = df_.fn.str.split('/').apply(lambda x: x[-1].split('.')[0])
+            df_.ID = df_.ID.apply(lambda x: '0' * (4 - len(x)) + x)
+        df_occ = pd.merge(orig_df, nerf_df, on=['ID'],
+                  how='outer', indicator=True, suffixes=('_orig', '_nerf'))
+        df_occ['score'] = np.nan
 
-    print("Combining scores...")
-    id2geo = df_geo.set_index('ID').score.to_dict()
-    df = df_occ.copy().rename(columns={'score': 'occ_score'})
-    df['geo_score'] = df.ID.map(id2geo)
-    df['score'] = df.geo_score + df.occ_score
-    df = df[['fn_orig', 'score']].rename(columns={'fn_orig': 'fn'})
-    df = df[df.score.notna()].copy()
-    df.fn = df.fn.apply(os.path.basename)
+        for i in trange(len(df_occ)):
+            row = df_occ.iloc[i]
+            if row._merge == 'both':
+                img = Image.open(row.fn_orig).convert('RGB')
+                img_nerf = Image.open(row.fn_nerf).convert('RGB')
+                s, M = occ_score_pair(img, img_nerf)
+                df_occ.score.iloc[i] = s
+
+        print("Combining scores...")
+        id2geo = df_geo.set_index('ID').score.to_dict()
+        df = df_occ.copy().rename(columns={'score': 'occ_score'})
+        df['geo_score'] = df.ID.map(id2geo)
+        df['score'] = df.geo_score + df.occ_score
+        df = df[['fn_orig', 'score']].rename(columns={'fn_orig': 'fn'})
+        df = df[df.score.notna()].copy()
+        df.fn = df.fn.apply(os.path.basename)
+
+    else:
+        # Skip occlusion scoring and only use geometric retrieval
+        df = df_geo.copy()
+        df.fn = df.fn.apply(os.path.basename)
+        df = df.drop(['base_fn', 'ID'], axis=1)
+
 
     print("Saving to:", args.output)
     dirname = os.path.dirname(args.output)

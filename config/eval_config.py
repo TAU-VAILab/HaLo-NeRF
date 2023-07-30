@@ -6,7 +6,7 @@ def get_opts():
     parser.add_argument('--root_dir', type=str,
                         default='/home/cy/PNW/datasets/nerf_synthetic/lego',
                         help='root directory of dataset')
-    parser.add_argument('--dataset_name', type=str, default='blender',
+    parser.add_argument('--dataset_name', type=str, default='phototourism',
                         choices=['blender', 'phototourism'],
                         help='which dataset to validate')
     parser.add_argument('--scene_name', type=str, default='test',
