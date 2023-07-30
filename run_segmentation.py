@@ -24,12 +24,12 @@ def print_img(image_path, output_file):
 
 
 def get_k_files(k, csv_path):
-    prompt = ["a picture of a cathedral's facade"]
+    prompt = ["score"]
     xls_file = pandas.read_csv(csv_path)
     col = xls_file[prompt]
     col_sorted_descending = col.sort_values(by=prompt, ascending=False)
     files_pos = col_sorted_descending[:k]
-    names_pos = xls_file['filename'][files_pos.index]
+    names_pos = xls_file['fn'][files_pos.index]
     return names_pos.values.tolist()
 
 

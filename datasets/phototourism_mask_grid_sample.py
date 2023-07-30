@@ -65,11 +65,7 @@ class PhototourismDataset(Dataset):
         self.files = pd.read_csv(tsv, sep='\t')
         self.files = self.files[~self.files['id'].isnull()] # remove data without id
 
-
         self.files['split'] = self.files['split'].replace('test', 'train')
-
-
-
         self.files.reset_index(inplace=True, drop=True)
 
         # Step 1. load image paths
@@ -302,7 +298,6 @@ class PhototourismDataset(Dataset):
                 self.all_semantics_gt = torch.cat(self.all_semantics_gt, 0) # ((N_images-1)*h*w)
 
         elif self.split in ['val', 'test_train']: # use the first image as val image (also in train)
-            # self.val_id = [self.img_ids_train[0], self.img_ids_train[50], self.img_ids_train[100], self.img_ids_train[200], self.img_ids_train[300], self.img_ids_train[400], self.img_ids_train[500]]
             self.val_id = self.img_ids_train[0]
 
         else: # for testing, create a parametric rendering path
