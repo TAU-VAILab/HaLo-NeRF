@@ -282,9 +282,13 @@ def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k
             images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.jpg')
             real_img = Image.open(images_path)
         except:
-            print('JPG File')
-            images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.JPG')
-            real_img = Image.open(images_path)
+            try:
+                print('JPG File')
+                images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.JPG')
+                real_img = Image.open(images_path)
+            except:
+                images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.jpeg')
+                real_img = Image.open(images_path)
 
         real_w, real_h = real_img.size
 
