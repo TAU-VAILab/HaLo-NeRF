@@ -241,11 +241,18 @@ if __name__ == "__main__":
 
 
             sem_pred = (sem_pred * 255).astype(np.uint8)
+
+            overlay_green = np.concatenate([np.zeros_like(sem_pred_original), sem_pred_original, np.zeros_like(sem_pred_original)],axis=2)  # green
+            result_green = sem_pred_original * overlay_green + (1 - sem_pred_original) * img_pred
+            result_green = (255*result_green).astype('uint8')
+
+
             sem_pred = colormap(sem_pred).squeeze()
             sem_preds += [sem_pred]
 
             if args.save_imgs:
                 imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_jet.png'), sem_pred)
+                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), result_green)
 
             h = sem_pred[:,:,:3]
             pred_with_overlay = 0.45*np.multiply(1-sem_pred_original,img_pred) + 0.55*np.multiply(sem_pred_original,h)
