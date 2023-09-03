@@ -202,6 +202,8 @@ if __name__ == "__main__":
     kwargs['output_transient'] = False
     colormap = plt.get_cmap('jet')
 
+    # sample_enc = dataset[1]
+    # whole_img_enc = sample_enc['whole_img'].unsqueeze(0).cuda()
     for i in tqdm(range(0,len(dataset),1)):
 
         sample = dataset[i]
@@ -210,7 +212,11 @@ if __name__ == "__main__":
 
         if (args.split == 'test_train' or args.split == 'test_test') and args.encode_a:
             whole_img = sample['whole_img'].unsqueeze(0).cuda()
+
             kwargs['a_embedded_from_img'] = enc_a(whole_img)
+            # kwargs['a_embedded_from_img'] = enc_a(whole_img_enc)
+
+
         results = batched_inference(models, embeddings, rays.cuda(), ts.cuda(),
                                     args.N_samples, args.N_importance, args.use_disp,
                                     args.chunk,
@@ -230,6 +236,7 @@ if __name__ == "__main__":
         img_pred_ = (img_pred*255).astype(np.uint8)
 
         imgs += [img_pred_]
+
 
         if args.save_imgs:
             imageio.imwrite(os.path.join(dir_name, f'{i:03d}.png'), img_pred_)
