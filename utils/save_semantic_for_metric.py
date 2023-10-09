@@ -287,12 +287,24 @@ def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k
                 images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.JPG')
                 real_img = Image.open(images_path)
             except:
-                images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.jpeg')
-                real_img = Image.open(images_path)
+                try:
+                    images_path = os.path.join(root_dir, 'dense/images',str(int(ts[0])).zfill(4) + '.jpeg')
+                    real_img = Image.open(images_path)
+                except:
+                    try:
+                        images_path = os.path.join(root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.png')
+                        real_img = Image.open(images_path)
+                    except:
+                        images_path = os.path.join(root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.tif')
+                        real_img = Image.open(images_path)
+
 
         real_w, real_h = real_img.size
 
         sem_pred = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
+
+
+
         sem_pred = 1 - sem_pred
         sem_pred = torch.Tensor(sem_pred.squeeze())
         sem_pred = torch.nn.functional.interpolate(sem_pred.unsqueeze(dim=0).unsqueeze(dim=0),

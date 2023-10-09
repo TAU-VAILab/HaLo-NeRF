@@ -60,7 +60,11 @@ def get_opts():
     parser.add_argument('--num_semantic_classes', type=int, default=2,
                         help='The number of semantic classes')
 
-    parser.add_argument('--num_frames', type=list, default=[24, 0], help='number of frames')
-    parser.add_argument('--images_ids', type=list, default=[40, 588], help='images ids')
+    parser.add_argument('--num_frames', nargs="+", type=int, default=[48, 1], help='number of frames')
+    parser.add_argument('--images_ids', nargs="+", type=int, default=[383, 103],help='images_ids')
+    parser.add_argument('--images_id_appearance_first', type=int, default=73, help='images images_id_appearance_first')
+    parser.add_argument('--images_id_appearance_last', type=int, default=1, help='images_id_appearance_last')
+
+
 
     return parser.parse_args()

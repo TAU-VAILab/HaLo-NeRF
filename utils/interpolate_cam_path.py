@@ -16,7 +16,7 @@ from scipy.spatial.transform import Rotation
 # st paul - [41,168]
 # 639
 # blue mosque - windows:
-def generate_camera_path(dataset, img_id_list= [40,558], interpolate_times=[24,0]):
+def generate_camera_path(dataset, img_id_list= [40,558], interpolate_times=[24,1]):
     '''
     args:
         img_id_list: IDs of key-frame images
@@ -28,6 +28,20 @@ def generate_camera_path(dataset, img_id_list= [40,558], interpolate_times=[24,0
         pose = dataset.poses_dict[id]
         # The camera pose is defined in 4x4 matrix.
         pose = np.concatenate((pose, np.array([[0, 0, 0, 1]])))  # (1, 4, 4)
+
+        # # st paul pediment - with 2*pi
+        # if id == 331:
+        #     z = pose[:3, 3][2]
+        #     # z += 0.1 #0.05
+        #     z += 0.3 #0.05
+        #     y = pose[:3, 3][1]
+        #     y -= 0.1
+        #     x = pose[:3, 3][0]
+        #     x -= 0.02
+        #     pose[:3, 3][2] = z
+        #     pose[:3, 3][1] = y
+        #     pose[:3, 3][0] = x
+
         pose_list.append(pose)
 
     pose_interp_list = []
@@ -49,6 +63,8 @@ def generate_camera_path(dataset, img_id_list= [40,558], interpolate_times=[24,0
 
 
         rx = np.linspace(eulers[0], eulers_n[0], num=interpolate_times[index], endpoint=False)
+        # rx = np.linspace(eulers[0], eulers_n[0] + 2 * np.pi, num=interpolate_times[index], endpoint=False)
+
         ry = np.linspace(eulers[1], eulers_n[1], num=interpolate_times[index], endpoint=False)
         rz = np.linspace(eulers[2], eulers_n[2], num=interpolate_times[index], endpoint=False)
         eulers_list = np.concatenate((rx[:, np.newaxis], ry[:, np.newaxis], rz[:, np.newaxis]), axis=1)  # []

@@ -160,8 +160,8 @@ if __name__ == "__main__":
 
 
         img = Image.open(os.path.join(args.root_dir, 'dense/images',
-                                      dataset.image_paths[dataset.img_ids_train[314]])).convert('RGB')  # 111 159 178 208 252 314
-        img_downscale = 4
+                                      dataset.image_paths[dataset.img_ids_train[args.images_id_appearance_first]])).convert('RGB')  # 111 159 178 208 252 314
+        img_downscale = 8
         img_w, img_h = img.size
         img_w = img_w // img_downscale
         img_h = img_h // img_downscale
@@ -172,7 +172,7 @@ if __name__ == "__main__":
         whole_img = normalize(img).unsqueeze(0).cuda()
         kwargs['a_embedded_from_img'] = enc_a(whole_img)
 
-        dataset.test_appearance_idx = 314  # 85572957_6053497857.jpg
+        dataset.test_appearance_idx = args.images_id_appearance_first  # 85572957_6053497857.jpg
         N_frames = 30
 
         dx = np.linspace(-0.1, 0.1, N_frames)
@@ -223,12 +223,12 @@ if __name__ == "__main__":
                                     dataset.white_back,
                                     **kwargs)
 
-        if args.enable_semantic:
-            results_sem = batched_inference(models_sem, embeddings, rays.cuda(), ts.cuda(),
-                                        args.N_samples, args.N_importance, args.use_disp,
-                                        args.chunk,
-                                        dataset.white_back,
-                                        **kwargs)
+        # if args.enable_semantic:
+            # results_sem = batched_inference(models_sem, embeddings, rays.cuda(), ts.cuda(),
+            #                             args.N_samples, args.N_importance, args.use_disp,
+            #                             args.chunk,
+            #                             dataset.white_back,
+            #                             **kwargs)
 
         w, h = sample['img_wh']
         
@@ -243,7 +243,8 @@ if __name__ == "__main__":
 
 
         if args.enable_semantic:
-            sem_pred = results_sem['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
+            # sem_pred = results_sem['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
+            sem_pred = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
             sem_pred_original = sem_pred
 
 
@@ -267,9 +268,9 @@ if __name__ == "__main__":
             preds_with_overlay += [pred_with_overlay]
 
             if args.save_imgs:
-                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_sem_with_overlay.png'), pred_with_overlay)
+            #     imageio.imwrite(os.path.join(dir_name, f'{i:03d}_sem_with_overlay.png'), pred_with_overlay)
                 imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic.png'), sem_pred_original)
-                np.save(os.path.join(dir_name, f'{i:03d}_sem.npy'), sem_pred_original)
+            #     np.save(os.path.join(dir_name, f'{i:03d}_sem.npy'), sem_pred_original)
 
         if args.split == 'test':
             imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_rgb.{args.video_format}'),imgs, fps=24)
