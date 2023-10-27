@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Indie Flower' rel='stylesheet'>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild</title>
+<!--    <link rel="icon" href="../pics/wis_logo.jpg">-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans">
+    <link href="./style_supp.css" rel="stylesheet" type="text/css">
+</head>
+<script type="text/javascript">
+    src=hover.js;
+</script>
+<body>
 <head>
   <meta charset="utf-8">
   <meta name="description" content="Scene flow estimation from point clouds based on pure correspondence learning and direct refinement optimization.">
@@ -9,7 +23,7 @@
 
   <link rel="icon" href="./assets/icon_wo_bg.png">
 
-  <title>SCOOP: Self-Supervised Correspondence and Optimization-Based Scene Flow</title>
+  <title>HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q6JSKPD63W"></script>
@@ -36,44 +50,63 @@
   <script src="./static/js/index.js"></script>
 </head>
 
+<style>
+.author-name-small {
+  font-size: 19px; /* You can adjust the font size to your preference */
+}
+</style>
+
 <body>
 <section class="hero">
   <div class="hero-body">
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-2 publication-title">SCOOP: Self-Supervised Correspondence and Optimization-Based Scene Flow</h1>
-          <h2 class="title is-3 publication-conference">CVPR 2023</h2>
+          <h1 class="title is-2 publication-title">HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild</h1>
+          <h2 class="title is-3 publication-conference">Eurographics 2024</h2>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/itai.png" class="rgb preload" alt="Itai">
+                <img src="./assets/chen.png" class="rgb preload" alt="Itai">
               </div>
-              <a href="https://itailang.github.io">Itai Lang</a><sup>1,2*</sup>
+              <a href="https://www.linkedin.com/in/chen-dudai-108a72136/?originalSubdomain=il" class="author-name-small">Chen Dudai</a><sup>1</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/dror.png" class="rgb preload" alt="Dror">
+                <img src="./assets/morris.png" class="rgb preload" alt="Dror">
               </div>
-              <a href="https://research.google/people/DrorAiger/">Dror Aiger</a><sup>2</sup>
+              <a href="https://morrisalp.github.io/" class="author-name-small">Morris Alper*</a><sup>1</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/forrester.png" class="rgb preload" alt="Forrester">
+                <img src="./assets/hana.png" class="rgb preload" alt="Forrester">
               </div>
-              <a href="http://people.csail.mit.edu/fcole/">Forrester Cole</a><sup>2</sup>
+              <a href="https://www.linkedin.com/in/hanabezalel/?originalSubdomain=il" class="author-name-small">Hana Bezalel</a><sup>1</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/shai.png" class="rgb preload" alt="Shai">
+                <img src="./assets/rana.png" class="rgb preload" alt="Shai">
               </div>
-              <a href="http://www.eng.tau.ac.il/~avidan/">Shai Avidan</a><sup>1</sup>
+              <a href="http://people.cs.uchicago.edu/~ranahanocka/" class="author-name-small">Rana Hanocka</a><sup>2</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/michael.png" class="rgb preload" alt="Michael">
+                <img src="./assets/itai.png" class="rgb preload" alt="Michael">
               </div>
-              <a href="http://people.csail.mit.edu/mrub/">Michael Rubinstein</a><sup>2</sup>
+              <a href="https://itailang.github.io/" class="author-name-small">Itai Lang</a><sup>2</sup>
+            </span>
+			<span class="author-block">
+              <div class="author-portrait">
+                <img src="./assets/hadar.png" class="rgb preload" alt="Michael">
+              </div>
+              <a href="https://www.elor.sites.tau.ac.il/" class="author-name-small">Hadar Averbuch-Elor</a><sup>1</sup>
+            </span>
+          </div>
+		  
+		  		  
+		   <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <sup>*Equal contribution</sup>
             </span>
           </div>
 
@@ -82,19 +115,18 @@
               <sup>1</sup>Tel Aviv University
             </span>
             <span class="author-block">
-              &nbsp;&nbsp;&nbsp;<sup>2</sup>Google Research
+              &nbsp;&nbsp;&nbsp;<sup>2</sup>The University of Chicago
             </span>
           </div>
+		  
 
-          <div class="is-size-6 publication-authors">
-            <sup>*</sup>The work was done during an internship at Google Research.
-          </div>
+
 
           <div class="column has-text-centered">
             <div class="publication-links">
               <!-- Paper Link -->
               <span class="link-block">
-                <a href="https://openaccess.thecvf.com/content/CVPR2023/papers/Lang_SCOOP_Self-Supervised_Correspondence_and_Optimization-Based_Scene_Flow_CVPR_2023_paper.pdf"
+                <a href=""
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fas fa-file-pdf"></i>
@@ -104,7 +136,7 @@
               </span>
               <!-- arXiv Link -->
               <span class="link-block">
-                <a href="https://arxiv.org/abs/2211.14020"
+                <a href=""
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -114,7 +146,7 @@
               </span>
               <!-- Video Link -->
               <span class="link-block">
-                <a href="https://www.youtube.com/watch?v=b8MVWGU7V4E"
+                <a href=""
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-youtube"></i>
@@ -124,7 +156,7 @@
               </span>
               <!-- Code Link -->
               <span class="link-block">
-                <a href="https://github.com/itailang/SCOOP"
+                <a href="https://github.com/TAU-VAILab/HaLo-NeRF"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="fab fa-github"></i>
@@ -146,13 +178,10 @@
         <div class="columns is-centered has-text-centered">
           <div class="column is-four-fifths">
             <h2 class="subtitle has-text-justified">
-              SCOOP is a self-supervised scene flow estimation method for 3D point clouds. It is based on pure
-              correspondence learning and direct refinement optimization, which enable it to use a fraction
-              of the training data while achieving state-of-the-art results.
             </h2>
-            <video id="teaser" autoplay controls muted loop playsinline height="100%">
-              <source src="./assets/strict_acc_vs_train_set_size.mp4" type="video/mp4">
-            </video>
+             <div class="content has-text-centered">
+				<img id="system" width="200%" src="./assets/teaser.png" alt="System">
+			</div>
           </div>
         </div>
       </div>
@@ -167,66 +196,33 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Scene flow estimation is a long-standing problem in computer vision, where the goal is to find the 3D motion
-            of a scene from its consecutive observations. Recently, there have been efforts to compute the scene flow
-            from 3D point clouds. A common approach is to train a regression model that consumes source and target point
-            clouds and outputs the per-point translation vector. An alternative is to learn point matches between the
-            point clouds concurrently with regressing a refinement of the initial correspondence flow. In both cases,
-            the learning task is very challenging since the flow regression is done in the free 3D space, and a typical
-            solution is to resort to a large annotated synthetic dataset.
+            The emergence of neural radiance fields has revolutionized our means for digitally exploring large-scale tourist landmarks,
+			enabling the synthesis of photorealistic images of varying illumination, time, and season. However, these neural representations
+			mainly provide low-level appearance information, which lacks a higher-level semantic understanding of these scenes. 
           </p>
           <p>
-            We introduce SCOOP, a new method for scene flow estimation that can be learned on a small amount of data
-            without employing ground-truth flow supervision. In contrast to previous work, we train a pure
-            correspondence model focused on learning point feature representation and initialize the flow as the
-            difference between a source point and its softly corresponding target point. Then, in the run-time phase,
-            we directly optimize a flow refinement component with a self-supervised objective, which leads to a coherent
-            and accurate flow field between the point clouds. Experiments on widespread datasets demonstrate the
-            performance gains achieved by our method compared to existing leading techniques while using a fraction of
-            the training data.
+			In this work, we present HaLo-NeRF, a 3D localization system that connects neural representations of scenes depicting such large-
+			scale landmarks with text describing a semantic region within the scene. Our method harnesses the power of SOTA vision-and-
+			language models to connect Internet imagery with scene semantics. Although these models display an excellent understanding
+			of broad visual semantics, they lack expert knowledge of specific domains, such as culturally significant architecture, which is a
+			prerequisite for localizing these concepts in space. To bolster such models with fine-grained knowledge, we leverage large-scale
+			Internet data containing images of similar landmarks along with weakly-related textual information. Our approach is built upon
+			the premise that images physically grounded in space can provide a powerful supervision signal for localizing new concepts,
+			whose semantics may be unlocked from Internet textual metadata with large language models. We use correspondences between
+			views of scenes to bootstrap spatial understanding of these semantics, providing guidance for 3D-compatible segmentation that
+			ultimately lifts to a volumetric scene representation. To evaluate our method, we present a new benchmark dataset containing
+			large-scale scenes with ground-truth segmentations for multiple semantic concepts. Our results show that HaLo-NeRF can
+			accurately localize a variety of semantic concepts related to architectural landmarks, surpassing the results of other 3D models
+			as well as strong 2D segmentation baseline
           </p>
         </div>
       </div>
     </div>
-
-    <!-- Publication Video -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-          <iframe src="https://www.youtube.com/embed/b8MVWGU7V4E?rel=0&amp;showinfo=0"
-                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-      </div>
+	<div class="content has-text-centered">
+        <img id="results density" width="80%" src="./assets/results.png" alt="Density">
     </div>
-  </div>
-</section>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Key Idea -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Key Idea</h2>
-        <div class="content has-text-justified">
-          <p>
-            Previous methods regress the entire flow in the ambient 3D space, jointly learn correspondence and refinement,
-            or optimize the complete flow from scratch separately for each scene. Instead, we replace these challenging
-            problems with two simpler ones: training a correspondence model focused only on learning point
-            feature representation without any flow regression, and directly optimizing a residual flow refinement at
-            the run-time.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <img id="others" width="100%" src="./assets/approach_others.png" alt="Others">
-        </div>
-        <div class="content has-text-centered">
-          <img id="ours" width="48.5%" src="./assets/approach_ours.png" alt="Ours">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <section class="section">
   <div class="container is-max-desktop">
@@ -237,20 +233,24 @@
 
         <div class="content has-text-justified">
           <p>
-            SCOOP includes two components: a learned point cloud correspondence model and a flow refinement module.
-            The model is focused on learning deep point embeddings <strong>&#966;<sub><i>X</i></sub></strong>,
-            <strong>&#966;<sub><i>Y</i></sub></strong> to establish soft point matches based on a matching cost
-            <strong><i>C</i></strong> in the latent feature space. The initial flow <strong><i>F</i></strong> from the
-            training phase is the difference between the softly corresponding point cloud and the source point cloud.
+            Our goal is to perform text-driven neural 3D localization for landmark scenes captured by collections of Internet photos.
+			In other words, given this collection of images and a text prompt describing a semantic concept in the scene, we would like to know where it is located in 3D space.
+			These images are in the wild, meaning that they may be taken in different seasons, time of day, viewpoints, and distances from the landmark, and may include transient occlusions. 
           </p>
           <p>
-            At the test-time, we freeze the trained model and directly optimize a residual flow refinement
-            <strong><i>R<sup>*</sup></i></strong> to produce a smooth and consistent scene flow
-            <strong><i>F<sup>*</sup></i></strong> between the point clouds.
+           In order to localize unique architectural features landmarks in 3D space, we leverage the power modern foundation models for visual and textual understanding.
+		   Despite progress in general multimodal understanding, modern VLMs struggle to localize fine-grained semantic concepts on architectural landmarks, as we show extensively in our results.
+		   The architectural domain uses a specialized vocabulary, with terms being rare in general usage.
           </p>
+		  </p>
+		  To address these challenges, we design a three-stage system: the offline stages of LLM-based semantic concept distillation and semantic adaptation of VLMs,
+		  followed by the online stage of 3D localization. In the offline stages of our method, we learn relevant semantic concepts using textual metadata as guidance by distilling it via an LLM,
+		  and subsequently locate these concepts in space by leveraging inter-view correspondences. The resulting fine-tuned image segmentation model is then used in the online stage to supervise the learning of
+		  volumetric probabilities - associating regions in 3D space with the probability of depicting the target text prompt.
+		  </p>
         </div>
         <div class="content has-text-centered">
-          <img id="system" width="80%" src="./assets/system.png" alt="System">
+          <img id="system" width="100%" src="./assets/system.png" alt="System">
         </div>
 
         <div class="content has-text-justified">
@@ -260,9 +260,6 @@
             neighboring source points have similar flow vectors. These two losses result in a coherent flow field that
             warps the source point cloud close to the underlying surface of the target point cloud.
           </p>
-        </div>
-        <div class="content has-text-centered">
-          <img id="losses" width="80%" src="./assets/losses.png" alt="Losses">
         </div>
       </div>
     </div>
@@ -277,47 +274,128 @@
         <h2 class="title is-3">Results</h2>
         <div class="content has-text-justified">
           <p>
-            Compared to the popular previous method
-            <a href="https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123730528.pdf">FLOT</a>, SCOOP better
-            preserves the structure of the source point cloud and accurately computes its flow.
-          </p>
-        </div>
-        <div class="comparison">
-          <img src="./assets/comparison_f_s.png" alt="Comparison" >
-          <img src="./assets/comparison_s_f.png" alt="Comparison" class="swap" >
-        </div>
+           Localization for general architectural scenes. HaLo-NeRF can localize various semantic concepts in a variety of scenes in the wild, not limited to
+			the religious domain of HolyScenes. Our localization, marked in green in the first
+			image for each concept, enables focusing automatically on the text-specified region
+			of interest, as shown by the following zoomed-in images in each row.
 
-        <div class="content has-text-justified">
-          <br>
-          <br>
-          <p>
-            SCOOP estimates the scene flow correctly in various challenging cases:
-            <br>
-            <br>
-            Varied point cloud density (cars).
           </p>
         </div>
+       
         <div class="content has-text-centered">
-          <img id="results density" width="100%" src="./assets/results_density.png" alt="Density">
+          <img id="results repetitive" width="100%" src="./assets/results_2.png" alt="Density">
         </div>
 
         <div class="content has-text-justified">
           <p>
-            Repetitive structures (fence).
+			In addition, we show below interactive visualizations, comparing HaLo-NeRF (left) with the Baseline model (right), which uses the CLIPSeg model without finetuning.
+			Both videos show the same temporal sequence of RGB renderings, varying only in the probabilities depicted (taken either from our model or the baseline).
+			Note that once zoomed-in, we turn off the probabilities for both models, allowing to better view the target semantic region.
+			The target text prompt is written above each video, with the name of the landmark on the right.
+			Please hover your mouse over these videos to play them.
+			As illustrated below, our model yields significantly cleaner probabilities that better localize the semantic regions, particularly for unique concepts that are less common outside of the domain of architectural landmarks.
+			Note that once zoomed-in, we turn off the probabilities for both models, allowing to better view the target semantic region. We also visualize the zoomed-in region with multiple appearance (for our model, keeping the appearance of the baseline model fixed).
+			Results over additional prompts and landmarks from the HolyScenes benchmark are illustrated in the main paper.
           </p>
-        </div>
-        <div class="content has-text-centered">
-          <img id="results repetitive" width="100%" src="./assets/results_repetitive.png" alt="Density">
         </div>
 
-        <div class="content has-text-justified">
-          <p>
-            Objects with different motion directions (car and pole) or different geometry and size (pole and facade).
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <img id="results geometry" width="100%" src="./assets/results_different.png" alt="Different">
-        </div>
+
+		<table class="result-table" width="100%" align="center">
+		<tbody>
+
+ <!------------------ END ROW ------------------>
+                <tr>
+                    <th colspan="2" width="45%" class="prompt_title">"Portals" (a grand entrance to a cathedral) &nbsp;  Notre-Dame Cathedral</th>
+                </tr>
+                <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
+                <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
+				<tr>
+                    <td colspan="2">
+                        <div class="video-container1">
+                            <video onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="95%" class="result-video1">
+                                <source src="./assets/portals_notre_dame.mp4" type="video/mp4">
+                            </video>
+                    </td>
+                </tr>
+
+				<tr>
+                    <td width="14%">
+                        <div align="center" class="video-label">HaLo-NeRF</div>
+                    </td>
+                    <td width="14%">
+                        <div align="center" class="video-label">Baseline</div>
+                    </td>
+                </tr>
+
+                <tr> <td> <br /> <br /> </td> </tr>
+                <tr> <td> <br /> <br /> </td> </tr>
+                <!------------------ END ROW ------------------>
+				 
+      <tr>
+            <th colspan="2" width="45%" class="prompt_title">"Minarets" (a tall slender tower of a mosque having one or more balconies from which the summons to prayer is cried by the muezzin) &nbsp; Blue Mosque</th>
+        </tr>
+        <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
+        <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
+<tr>
+            <td colspan="2">
+                <div class="video-container1">
+                    <video onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="95%" class="result-video1">
+                        <source src="./assets/blue_mosque_minarets.mp4" type="video/mp4">
+                    </video>
+            </td>
+        </tr>
+
+<tr>
+            <td width="14%">
+                <div align="center" class="video-label">HaLo-NeRF</div>
+            </td>
+            <td width="14%">
+                <div align="center" class="video-label">Baseline</div>
+            </td>
+        </tr>
+
+        <tr> <td> <br /> <br /> </td> </tr>
+        <tr> <td> <br /> <br /> </td> </tr>
+						 <!------------------ END ROW ------------------>
+                                <tr>
+            <tr>
+                    <th colspan="2" width="45%" class="prompt_title">"Pediment" (a triangular part at the top of the front of a building that supports the
+roof and is often decorated) &nbsp;  St. Paul's Cathedral</th>
+                </tr>
+                <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
+                <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
+				<tr>
+                    <td colspan="2">
+                        <div class="video-container1">
+                            <video onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="95%" class="result-video1">
+                                <source src="./assets/pediment_st_paul.mp4" type="video/mp4">
+                            </video>
+                    </td>
+                </tr>
+
+				<tr>
+                    <td width="14%">
+                        <div align="center" class="video-label">HaLo-NeRF</div>
+                    </td>
+                    <td width="14%">
+                        <div align="center" class="video-label">Baseline</div>
+                    </td>
+                </tr>
+
+                <tr> <td> <br /> <br /> </td> </tr>
+                <tr> <td> <br /> <br /> </td> </tr>
+				
+
+
+
+		</tbody>
+	</table>
+    <!------------------ END SECTION ------------------>
+	
+	
+	
+	
+
       </div>
     </div>
   </div>
@@ -326,13 +404,7 @@
 <section class="section">
   <div class="container is-max-desktop content">
     <h2 class="title is-3">Citation</h2>
-    <pre><code>@InProceedings{lang2023scoop,
-  author = {Lang, Itai and Aiger, Dror and Cole, Forrester and Avidan, Shai and Rubinstein, Michael},
-  title = {{SCOOP: Self-Supervised Correspondence and Optimization-Based Scene Flow}},
-  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-  pages = {5281--5290},
-  year = {2023}
-}
+    <pre><code>
     </code></pre>
   </div>
 </section>
@@ -355,9 +427,9 @@
       <div class="column is-8">
         <div class="content has-text-centered">
           <p>
-            This website is adapted from the <a href="https://nerfies.github.io">Nerfies</a> website. We thank
-            <a href="https://keunhong.com">Keunhong Park</a> for sharing his
-            <a href="https://github.com/nerfies/nerfies.github.io">source code</a>.
+            This website is adapted from the <a href="https://itailang.github.io/SCOOP/">SCOOP</a> website. We thank
+            <a href="https://itailang.github.io/">Itai Lang</a> for sharing his
+            <a href="https://github.com/itailang/SCOOP/tree/site">source code</a>.
           </p>
         </div>
       </div>
