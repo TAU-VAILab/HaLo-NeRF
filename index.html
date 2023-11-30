@@ -62,7 +62,7 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-2 publication-title">HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild</h1>
+          <h1 class="title is-2 publication-title">HaLo-NeRF<span style='font-size:70px;'>&#128519;</span> <br> Text-Driven Neural 3D Localization in the Wild</h1>
           <h2 class="title is-3 publication-conference">Eurographics 2024</h2>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
@@ -171,40 +171,44 @@
 
 
 <center>
-	<video  align="center"  width="640" height="480"  autoplay loop muted>
+	<video  align="center"  width="768" height="576"  autoplay loop muted>
 		<source src="./assets/video.mp4" type="video/mp4">
 		Your browser does not support the video tag.
 	</video>
 <center>
 
-<br/></br><br/></br>
 
-<section class="hero teaser">
-    <div class="hero-body">
-      <div class="container is-max-desktop">
-        <div class="columns is-centered has-text-centered">
-          <div class="column is-four-fifths">
-            <h2 class="subtitle has-text-justified">
-            </h2>
-             <div class="content has-text-centered">
-				<img id="system" width="200%" src="./assets/teaser.png" alt="System">
-				Given a collection of images in-the-wild depicting a large-scale scene, such as the Notre-Dame Cathedral or the
-				Blue Mosque above, we learn a semantic localization field for each textual description (shown with green and yellow overlay).
-				Our approach enables generating novel views with controlled appearances of these semantic regions of interest (as shown in the boxes of corresponding colors).
-			</div>
-          </div>
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+
+<h2 class="title is-5 publication-conference">
+TL;DR We learn a semantic localization field for textual descriptions over collections of in-the-wild images depicting a large-scale scene.
+</h2>
+      </div>
+      </div>
+      </div>
+
+  </div>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+			<div class="content has-text-justified">
+          <p>
+            As illustrated for St. Paul's Cathedral above, our approach enables generating novel views with controlled appearances of these semantic regions of interest.
+          </p>
         </div>
       </div>
     </div>
-</section>
+	      </div>
 
 
-
-
-
-
-
-
+<br><br>
 
 <section class="section">
   <div class="container is-max-desktop">
@@ -217,8 +221,6 @@
             The emergence of neural radiance fields has revolutionized our means for digitally exploring large-scale tourist landmarks,
 			enabling the synthesis of photorealistic images of varying illumination, time, and season. However, these neural representations
 			mainly provide low-level appearance information, which lacks a higher-level semantic understanding of these scenes. 
-          </p>
-          <p>
 			In this work, we present HaLo-NeRF, a 3D localization system that connects neural representations of scenes depicting such large-
 			scale landmarks with text describing a semantic region within the scene. Our method harnesses the power of SOTA vision-and-
 			language models to connect Internet imagery with scene semantics. Although these models display an excellent understanding
@@ -231,24 +233,40 @@
 			ultimately lifts to a volumetric scene representation. To evaluate our method, we present a new benchmark dataset containing
 			large-scale scenes with ground-truth segmentations for multiple semantic concepts. Our results show that HaLo-NeRF can
 			accurately localize a variety of semantic concepts related to architectural landmarks, surpassing the results of other 3D models
-			as well as strong 2D segmentation baseline
+			as well as strong 2D segmentation baseline.
           </p>
         </div>
       </div>
     </div>
+	
+	<br><br><br>
+	
+	<h2 class="title is-3">Neural 3D Localization Results of our Method</h2>
 	<div class="content has-text-centered">
         <img id="results density" width="80%" src="./assets/results.png" alt="Density">
+		
+    </div>
+	 <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+	We demonstrate sample
+results from our HolyScenes benchmark (depicting Milan Cathedral
+on top and Badshahi Mosque on bottom), visualizing segmentation
+maps over input images from test landmarks. As illustrated above,
+HaLo-NeRF successfully segments regions corresponding to a given
+text input. Moreover, our method can differentiate between concepts
+with similar semantic descriptions, such as Portal and Window
+	        </div>
+      </div>
     </div>
 
-
+<br>
 
 <section class="section">
-  <div class="container is-max-desktop">
-    <!-- Method -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
+   <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
         <h2 class="title is-3">Method</h2>
-
         <div class="content has-text-justified">
           <p>
             Our goal is to perform text-driven neural 3D localization for landmark scenes captured by collections of Internet photos.
@@ -261,34 +279,28 @@
 		   The architectural domain uses a specialized vocabulary, with terms being rare in general usage.
           </p>
 		  </p>
-		  To address these challenges, we design a three-stage system: the offline stages of LLM-based semantic concept distillation and semantic adaptation of VLMs,
-		  followed by the online stage of 3D localization. In the offline stages of our method, we learn relevant semantic concepts using textual metadata as guidance by distilling it via an LLM,
-		  and subsequently locate these concepts in space by leveraging inter-view correspondences. The resulting fine-tuned image segmentation model is then used in the online stage to supervise the learning of
-		  volumetric probabilities - associating regions in 3D space with the probability of depicting the target text prompt.
+		  To address these challenges, we design a three-stage system: (a) We extract semantic pseudo-labels from noisy Internet image metadata using a large
+			language model (LLM). (b) We use these pseudo-labels and correspondences between scene views to learn image-level and pixel-level
+			semantics. In particular, we fine-tune an image segmentation model (CLIPSegFT) using multi-view supervision—where zoomed-in views and
+			their associated pseudo-labels (such as image on the left associated with the term “tympanum”) provide a supervision signal for zoomed-out
+			views. (c) We then lift this semantic understanding to learn volumetric probabilities over new, unseen landmarks (such as the St. Paul’s
+			Cathedral depicted on the right), allowing for rendering views of the segmented scene with controlled viewpoints and illumination settings.
 		  </p>
         </div>
         <div class="content has-text-centered">
           <img id="system" width="100%" src="./assets/system.png" alt="System">
         </div>
-
-        <div class="content has-text-justified">
-          <br>
-          <p>
-            Our self-supervised losses require that each translated source point has a nearby target point and that
-            neighboring source points have similar flow vectors. These two losses result in a coherent flow field that
-            warps the source point cloud close to the underlying surface of the target point cloud.
-          </p>
-        </div>
+	
       </div>
     </div>
   </div>
 </section>
 
+
 <section class="section">
-  <div class="container is-max-desktop">
-    <!-- Results -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
+     <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
         <h2 class="title is-3">Results</h2>
         <div class="content has-text-justified">
           <p>
@@ -304,7 +316,7 @@
           <img id="results repetitive" width="100%" src="./assets/results_2.png" alt="Density">
         </div>
 		 <div class="column is-full-width">
-        <h2 class="title is-3">Interactive Visualizations</h2>
+        <h2 class="title is-3"><br><br>Interactive Visualizations</h2>
         <div class="content has-text-justified">
         <div class="content has-text-justified">
           <p>
@@ -332,7 +344,7 @@
 				<tr>
                     <td colspan="2">
                         <div class="video-container1">
-                            <video onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="95%" class="result-video1">
+                            <video onmouseover="this.play();"  controls muted width="100%" class="result-video1">
                                 <source src="./assets/portals_notre_dame.mp4" type="video/mp4">
                             </video>
                     </td>
@@ -357,7 +369,7 @@
 <tr>
             <td colspan="2">
                 <div class="video-container1">
-                    <video onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="95%" class="result-video1">
+                    <video onmouseover="this.play();"  controls muted width="100%" class="result-video1">
                         <source src="./assets/blue_mosque_minarets.mp4" type="video/mp4">
                     </video>
             </td>
@@ -384,7 +396,7 @@ roof and is often decorated) &nbsp;  St. Paul's Cathedral</br></th>
 				<tr>
                     <td colspan="2">
                         <div class="video-container1">
-                            <video onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="95%" class="result-video1">
+                            <video onmouseover="this.play();"  controls muted width="100%" class="result-video1">
                                 <source src="./assets/pediment_st_paul.mp4" type="video/mp4">
                             </video>
                     </td>
