@@ -62,42 +62,42 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-2 publication-title">HaLo-NeRF<span style='font-size:70px;'>&#128519;</span> <br> Text-Driven Neural 3D Localization in the Wild</h1>
-          <h2 class="title is-3 publication-conference">Eurographics 2024</h2>
+          <h1 class="title is-2 publication-title">HaLo-NeRF<span style='font-size:50px;'>&#128519;</span> <br> Text-Driven Neural 3D Localization in the Wild</h1>
+          <!--<h2 class="title is-3 publication-conference">Eurographics 2024</h2>-->
           <div class="is-size-5 publication-authors">
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/chen.png" class="rgb preload" alt="Itai">
+                <img src="./assets/chen.png" class="rgb preload" alt="chen">
               </div>
               <a href="https://www.linkedin.com/in/chen-dudai-108a72136/?originalSubdomain=il" class="author-name-small">Chen Dudai</a><sup>1</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/morris.png" class="rgb preload" alt="Dror">
+                <img src="./assets/morris.png" class="rgb preload" alt="morris">
               </div>
               <a href="https://morrisalp.github.io/" class="author-name-small">Morris Alper*</a><sup>1</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/hana.png" class="rgb preload" alt="Forrester">
+                <img src="./assets/hana.png" class="rgb preload" alt="hana">
               </div>
               <a href="https://www.linkedin.com/in/hanabezalel/?originalSubdomain=il" class="author-name-small">Hana Bezalel</a><sup>1</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/rana.png" class="rgb preload" alt="Shai">
+                <img src="./assets/rana.png" class="rgb preload" alt="rana">
               </div>
               <a href="http://people.cs.uchicago.edu/~ranahanocka/" class="author-name-small">Rana Hanocka</a><sup>2</sup>
             </span>
             <span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/itai.png" class="rgb preload" alt="Michael">
+                <img src="./assets/itai.png" class="rgb preload" alt="itai">
               </div>
               <a href="https://itailang.github.io/" class="author-name-small">Itai Lang</a><sup>2</sup>
             </span>
 			<span class="author-block">
               <div class="author-portrait">
-                <img src="./assets/hadar.png" class="rgb preload" alt="Michael">
+                <img src="./assets/hadar.png" class="rgb preload" alt="hadar">
               </div>
               <a href="https://www.elor.sites.tau.ac.il/" class="author-name-small">Hadar Averbuch-Elor</a><sup>1</sup>
             </span>
@@ -189,26 +189,36 @@
 TL;DR We learn a semantic localization field for textual descriptions over collections of in-the-wild images depicting a large-scale scene.
 </h2>
       </div>
+	          <div class="content has-text-justified">
+
+	              As illustrated for St. Paul's Cathedral above, our approach enables generating novel views with controlled appearances of these semantic regions of interest.
+	      </div>
+
       </div>
+	  
       </div>
 
   </div>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-			<div class="content has-text-justified">
-          <p>
-            As illustrated for St. Paul's Cathedral above, our approach enables generating novel views with controlled appearances of these semantic regions of interest.
-          </p>
-        </div>
+<br>
+
+ <div class="container is-max-desktop">
+        <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+		<table class="result-table" width="100%" align="center">
+		<tbody>
+                <tr>
+                    <th colspan="2" width="45%" class="prompt_title"></th>
+                </tr>
+				<tr>
+                </tr>	
+		</tbody>
+	</table>
       </div>
-    </div>
-	      </div>
+	        </div>
+ </div>
 
 
-<br><br>
 
 <section class="section">
   <div class="container is-max-desktop">
@@ -239,7 +249,21 @@ TL;DR We learn a semantic localization field for textual descriptions over colle
       </div>
     </div>
 	
-	<br><br><br>
+	
+	 <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+		<table class="result-table" width="100%" align="center">
+		<tbody>
+                <tr>
+                    <th colspan="2" width="45%" class="prompt_title"></th>
+                </tr>
+				<tr>
+                </tr>	
+		</tbody>
+	</table>
+      </div>
+ </div>
+		<br><br>	
 	
 	<h2 class="title is-3">Neural 3D Localization Results of our Method</h2>
 	<div class="content has-text-centered">
@@ -260,7 +284,21 @@ with similar semantic descriptions, such as Portal and Window
       </div>
     </div>
 
-<br>
+
+ <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+		<table class="result-table" width="100%" align="center">
+		<tbody>
+                <tr>
+                    <th colspan="2" width="45%" class="prompt_title"></th>
+                </tr>
+				<tr>
+                </tr>	
+		</tbody>
+	</table>
+      </div>
+ </div>
+
 
 <section class="section">
    <div class="container is-max-desktop">
@@ -268,6 +306,9 @@ with similar semantic descriptions, such as Portal and Window
       <div class="column is-four-fifths">
         <h2 class="title is-3">Method</h2>
         <div class="content has-text-justified">
+		        <div class="content has-text-centered">
+          <img id="system" width="100%" src="./assets/system.png" alt="System">
+        </div>
           <p>
             Our goal is to perform text-driven neural 3D localization for landmark scenes captured by collections of Internet photos.
 			In other words, given this collection of images and a text prompt describing a semantic concept in the scene, we would like to know where it is located in 3D space.
@@ -287,36 +328,34 @@ with similar semantic descriptions, such as Portal and Window
 			Cathedral depicted on the right), allowing for rendering views of the segmented scene with controlled viewpoints and illumination settings.
 		  </p>
         </div>
-        <div class="content has-text-centered">
-          <img id="system" width="100%" src="./assets/system.png" alt="System">
-        </div>
+
 	
       </div>
     </div>
   </div>
-</section>
+
+<br>
+ <div class="column is-four-fifths">
+        <div class="content has-text-justified">
+		<table class="result-table" width="100%" align="center">
+		<tbody>
+                <tr>
+                    <th colspan="2" width="45%" class="prompt_title"></th>
+                </tr>
+				<tr>
+                </tr>	
+		</tbody>
+	</table>
+      </div>
+ </div>
 
 
 <section class="section">
      <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Results</h2>
-        <div class="content has-text-justified">
-          <p>
-           Localization for general architectural scenes. HaLo-NeRF can localize various semantic concepts in a variety of scenes in the wild, not limited to
-			the religious domain of HolyScenes. Our localization, marked in green in the first
-			image for each concept, enables focusing automatically on the text-specified region
-			of interest, as shown by the following zoomed-in images in each row.
-
-          </p>
-        </div>
-       
-        <div class="content has-text-centered">
-          <img id="results repetitive" width="100%" src="./assets/results_2.png" alt="Density">
-        </div>
 		 <div class="column is-full-width">
-        <h2 class="title is-3"><br><br>Interactive Visualizations</h2>
+        <h2 class="title is-3">Interactive Visualizations</h2>
         <div class="content has-text-justified">
         <div class="content has-text-justified">
           <p>
@@ -344,7 +383,7 @@ with similar semantic descriptions, such as Portal and Window
 				<tr>
                     <td colspan="2">
                         <div class="video-container1">
-                            <video onmouseover="this.play();"  controls muted width="100%" class="result-video1">
+                            <video  onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="100%" class="result-video1">
                                 <source src="./assets/portals_notre_dame.mp4" type="video/mp4">
                             </video>
                     </td>
@@ -369,7 +408,7 @@ with similar semantic descriptions, such as Portal and Window
 <tr>
             <td colspan="2">
                 <div class="video-container1">
-                    <video onmouseover="this.play();"  controls muted width="100%" class="result-video1">
+                    <video  onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()"  muted width="100%" class="result-video1">
                         <source src="./assets/blue_mosque_minarets.mp4" type="video/mp4">
                     </video>
             </td>
@@ -396,7 +435,7 @@ roof and is often decorated) &nbsp;  St. Paul's Cathedral</br></th>
 				<tr>
                     <td colspan="2">
                         <div class="video-container1">
-                            <video onmouseover="this.play();"  controls muted width="100%" class="result-video1">
+                            <video  onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="100%" class="result-video1">
                                 <source src="./assets/pediment_st_paul.mp4" type="video/mp4">
                             </video>
                     </td>
