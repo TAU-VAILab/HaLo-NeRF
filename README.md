@@ -2,11 +2,11 @@
 
 (TBA) **project page | paper**
 
-*Chen Dudai¹\*, 
+[Chen Dudai](https://www.linkedin.com/in/chen-dudai-108a72136/?originalSubdomain=il)¹\*, 
 [Morris Alper](https://morrisalp.github.io/)¹\*, 
-Hana Bezalel¹, 
+[Hana Bezalel](https://www.linkedin.com/in/hanabezalel/?originalSubdomain=il)¹, 
 [Rana Hanocka](https://people.cs.uchicago.edu/~ranahanocka/)², 
-[Itai Lang](https://scholar.google.com/citations?user=q0bBhtsAAAAJ)²,
+[Itai Lang](https://itailang.github.io/)²,
 [Hadar Averbuch-Elor](https://www.elor.sites.tau.ac.il/)¹*
 
 *¹[Tel Aviv University](https://english.tau.ac.il/),
