@@ -169,6 +169,16 @@
   </div>
 </section>
 
+
+<center>
+	<video  align="center"  width="640" height="480"  autoplay loop muted>
+		<source src="./assets/video.mp4" type="video/mp4">
+		Your browser does not support the video tag.
+	</video>
+<center>
+
+<br/></br><br/></br>
+
 <section class="hero teaser">
     <div class="hero-body">
       <div class="container is-max-desktop">
@@ -178,12 +188,23 @@
             </h2>
              <div class="content has-text-centered">
 				<img id="system" width="200%" src="./assets/teaser.png" alt="System">
+				Given a collection of images in-the-wild depicting a large-scale scene, such as the Notre-Dame Cathedral or the
+				Blue Mosque above, we learn a semantic localization field for each textual description (shown with green and yellow overlay).
+				Our approach enables generating novel views with controlled appearances of these semantic regions of interest (as shown in the boxes of corresponding colors).
 			</div>
           </div>
         </div>
       </div>
     </div>
 </section>
+
+
+
+
+
+
+
+
 
 <section class="section">
   <div class="container is-max-desktop">
@@ -282,7 +303,9 @@
         <div class="content has-text-centered">
           <img id="results repetitive" width="100%" src="./assets/results_2.png" alt="Density">
         </div>
-
+		 <div class="column is-full-width">
+        <h2 class="title is-3">Interactive Visualizations</h2>
+        <div class="content has-text-justified">
         <div class="content has-text-justified">
           <p>
 			In addition, we show below interactive visualizations, comparing HaLo-NeRF (left) with the Baseline model (right), which uses the CLIPSeg model without finetuning.
@@ -324,12 +347,10 @@
                     </td>
                 </tr>
 
-                <tr> <td> <br /> <br /> </td> </tr>
-                <tr> <td> <br /> <br /> </td> </tr>
                 <!------------------ END ROW ------------------>
 				 
       <tr>
-            <th colspan="2" width="45%" class="prompt_title">"Minarets" (a tall slender tower of a mosque having one or more balconies from which the summons to prayer is cried by the muezzin) &nbsp; Blue Mosque</th>
+            <th colspan="2" width="45%" class="prompt_title"><br/></br><br/>"Minarets" (a tall slender tower of a mosque having one or more balconies from which the summons to prayer is cried by the muezzin) &nbsp; Blue Mosque</br></th>
         </tr>
         <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
         <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
@@ -349,15 +370,14 @@
             <td width="14%">
                 <div align="center" class="video-label">Baseline</div>
             </td>
+			
         </tr>
-
-        <tr> <td> <br /> <br /> </td> </tr>
-        <tr> <td> <br /> <br /> </td> </tr>
+			
 						 <!------------------ END ROW ------------------>
                                 <tr>
             <tr>
-                    <th colspan="2" width="45%" class="prompt_title">"Pediment" (a triangular part at the top of the front of a building that supports the
-roof and is often decorated) &nbsp;  St. Paul's Cathedral</th>
+                    <th colspan="2" width="45%" class="prompt_title"><br/></br><br/>"Pediment" (a triangular part at the top of the front of a building that supports the
+roof and is often decorated) &nbsp;  St. Paul's Cathedral</br></th>
                 </tr>
                 <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
                 <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
@@ -378,9 +398,7 @@ roof and is often decorated) &nbsp;  St. Paul's Cathedral</th>
                         <div align="center" class="video-label">Baseline</div>
                     </td>
                 </tr>
-
-                <tr> <td> <br /> <br /> </td> </tr>
-                <tr> <td> <br /> <br /> </td> </tr>
+	
 				
 
 
