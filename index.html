@@ -56,6 +56,48 @@
 }
 </style>
 
+<style>
+    /* Add some styles for better visualization */
+    .controls {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+      cursor: pointer;
+    }
+
+    .arrow {
+      font-size: 24px;
+      cursor: pointer;
+    }
+	.video-description {
+    margin-top: 50px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+	font-size: 26px; /* Adjust the font size as needed */
+  }
+
+  .video-description h4,
+  .video-description p {
+    writing-mode: horizontal-tb !important;
+    transform: rotate(0deg) !important;
+  }
+  
+   .halonerf-text {
+    font-weight: bold;
+  }
+  </style>
+
 <body>
 <section class="hero">
   <div class="hero-body">
@@ -351,121 +393,125 @@ with similar semantic descriptions, such as Portal and Window
 
 
 <section class="section">
-     <div class="container is-max-desktop">
+  <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-		 <div class="column is-full-width">
-        <h2 class="title is-3">Interactive Visualizations</h2>
-        <div class="content has-text-justified">
-        <div class="content has-text-justified">
-          <p>
-			In addition, we show below interactive visualizations, comparing HaLo-NeRF (left) with the Baseline model (right), which uses the CLIPSeg model without finetuning.
-			Both videos show the same temporal sequence of RGB renderings, varying only in the probabilities depicted (taken either from our model or the baseline).
-			Note that once zoomed-in, we turn off the probabilities for both models, allowing to better view the target semantic region.
-			The target text prompt is written above each video, with the name of the landmark on the right.
-			Please hover your mouse over these videos to play them.
-			As illustrated below, our model yields significantly cleaner probabilities that better localize the semantic regions, particularly for unique concepts that are less common outside of the domain of architectural landmarks.
-			Note that once zoomed-in, we turn off the probabilities for both models, allowing to better view the target semantic region. We also visualize the zoomed-in region with multiple appearance (for our model, keeping the appearance of the baseline model fixed).
-			Results over additional prompts and landmarks from the HolyScenes benchmark are illustrated in the main paper.
-          </p>
+        <div class="column is-full-width">
+          <h2 class="title is-3">Interactive Visualizations</h2>
+          <div class="content has-text-justified">
+            <div class="content has-text-justified">
+              <p>
+In addition, we show below interactive visualizations, comparing HaLo-NeRF (left) with the Baseline model (right),
+ which uses the CLIPSeg model without finetuning. Both videos show the same temporal sequence of RGB renderings, varying only in the probabilities depicted (taken either from our model or the baseline).
+ Note that once zoomed-in, we turn off the probabilities for both models, allowing to better view the target semantic region.
+ The target text prompt is written above each video, with the name of the landmark on the right. As illustrated below, our model yields significantly cleaner probabilities that better localize the semantic regions, particularly for unique concepts that are less common outside of the domain of architectural landmarks. Note that once zoomed-in, we turn off the probabilities for both models, allowing to better view the target semantic region. We also visualize the zoomed-in region with multiple appearance (for our model, keeping the appearance of the baseline model fixed). Results over additional prompts and landmarks from the HolyScenes benchmark are illustrated in the main paper.
+              </p>
+            </div>
+          </div>
+
+          <div class="video-description">
+            <h4 id="video-description-title"></h4>
+            <p id="video-description-content"></p>
+          </div>
+		  
+          <div id="video-slideshow" class="video-container1">
+            <!-- Videos will be displayed here -->
+          </div>
+
+
+				<!-- Text under the videos -->
+		<div class="video-text">
+		  <div class="halonerf-text">HaLo-NeRF   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp  Baseline</div>
+		</div>
+		
+          <div class="controls">
+            <span class="arrow" onclick="prevVideo()">&#10094;</span>
+            <span class="dot" onclick="currentVideo(0)"></span>
+            <span class="dot" onclick="currentVideo(1)"></span>
+            <span class="dot" onclick="currentVideo(2)"></span>
+			<span class="dot" onclick="currentVideo(3)"></span>
+            <!-- Add more dots as needed -->
+            <span class="arrow" onclick="nextVideo()">&#10095;</span>
+          </div>
+
+			
+
+          <script>
+            const videos = [
+              {
+                url: "./assets/portals_notre_dame.mp4",
+                title: '"Portals" (a grand entrance to a cathedral),  Notre-Dame Cathedral',
+                content: ''
+              },
+              {
+                url: "./assets/blue_mosque_minarets.mp4",
+                title: '"Minarets" (a tall slender tower of a mosque),      Blue Mosque',
+                content: ''
+              },
+              {
+                url: "./assets/pediment_st_paul.mp4",
+                title: '"Pediment" (a triangular part at the top of the front of a building),       St. Paul\'s Cathedral',
+                content: ''
+              },
+			  {
+                 url: "./assets/windows_milano.mp4",
+                title: '"Windows",       Milan Cathedral',
+                content: ''
+              }
+			
+              // Add more video objects as needed
+            ];
+
+            let currentVideoIndex = 0;
+
+            function showVideo(index) {
+              const videoSlideshow = document.getElementById("video-slideshow");
+              videoSlideshow.innerHTML = `
+                <video autoplay width="100%" class="result-video1"  autoplay loop muted>
+                  <source src="${videos[index].url}" type="video/mp4">
+                </video>
+              `;
+              updateDots(index);
+              updateVideoDescription(index);
+            }
+
+            function updateDots(index) {
+              const dots = document.querySelectorAll('.dot');
+              dots.forEach(dot => dot.style.backgroundColor = '#bbb');
+              dots[index].style.backgroundColor = '#717171';
+            }
+
+            function updateVideoDescription(index) {
+              const titleElement = document.getElementById('video-description-title');
+              const contentElement = document.getElementById('video-description-content');
+              titleElement.innerText = videos[index].title;
+              contentElement.innerText = videos[index].content;
+            }
+
+            function currentVideo(index) {
+              currentVideoIndex = index;
+              showVideo(currentVideoIndex);
+            }
+
+            function prevVideo() {
+              currentVideoIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+              showVideo(currentVideoIndex);
+            }
+
+            function nextVideo() {
+              currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+              showVideo(currentVideoIndex);
+            }
+
+            showVideo(currentVideoIndex);
+          </script>
         </div>
-
-
-		<table class="result-table" width="100%" align="center">
-		<tbody>
-
- <!------------------ END ROW ------------------>
-                <tr>
-                    <th colspan="2" width="45%" class="prompt_title">"Portals" (a grand entrance to a cathedral) &nbsp;  Notre-Dame Cathedral</th>
-                </tr>
-                <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
-                <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
-				<tr>
-                    <td colspan="2">
-                        <div class="video-container1">
-                            <video  onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="100%" class="result-video1">
-                                <source src="./assets/portals_notre_dame.mp4" type="video/mp4">
-                            </video>
-                    </td>
-                </tr>
-
-				<tr>
-                    <td width="14%">
-                        <div align="center" class="video-label">HaLo-NeRF</div>
-                    </td>
-                    <td width="14%">
-                        <div align="center" class="video-label">Baseline</div>
-                    </td>
-                </tr>
-
-                <!------------------ END ROW ------------------>
-				 
-      <tr>
-            <th colspan="2" width="45%" class="prompt_title"><br/></br><br/>"Minarets" (a tall slender tower of a mosque having one or more balconies from which the summons to prayer is cried by the muezzin) &nbsp; Blue Mosque</br></th>
-        </tr>
-        <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
-        <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
-<tr>
-            <td colspan="2">
-                <div class="video-container1">
-                    <video  onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()"  muted width="100%" class="result-video1">
-                        <source src="./assets/blue_mosque_minarets.mp4" type="video/mp4">
-                    </video>
-            </td>
-        </tr>
-
-<tr>
-            <td width="14%">
-                <div align="center" class="video-label">HaLo-NeRF</div>
-            </td>
-            <td width="14%">
-                <div align="center" class="video-label">Baseline</div>
-            </td>
-			
-        </tr>
-			
-						 <!------------------ END ROW ------------------>
-                                <tr>
-            <tr>
-                    <th colspan="2" width="45%" class="prompt_title"><br/></br><br/>"Pediment" (a triangular part at the top of the front of a building that supports the
-roof and is often decorated) &nbsp;  St. Paul's Cathedral</br></th>
-                </tr>
-                <!-- <tr> <td> <p>&nbsp;</p> </td> </tr> -->
-                <!-- loop onmouseover="this.play();" onmouseout="this.pause();" -->
-				<tr>
-                    <td colspan="2">
-                        <div class="video-container1">
-                            <video  onmouseover="this.play();" onmouseout="this.removeAttribute('controls');this.load()" muted width="100%" class="result-video1">
-                                <source src="./assets/pediment_st_paul.mp4" type="video/mp4">
-                            </video>
-                    </td>
-                </tr>
-
-				<tr>
-                    <td width="14%">
-                        <div align="center" class="video-label">HaLo-NeRF</div>
-                    </td>
-                    <td width="14%">
-                        <div align="center" class="video-label">Baseline</div>
-                    </td>
-                </tr>
-	
-				
-
-
-
-		</tbody>
-	</table>
-    <!------------------ END SECTION ------------------>
-	
-	
-	
-	
-
       </div>
     </div>
   </div>
 </section>
+
+
 
 <section class="section">
   <div class="container is-max-desktop content">
