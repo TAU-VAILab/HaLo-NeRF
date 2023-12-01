@@ -21,8 +21,8 @@ Download links for all provided data and pretrained models are listed below.
 
 ## Pretrained models
 
-* Fine-tuned CLIP model ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
-* Segmentation model: (Link TBA)
+* Fine-tuned CLIP model (`clip_ft.tar.gz`): ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
+* Segmentation model (`clipseg_ft.tar.gz`): ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
 * RGB NeRF models: (Link TBA)
 * Semantic NeRF models: (Link TBA)
 
