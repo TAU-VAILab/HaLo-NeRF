@@ -215,23 +215,14 @@ if __name__ == "__main__":
 
     sample_enc_1 = dataset_2[args.images_id_appearance_first]
     whole_img_enc_1 = sample_enc_1['whole_img'].unsqueeze(0).cuda()
-
-    # with open('/storage/chendudai/data/whole_img_enc_1.pickle', 'rb') as f:
-    #     whole_img_enc_1 = torch.load(f)
     _, _, img_w, img_h = whole_img_enc_1.size()
 
-    # with open('/storage/chendudai/data/whole_img_enc_5.pickle', 'wb') as handle:
-    #     torch.save(whole_img_enc_1, handle)
 
     # last appearance
     sample_enc_2 = dataset_2[args.images_id_appearance_last]
     whole_img_enc_2 = sample_enc_2['whole_img'].unsqueeze(0).cuda()
-    # with open('/storage/chendudai/data/whole_img_enc_1.pickle', 'rb') as f:
-    #     whole_img_enc_2 = torch.load(f)
     whole_img_enc_2 = torch.nn.functional.interpolate(whole_img_enc_2,
                                                   size=(img_w, img_h), mode='bilinear')
-    # # image location
-    # sample_enc_3 = dataset[args.images_ids[-1]]
 
     n_frames = args.num_frames[0]
     for i in tqdm(range(n_frames)):
@@ -243,8 +234,6 @@ if __name__ == "__main__":
         ts = sample['ts']
 
         if (args.split == 'test_train' or args.split == 'test_test'  or args.split == 'test') and args.encode_a:
-            # whole_img = sample_enc_1['whole_img'].unsqueeze(0).cuda()
-
             kwargs['a_embedded_from_img'] = enc_a(whole_img_enc)
 
 
@@ -254,12 +243,6 @@ if __name__ == "__main__":
                                     dataset.white_back,
                                     **kwargs)
 
-        # if args.enable_semantic:
-        #     results_sem = batched_inference(models_sem, embeddings, rays.cuda(), ts.cuda(),
-        #                                 args.N_samples, args.N_importance, args.use_disp,
-        #                                 args.chunk,
-        #                                 dataset.white_back,
-        #                                 **kwargs)
 
         w, h = sample['img_wh']
         
@@ -268,48 +251,25 @@ if __name__ == "__main__":
 
         imgs += [img_pred_]
 
-        # imageio.imwrite(os.path.join(dir_name, f'{555555555:03d}.png'), img_pred_)
-
-
         if args.save_imgs:
             imageio.imwrite(os.path.join(dir_name, f'{i:03d}.png'), img_pred_)
-
-            # imageio.imwrite(os.path.join(dir_name, f'{555555555:03d}.png'), img_pred_)
 
         if args.enable_semantic:
             sem_pred = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
             sem_pred_original = sem_pred
-
-
             sem_pred = (sem_pred * 255).astype(np.uint8)
-
-            overlay_green = np.concatenate([np.zeros_like(sem_pred_original), sem_pred_original, np.zeros_like(sem_pred_original)],axis=2)  # green
-            result_green = sem_pred_original * overlay_green + (1 - sem_pred_original) * img_pred
-            result_green = (255*result_green).astype('uint8')
-
 
             sem_pred = colormap(sem_pred).squeeze()
             sem_preds += [sem_pred]
 
             if args.save_imgs:
                 imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_jet.png'), sem_pred)
-                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), result_green)
 
-            h = sem_pred[:,:,:3]
-            pred_with_overlay = 0.45*np.multiply(1-sem_pred_original,img_pred) + 0.55*np.multiply(sem_pred_original,h)
-
-            preds_with_overlay += [pred_with_overlay]
-
-            if args.save_imgs:
-                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_sem_with_overlay.png'), pred_with_overlay)
-                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic.png'), sem_pred_original)
-                np.save(os.path.join(dir_name, f'{i:03d}_sem.npy'), sem_pred_original)
 
         if args.split == 'test':
             imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_rgb.{args.video_format}'),imgs, fps=24)
             if args.enable_semantic:
                 imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_sem.{args.video_format}'),sem_preds, fps=24)
-                imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_sem_overlay.{args.video_format}'),preds_with_overlay, fps=24)
 
     print('Done')
 

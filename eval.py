@@ -234,19 +234,16 @@ if __name__ == "__main__":
 
 
         if args.enable_semantic:
-            sem_pred = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
-            sem_pred_original = sem_pred
-
-
-            sem_pred = (sem_pred * 255).astype(np.uint8)
+            sem_pred_original = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
+            sem_pred = (sem_pred_original * 255).astype(np.uint8)
 
 
 
-            sem_pred = colormap(sem_pred).squeeze()
-            sem_preds += [sem_pred]
+            sem_pred_colormap = colormap(sem_pred).squeeze()
+            sem_preds += [sem_pred_colormap]
 
             if args.save_imgs:
-                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_jet.png'), sem_pred)
+                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_jet.png'), sem_pred_colormap)
 
 
             if args.save_imgs:
@@ -271,8 +268,8 @@ if __name__ == "__main__":
                 figsize = h / float(x), w / float(x)
                 fig = plt.figure(figsize=figsize)
                 plt.imshow(img_pred_)
-                sem_pred_ = sem_pred.squeeze()
-                plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_) / 255)
+                sem_pred_ = sem_pred_original.squeeze()
+                plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_))
                 plt.axis('off')
                 plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), bbox_inches="tight",
                             pad_inches=0)
@@ -295,7 +292,7 @@ if __name__ == "__main__":
                     real_img = real_img.resize((h, w))
                     fig = plt.figure(figsize=figsize)
                     plt.imshow(real_img)
-                    plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_) / 255)
+                    plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_))
                     plt.axis('off')
                     plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green_real.png'), bbox_inches="tight",
                                 pad_inches=0)
