@@ -18,8 +18,9 @@ from PIL import Image
 from torchvision import transforms as T
 import matplotlib.pyplot as plt
 from config.eval_config import get_opts
-
+import cv2
 torch.backends.cudnn.benchmark = True
+from matplotlib.colors import ListedColormap
 
 
 @torch.no_grad()
@@ -212,7 +213,6 @@ if __name__ == "__main__":
 
         if (args.split == 'test_train' or args.split == 'test_test') and args.encode_a:
             whole_img = sample['whole_img'].unsqueeze(0).cuda()
-
             kwargs['a_embedded_from_img'] = enc_a(whole_img)
             # kwargs['a_embedded_from_img'] = enc_a(whole_img_enc)
 
@@ -222,37 +222,24 @@ if __name__ == "__main__":
                                     args.chunk,
                                     dataset.white_back,
                                     **kwargs)
-
-        # if args.enable_semantic:
-            # results_sem = batched_inference(models_sem, embeddings, rays.cuda(), ts.cuda(),
-            #                             args.N_samples, args.N_importance, args.use_disp,
-            #                             args.chunk,
-            #                             dataset.white_back,
-            #                             **kwargs)
-
         w, h = sample['img_wh']
-        
+
+
         img_pred = np.clip(results['rgb_fine'].view(h, w, 3).cpu().numpy(), 0, 1)
         img_pred_ = (img_pred*255).astype(np.uint8)
-
         imgs += [img_pred_]
-
 
         if args.save_imgs:
             imageio.imwrite(os.path.join(dir_name, f'{i:03d}.png'), img_pred_)
 
 
         if args.enable_semantic:
-            # sem_pred = results_sem['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
             sem_pred = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
             sem_pred_original = sem_pred
 
 
             sem_pred = (sem_pred * 255).astype(np.uint8)
 
-            overlay_green = np.concatenate([np.zeros_like(sem_pred_original), sem_pred_original, np.zeros_like(sem_pred_original)],axis=2)  # green
-            result_green = sem_pred_original * overlay_green + (1 - sem_pred_original) * img_pred
-            result_green = (255*result_green).astype('uint8')
 
 
             sem_pred = colormap(sem_pred).squeeze()
@@ -260,23 +247,64 @@ if __name__ == "__main__":
 
             if args.save_imgs:
                 imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_jet.png'), sem_pred)
-                imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), result_green)
 
-            h = sem_pred[:,:,:3]
-            pred_with_overlay = 0.45*np.multiply(1-sem_pred_original,img_pred) + 0.55*np.multiply(sem_pred_original,h)
-
-            preds_with_overlay += [pred_with_overlay]
 
             if args.save_imgs:
-            #     imageio.imwrite(os.path.join(dir_name, f'{i:03d}_sem_with_overlay.png'), pred_with_overlay)
                 imageio.imwrite(os.path.join(dir_name, f'{i:03d}_semantic.png'), sem_pred_original)
-            #     np.save(os.path.join(dir_name, f'{i:03d}_sem.npy'), sem_pred_original)
+
+                if args.blur_pred:
+                    sem_pred = cv2.imread(os.path.join(dir_name, f'{i:03d}_semantic.png'), cv2.IMREAD_GRAYSCALE)
+                    w, h = sem_pred.shape
+                    m = min(w, h)
+                    r = 500 / m
+                    sem_pred = cv2.resize(sem_pred, (int(h * r), int(w * r)))
+                    sem_pred = cv2.GaussianBlur(sem_pred, (11, 11), 10)
+                    sem_pred = cv2.resize(sem_pred, (h, w))
+
+                C = np.zeros((256, 4), dtype=np.float32)
+                C[:, 1] = 1.
+                C[:, -1] = np.linspace(0, 1, 256)
+                cmap_ = ListedColormap(C)
+                x = 100 / 1.3
+
+                w, h, _ = img_pred_.shape
+                figsize = h / float(x), w / float(x)
+                fig = plt.figure(figsize=figsize)
+                plt.imshow(img_pred_)
+                sem_pred_ = sem_pred.squeeze()
+                plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_) / 255)
+                plt.axis('off')
+                plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), bbox_inches="tight",
+                            pad_inches=0)
+                plt.close()
+
+
+                if args.save_real_images_semantic:
+                    try:
+                        images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.jpg')
+                        real_img = Image.open(images_path)
+                    except:
+                        try:
+                            print('JPG File')
+                            images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.JPG')
+                            real_img = Image.open(images_path)
+                        except:
+                            images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.jpeg')
+                            real_img = Image.open(images_path)
+
+                    real_img = real_img.resize((h, w))
+                    fig = plt.figure(figsize=figsize)
+                    plt.imshow(real_img)
+                    plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_) / 255)
+                    plt.axis('off')
+                    plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green_real.png'), bbox_inches="tight",
+                                pad_inches=0)
+                    plt.close()
 
         if args.split == 'test':
             imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_rgb.{args.video_format}'),imgs, fps=24)
             if args.enable_semantic:
                 imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_sem.{args.video_format}'),sem_preds, fps=24)
-                imageio.mimsave(os.path.join(dir_name, f'{args.scene_name}_sem_overlay.{args.video_format}'),preds_with_overlay, fps=24)
 
     print('Done')
 

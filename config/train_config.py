@@ -160,5 +160,6 @@ def get_opts():
     parser.add_argument('--scene_name', type=str, default='')
     parser.add_argument('--in_server', type=str, default='storage')
     parser.add_argument('--max_steps', type=int, default=12500000, help='max_steps during training')
+    parser.add_argument('--ignore_xls_use_all_images', default=False, action="store_true")
 
     return parser.parse_args()

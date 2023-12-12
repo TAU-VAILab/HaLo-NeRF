@@ -93,7 +93,7 @@ for c in cat:
     for i in tqdm(range(len(imgs_list))):
         img_name = imgs_list[i]
         img = Image.open(os.path.join(images_folder,img_name)).convert('RGB')
-        seg = hs.segment(img, label, building_type=BT)
+        # seg = hs.segment(img, label, building_type=BT)
 
         try:
             seg = hs.segment(img, label, building_type=BT)

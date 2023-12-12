@@ -12,7 +12,7 @@ def get_opts():
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")
     parser.add_argument('--vis_flag', default=False, action="store_true")
     parser.add_argument('--save_training_vis', default=False, action="store_true")
-    parser.add_argument('--is_indoor_scene', default=False, action="store_true")
+    parser.add_argument('--ignore_xls_use_all_images', default=False, action="store_true")
 
     # main
     parser.add_argument('--root_dir', type=str, default='data/st_pauls_cathedral/',
@@ -80,7 +80,7 @@ def getCfg(opts, prompt):
     cfg['folder2save'] = opts.save_dir.split('/')[-1] + '/clipseg/' + cfg['prompt'][0].replace(' ','_').replace("\'",'') + '/top_' + str(cfg['top_k_files']) + '/'
     cfg['threshold'] = opts.threshold
 
-    if not opts.is_indoor_scene:
+    if not opts.ignore_xls_use_all_images:
         [cfg['files'], cfg['pos_confidence_values']] = get_k_files(cfg['top_k_files'], cfg['xls_path'], ["score"])
     else:
         cfg['files'] = os.listdir(cfg['path_images'])
