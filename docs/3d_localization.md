@@ -27,7 +27,8 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 ## Step 2: Create the RGB images from the NeRF
 
 If you want to use the occlusion section in the retrieval you will need the RGB results from the NeRF model.
-You can skip this part and not use the `--use_occlusion` flag in step 3.
+You can skip this part and not use the `--use_occlusion` flag in step 3, or if you are using `--ignore_xls_use_all_images` flag in step 5.
+
 For creating the RGB results please run:
 ```
 python eval.py --root_dir data/{scene name}/ --save_dir save \
@@ -57,10 +58,10 @@ python run_retrieval.py -b {building type} \
 --use_occlusion
 ```
 
-If you are not using the occlusion please remove the `--use_occlusion` flag
+If you are not using the occlusion please remove the `--use_occlusion` flag.
 
 
-The building type may be e.g. "cathedral", "mosque", "synagogue" etc.
+The building type may be e.g. "cathedral", "mosque", "synagogue", "all" (for not using a building type) etc.
 
 For example:
 
@@ -103,6 +104,8 @@ You can use as many prompts as you like with this format:
 `--prompts '{first prompt};{second prompt};{third prompt}` etc.
 for example: 'towers;windows;portals'
 
+Please notice that you can create the semantic data of all the images without using `csv_retrieval_path` by setting the flag `is_geo_occ` to False. 
+
 ## Step 5: Train the 3D semantic model on 2D segmentations
 
 Run:
@@ -142,4 +145,4 @@ If you want to calculate the metrics please add the following flags:
 
 Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic model.
 
-
+Please notice also that you can run step 5 on all the images (and skip step 2 and step 3) by using the flag `--ignore_xls_use_all_images`.
