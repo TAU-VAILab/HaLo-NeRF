@@ -205,8 +205,8 @@ if __name__ == "__main__":
 
     # sample_enc = dataset[1]
     # whole_img_enc = sample_enc['whole_img'].unsqueeze(0).cuda()
-    for i in tqdm(range(0,len(dataset),1)):
 
+    for i in tqdm(range(0,len(dataset),1)):
         sample = dataset[i]
         rays = sample['rays']
         ts = sample['ts']
@@ -257,6 +257,9 @@ if __name__ == "__main__":
                     sem_pred = cv2.resize(sem_pred, (int(h * r), int(w * r)))
                     sem_pred = cv2.GaussianBlur(sem_pred, (11, 11), 10)
                     sem_pred = cv2.resize(sem_pred, (h, w))
+                    sem_pred_ = (sem_pred/255).squeeze()
+                else:
+                    sem_pred_ = sem_pred_original.squeeze()
 
                 C = np.zeros((256, 4), dtype=np.float32)
                 C[:, 1] = 1.
@@ -268,7 +271,6 @@ if __name__ == "__main__":
                 figsize = h / float(x), w / float(x)
                 fig = plt.figure(figsize=figsize)
                 plt.imshow(img_pred_)
-                sem_pred_ = sem_pred_original.squeeze()
                 plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_))
                 plt.axis('off')
                 plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), bbox_inches="tight",
