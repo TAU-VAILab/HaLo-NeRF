@@ -21,8 +21,11 @@ def calculate_score(image_path, threshold=0.5):
 
     return score
 
-# Directory containing the images
-image_directory = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/trevi_fountain_semantic_arch/'
+
+
+# Change to the directory containing the images
+image_directory = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/parcguell_egg/'
+
 
 # List of image file names in the directory
 image_files = os.listdir(image_directory)
@@ -30,19 +33,13 @@ image_files = os.listdir(image_directory)
 # Calculate and store scores for each image
 image_scores = {}
 for image_file in image_files:
-    if image_file.endswith('txt'):
-        continue
-    image_path = os.path.join(image_directory, image_file)
-    score = calculate_score(image_path)
-    image_scores[image_file] = score
+    if image_file.endswith('_semantic.png'):
+        image_path = os.path.join(image_directory, image_file)
+        score = calculate_score(image_path)
+        image_scores[image_file] = score
 
 # Sort the images by their scores in descending order
 sorted_images = sorted(image_scores.items(), key=lambda x: x[1], reverse=True)
-
-# Display the sorted list of images
-# for image_file, score in sorted_images:
-#     print(f"Image: {image_file}, Score: {score}")
-
 
 # Save the sorted images to a text file
 output_file = os.path.join(image_directory, 'sorted_images_sum.txt')
