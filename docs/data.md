@@ -15,7 +15,7 @@ Download links for all provided data and pretrained models are listed below.
 
 ## Test scene data
 
-* Test scene images and COLMAP reconstructions: (Link TBA)
+* Test scene images and COLMAP reconstructions: (`rgb_data.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))
 * GT semantic masks (`HolyScenes.tar.gz`): ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
 * RGB reconstructions (`rgb_reconstructions.tar.gz`, used for retrieval): ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
 
@@ -23,10 +23,12 @@ Download links for all provided data and pretrained models are listed below.
 
 * Fine-tuned CLIP model (`clip_ft.tar.gz`): ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
 * Segmentation model (`clipseg_ft.tar.gz`): ([link](https://drive.google.com/drive/folders/1n-MH0MPBQ-efxFNQPAqh4TwoMQcoU4AD?usp=sharing))
-* RGB NeRF models: (Link TBA)
-* Semantic NeRF models: (Link TBA)
+* RGB NeRF models: (`rgb_models.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))
+* Semantic NeRF models: (`semantic_models.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))
 
 ## Inference results
 
-* Retrieval data: (Link TBA)
-* Scene semantic segmentation data: (Link TBA)
+* Retrieval data: (`retrieval.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))
+* Scene semantic segmentation data: (`semantic_data.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))
+* RGB NeRF results: (`nerf_rgb.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))
+* Semantic HaLo-NeRF results: (`semantic_results.tar.gz`): ([link](https://drive.google.com/drive/u/1/folders/1I-sexE7wJTK3YJjI1F_TdR0Vn0krYe73))

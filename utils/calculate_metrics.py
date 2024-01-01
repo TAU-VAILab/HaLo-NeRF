@@ -122,7 +122,9 @@ def main_metrics(path_pred, path_gt, category, top_k, num_epochs, scene, cat, ts
     calculator = MetricCalculator(path_pred, path_gt, top_k, num_epochs)
 
     pred_fns = [str(i).zfill(3) + '_semantic.png' for i in ts_list]
-    gt_fns = [str(i).zfill(4) + '_mask.jpg' for i in ts_list]
+    # gt_fns = [str(i).zfill(4) + '_mask.jpg' for i in ts_list]
+    gt_fns = [str(i).zfill(4) + '-gt.jpg' for i in ts_list]
+
     labels = [cat] * len(ts_list)
 
     if labels == []:

@@ -129,7 +129,7 @@ python train_semantic.py \
  --xls_path data/retrieval/st_paul_geometric_occlusions.csv \
  --save_dir ./sem_results/st_paul_save \
  --exp_name test --top_k_files 150 --num_epochs 10 \
- --ckpt_path ./save/ckpts/st_paul/epoch=19.ckpt \
+ --ckpt_path ./save/ckpts/st_paul/model.ckpt \
  --N_vocab 1500 --prompts "portals;towers;windows" --scene_name st_paul \
  --train_HaloNeRF_flag \
   --semantics_dir data/clipseg_ft_inference/st_paul/clipseg_ft/ \
@@ -140,7 +140,7 @@ If you want to calculate the metrics please add the following flags:
 ```
 --save_for_metric_flag 
 --calc_metrics_flag
---path_gt {/path/to/the/ground_truth_masks} (for example: data/manually_gt_masks_0_1/)
+--path_gt {/path/to/the/ground_truth_masks} (for example: data/HolyScenes/cathedral/st_paul/)
 ```
 
 Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic model.
