@@ -61,7 +61,7 @@ def get_opts():
                         help='The number of semantic classes')
     parser.add_argument('--save_real_images_semantic', default=False, action="store_true",
                         help='whether to save the semantic results with the real images')
-    parser.add_argument('--blur_pred', default=False, action="store_true",
+    parser.add_argument('--blur_pred', default=True, action="store_true",
                         help='whether to blur the semantics')
     parser.add_argument('--num_frames', nargs="+", type=int, default=[48, 1], help='number of frames')
     parser.add_argument('--images_ids', nargs="+", type=int, default=[383, 103],help='images_ids')
