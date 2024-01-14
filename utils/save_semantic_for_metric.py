@@ -302,10 +302,8 @@ def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k
 
         sem_pred = results['semantics_fine'][:,1].view(h, w, 1).cpu().numpy()
 
-        img_pred = np.clip(results['rgb_fine'].view(h, w, 3).cpu().numpy(), 0, 1)
-        img_pred_ = (img_pred*255).astype(np.uint8)
-
-
+        # img_pred = np.clip(results['rgb_fine'].view(h, w, 3).cpu().numpy(), 0, 1)
+        # img_pred_ = (img_pred*255).astype(np.uint8)
 
         sem_pred = 1 - sem_pred
         sem_pred = torch.Tensor(sem_pred.squeeze())
@@ -314,43 +312,6 @@ def main_eval(ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, top_k
         sem_pred_ = (sem_pred * 255).astype(np.uint8)
         imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_semantic.png'), sem_pred_)
 
-
-
-        # blur_pred = True
-        # if blur_pred:
-        #     sem_pred = 255-cv2.imread(os.path.join(dir_name, f'{i:03d}_semantic.png'), cv2.IMREAD_GRAYSCALE)
-        #     w, h = sem_pred.shape
-        #     m = min(w, h)
-        #     r = 500 / m
-        #     sem_pred = cv2.resize(sem_pred, (int(h * r), int(w * r)))
-        #     sem_pred = cv2.GaussianBlur(sem_pred, (11, 11), 10)
-        #     w, h, _ = img_pred_.shape
-        #     sem_pred = cv2.resize(sem_pred, (h, w))
-        #
-        # C = np.zeros((256, 4), dtype=np.float32)
-        # C[:, 1] = 1.
-        # C[:, -1] = np.linspace(0, 1, 256)
-        # cmap_ = ListedColormap(C)
-        # x = 100 / 1.3
-        #
-        # figsize = h / float(x), w / float(x)
-        # fig = plt.figure(figsize=figsize)
-        # plt.imshow(img_pred_)
-        # sem_pred_ = sem_pred.squeeze()
-        # plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_) / 255)
-        # plt.axis('off')
-        # plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green.png'), bbox_inches="tight",
-        #             pad_inches=0)
-        # plt.close()
-        #
-        # real_img = real_img.resize((h, w))
-        # fig = plt.figure(figsize=figsize)
-        # plt.imshow(real_img)
-        # plt.imshow(sem_pred_, cmap=cmap_, alpha=np.asarray(sem_pred_) / 255)
-        # plt.axis('off')
-        # plt.savefig(os.path.join(dir_name, f'{i:03d}_semantic_green_real.png'), bbox_inches="tight",
-        #             pad_inches=0)
-        # plt.close()
 
 
 
