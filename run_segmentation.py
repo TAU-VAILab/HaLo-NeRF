@@ -33,27 +33,17 @@ def get_k_files(k, csv_path):
     return names_pos.values.tolist()
 
 
-def get_k_files_clip(k, csv_path, prompt, scene_name):
-    xls_file = pandas.read_csv(csv_path)
-    xls_file = xls_file[xls_file["building"] == scene_name]
-    col = xls_file[prompt]
-    col_sorted_descending = col.sort_values(ascending=False)
-    files_pos = col_sorted_descending[:k]
-    names_pos = xls_file['base_fn'][files_pos.index]
-    return names_pos.values.tolist()
-
-
 args = get_opts()
 cat = args.prompts.split(';')
 BT = args.building_type
 folder_to_save = args.folder_to_save
 images_folder = args.images_folder
-is_geo_occ = args.is_geo_occ
+use_csv_for_retrieval = args.use_csv_for_retrieval
 csv_path = args.csv_retrieval_path
 k = args.n_files
 save_images = args.save_images
 save_baseline = args.save_baseline
-save_pickle = args.save_refined_clipseg
+save_refined_clipseg = args.save_refined_clipseg
 model_path = args.model_path
 
 
@@ -67,7 +57,7 @@ hs_base = HorizSlider(CKPT=CKPT_BASE)
 for c in cat:
     print(c)
     label = c
-    if is_geo_occ:
+    if use_csv_for_retrieval:
         if not os.path.exists(csv_path):
             print('csv does not exist!')
             continue
@@ -93,8 +83,6 @@ for c in cat:
     for i in tqdm(range(len(imgs_list))):
         img_name = imgs_list[i]
         img = Image.open(os.path.join(images_folder,img_name)).convert('RGB')
-        # seg = hs.segment(img, label, building_type=BT)
-
         try:
             seg = hs.segment(img, label, building_type=BT)
             if save_baseline:
@@ -111,12 +99,12 @@ for c in cat:
         if save_baseline:
             seg_base = cv2.resize(seg_base, (img.size[0], img.size[1]))
 
-        if save_pickle:
+        if save_refined_clipseg:
             with open(os.path.join(folder2save_clipseg_ft, name + '.pickle'), 'wb') as handle:
                 torch.save(seg, handle)
-            if save_baseline:
-                with open(os.path.join(folder2save_clipseg_base, name + '.pickle'), 'wb') as handle:
-                    torch.save(seg_base, handle)
+        if save_baseline:
+            with open(os.path.join(folder2save_clipseg_base, name + '.pickle'), 'wb') as handle:
+                torch.save(seg_base, handle)
         if save_images:
             fig = plt.figure()
             fig, axis = plt.subplots(1,5, figsize=(20,4))

@@ -104,7 +104,7 @@ You can use as many prompts as you like with this format:
 `--prompts '{first prompt};{second prompt};{third prompt}` etc.
 for example: 'towers;windows;portals'
 
-Please notice that you can create the semantic data of all the images without using `csv_retrieval_path` by setting the flag `is_geo_occ` to False. 
+Please notice that you can create the semantic data of all the images without using `csv_retrieval_path` by setting the flag `use_csv_for_retrieval` to False. 
 
 ## Step 5: Train the 3D semantic model on 2D segmentations
 
