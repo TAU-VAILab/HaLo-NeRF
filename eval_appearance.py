@@ -216,16 +216,16 @@ if __name__ == "__main__":
     sample_enc_1 = dataset_2[args.images_id_appearance_first]
     whole_img_enc_1 = sample_enc_1['whole_img'].unsqueeze(0).cuda()
     _, _, img_w, img_h = whole_img_enc_1.size()
-
+    whole_img_enc_1 = enc_a(whole_img_enc_1)
 
     # last appearance
     sample_enc_2 = dataset_2[args.images_id_appearance_last]
     whole_img_enc_2 = sample_enc_2['whole_img'].unsqueeze(0).cuda()
-    whole_img_enc_2 = torch.nn.functional.interpolate(whole_img_enc_2,
-                                                  size=(img_w, img_h), mode='bilinear')
+    # whole_img_enc_2 = 10* enc_a(whole_img_enc_2)
+    whole_img_enc_2 = enc_a(whole_img_enc_2)
 
     n_frames = args.num_frames[0]
-    for i in tqdm(range(n_frames)):
+    for i in tqdm(range(0, n_frames,1)):
         j = i / (n_frames - 1)
         whole_img_enc = j * whole_img_enc_2 + (1-j) * whole_img_enc_1
 
@@ -234,8 +234,8 @@ if __name__ == "__main__":
         ts = sample['ts']
 
         if (args.split == 'test_train' or args.split == 'test_test'  or args.split == 'test') and args.encode_a:
-            kwargs['a_embedded_from_img'] = enc_a(whole_img_enc)
-
+            # kwargs['a_embedded_from_img'] = enc_a(whole_img_enc)
+            kwargs['a_embedded_from_img'] = whole_img_enc
 
         results = batched_inference(models, embeddings, rays.cuda(), ts.cuda(),
                                     args.N_samples, args.N_importance, args.use_disp,

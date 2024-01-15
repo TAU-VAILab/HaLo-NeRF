@@ -24,7 +24,7 @@ def calculate_score(image_path, threshold=0.5):
 
 
 # Change to the directory containing the images
-image_directory = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/parcguell_egg/'
+image_directory = 'save/results/phototourism/the_libery_torch/'
 
 
 # List of image file names in the directory

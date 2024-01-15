@@ -144,7 +144,7 @@ def get_opts():
 
 
 
-    # Flags For HaLo-NeRF (do not change)
+    # Flags For HaLo-NeRF (do not change) - ignore that part
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")

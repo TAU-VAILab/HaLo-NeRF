@@ -203,10 +203,8 @@ if __name__ == "__main__":
     kwargs['output_transient'] = False
     colormap = plt.get_cmap('jet')
 
-    # sample_enc = dataset[1]
-    # whole_img_enc = sample_enc['whole_img'].unsqueeze(0).cuda()
 
-    for i in tqdm(range(0,len(dataset),1)):
+    for i in tqdm(range(0, len(dataset),1)):
         sample = dataset[i]
         rays = sample['rays']
         ts = sample['ts']
@@ -214,7 +212,6 @@ if __name__ == "__main__":
         if (args.split == 'test_train' or args.split == 'test_test') and args.encode_a:
             whole_img = sample['whole_img'].unsqueeze(0).cuda()
             kwargs['a_embedded_from_img'] = enc_a(whole_img)
-            # kwargs['a_embedded_from_img'] = enc_a(whole_img_enc)
 
 
         results = batched_inference(models, embeddings, rays.cuda(), ts.cuda(),
@@ -254,12 +251,15 @@ if __name__ == "__main__":
                     w, h = sem_pred.shape
                     m = min(w, h)
                     r = 500 / m
+
                     sem_pred = cv2.resize(sem_pred, (int(h * r), int(w * r)))
                     sem_pred = cv2.GaussianBlur(sem_pred, (11, 11), 10)
+
                     sem_pred = cv2.resize(sem_pred, (h, w))
                     sem_pred_ = (sem_pred/255).squeeze()
                 else:
                     sem_pred_ = sem_pred_original.squeeze()
+
 
                 C = np.zeros((256, 4), dtype=np.float32)
                 C[:, 1] = 1.
