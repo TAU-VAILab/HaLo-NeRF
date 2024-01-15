@@ -35,7 +35,7 @@ python eval.py --root_dir data/{scene name}/ --save_dir save \
 --dataset_name phototourism --scene_name {folder name to save} \
 --split train --img_downscale 2 --N_samples 64 --N_importance 64 \
 --N_emb_xyz 15 --N_vocab 4000 --encode_a \
---ckpt_path {ckpt path} --chunk 16384 --save_imgs
+--ckpt_path {ckpt path} --chunk 16384
 ```
 
 for example 
@@ -44,7 +44,7 @@ Python eval.py --root_dir data/st_paul/ --save_dir save \
 --dataset_name phototourism --scene_name st_paul_rgb \
 --split train --img_downscale 2 --N_samples 64 --N_importance 64 \
 --N_emb_xyz 15 --N_vocab 4000 --encode_a \
---ckpt_path ./save/ckpts/st_paul/epoch=19.ckpt --chunk 16384 --save_imgs
+--ckpt_path ./save/ckpts/st_paul/epoch=19.ckpt --chunk 16384
 ```
 
 

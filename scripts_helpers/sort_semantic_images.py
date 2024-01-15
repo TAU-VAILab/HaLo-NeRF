@@ -1,6 +1,13 @@
 from PIL import Image
 import os
 
+'''
+This script goal is to find the best real images of the scene that describe the semantic area. In order to do that we find
+the images that the sum of the pixels value relative to the image area is the highest. This value is the score of the image.
+We sort the images according to there score.
+'''
+
+
 # Function to calculate the score of an image
 def calculate_score(image_path, threshold=0.5):
     # Open the image using PIL
@@ -23,7 +30,7 @@ def calculate_score(image_path, threshold=0.5):
 
 
 
-# Change to the directory containing the images
+#TODO: Change to the directory containing the images
 image_directory = 'save/results/phototourism/the_libery_torch/'
 
 

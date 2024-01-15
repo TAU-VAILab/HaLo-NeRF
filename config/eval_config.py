@@ -55,7 +55,7 @@ def get_opts():
                         help='pretrained checkpoint path to load')
 
     ## Semantic Nerf
-    parser.add_argument('--enable_semantic', default=False, action="store_true",
+    parser.add_argument('--enable_semantic', default=True, action="store_true",
                         help='whether to enable semantics')
     parser.add_argument('--num_semantic_classes', type=int, default=2,
                         help='The number of semantic classes')

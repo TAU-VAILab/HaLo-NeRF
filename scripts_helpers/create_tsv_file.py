@@ -2,8 +2,8 @@ import csv
 import glob
 
 
-root_dir = '/home/cc/students/csguests/chendudai/Thesis/data/0148_megaDepth/dense/images/'
-save_dir = '/home/cc/students/csguests/chendudai/Thesis/data/0148_megaDepth/WikiScenes.tsv'
+root_dir = 'data/scene_name/dense/images/'
+save_dir = 'data/scene_name/WikiScenes.tsv'
 
 with open(save_dir, 'wt', newline='') as out_file:
     tsv_writer = csv.writer(out_file, delimiter='\t')
@@ -19,7 +19,6 @@ with open(save_dir, 'wt', newline='') as out_file:
             try:
                 filename = filename.split('/')[-1]
                 tsv_writer.writerow([filename, str(id), split, 'WikiScenes'])
-                # tsv_writer.writerow([filename[84:].replace('\\', '/'), str(id), split, 'florence_cathedral'])
                 id += 1
 
             except:

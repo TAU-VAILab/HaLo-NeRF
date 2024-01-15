@@ -221,7 +221,6 @@ if __name__ == "__main__":
     # last appearance
     sample_enc_2 = dataset_2[args.images_id_appearance_last]
     whole_img_enc_2 = sample_enc_2['whole_img'].unsqueeze(0).cuda()
-    # whole_img_enc_2 = 10* enc_a(whole_img_enc_2)
     whole_img_enc_2 = enc_a(whole_img_enc_2)
 
     n_frames = args.num_frames[0]

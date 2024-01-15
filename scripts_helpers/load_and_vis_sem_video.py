@@ -20,13 +20,14 @@ def unique(list1):
     return unique_list
 
 # path = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/blue_mosque_minarets_changeApp_72frames/'
-path = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/st_paul_pediment_041023_baseline_try2'
-path2save = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/st_paul_pediment_041023_baseline_try2_vid'
-path_app = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/st_paul_appearance_041023_pediment_try2/'
+path = 'save/results/phototourism/blue_mosque_minarets_baseline_070124'
+path_app = 'save/results/phototourism/blue_mosque_070123_appearance_dome/'
+path2save = 'save/results/phototourism/blue_mosque_minarets_baseline_070124_vid'
 save_appearance_change = False
 freeze_appearance = True
 use_sky_mask = False
 blur_pred = True
+start_vid_with_no_pred = False
 
 proc = SegformerFeatureExtractor.from_pretrained("nvidia/segformer-b1-finetuned-ade-512-512")
 model = SegformerForSemanticSegmentation.from_pretrained("nvidia/segformer-b1-finetuned-ade-512-512")
@@ -49,8 +50,6 @@ C[:, -1] = np.linspace(0, 1, 256)
 cmap_ = ListedColormap(C)
 x = 100 / 1.3
 
-
-# l_dir = l_dir[28:] # blue_mosque minartes
 for num in l_dir:
     print(num)
     path_pred = os.path.join(path,f'{num}_semantic.png')
@@ -90,6 +89,13 @@ for num in l_dir:
 
     result_green = Image.open(os.path.join(path2save,f'{num}.png')).convert('RGB')
     result_green = result_green.resize((h, w))
+
+    if start_vid_with_no_pred and num == '000':
+        for a in np.arange(0, 1.01, 0.05):
+            iterp = (1-a)* img + (a) * result_green
+            iterp = iterp.astype('uint8')
+            results_green += [iterp]
+
     results_green += [result_green]
     imgs += [img]
 
