@@ -19,7 +19,6 @@ def unique(list1):
             unique_list.append(x)
     return unique_list
 
-# path = '/storage/chendudai/repos/HaLo-NeRF/save/results/phototourism/blue_mosque_minarets_changeApp_72frames/'
 path = 'save/results/phototourism/blue_mosque_minarets_baseline_070124'
 path_app = 'save/results/phototourism/blue_mosque_070123_appearance_dome/'
 path2save = 'save/results/phototourism/blue_mosque_minarets_baseline_070124_vid'
