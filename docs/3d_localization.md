@@ -27,7 +27,7 @@ You can monitor the training process by `tensorboard --logdir {save_dir}/logs/{s
 ## Step 2: Create the RGB images from the NeRF
 
 If you want to use the occlusion section in the retrieval you will need the RGB results from the NeRF model.
-You can skip this part and not use the `--use_occlusion` flag in step 3, or if you are using `--ignore_xls_use_all_images` flag in step 5.
+You can skip this part and not use the `--use_occlusion` flag in step 3, or if you are using `--ignore_csv_use_all_images` flag in step 5.
 
 For creating the RGB results please run:
 ```
@@ -112,7 +112,7 @@ Run:
 ```
 python train_semantic.py \
 --root_dir {path to the dataset} \
- --xls_path {path to the retrival file for each image} \
+ --csv_retrieval_path {path to the retrival file for each image} \
  --save_dir ./sem_results/{folder to save} \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path {ckpt path} \
@@ -126,7 +126,7 @@ For example:
 ```
 python train_semantic.py \
 --root_dir data/st_paul \
- --xls_path data/retrieval/st_paul_geometric_occlusions.csv \
+ --csv_retrieval_path data/retrieval/st_paul_geometric_occlusions.csv \
  --save_dir ./sem_results/st_paul_save \
  --exp_name test --top_k_files 150 --num_epochs 10 \
  --ckpt_path ./save/ckpts/st_paul/model.ckpt \
@@ -145,4 +145,4 @@ If you want to calculate the metrics please add the following flags:
 
 Please notice that the "max_steps" flag defines the maximum number of iterations for training the semantic model.
 
-Please notice also that you can run step 5 on all the images (and skip step 2 and step 3) by using the flag `--ignore_xls_use_all_images`.
+Please notice also that you can run step 5 on all the images (and skip step 2 and step 3) by using the flag `--ignore_csv_use_all_images`.

@@ -78,14 +78,14 @@ def get_opts():
                         help='The number of semantic classes')
 
 
-    # Flags For HaLo-NeRF (do not change)
+    # Flags For HaLo-NeRF (do not change) - ignore section
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")
     parser.add_argument('--vis_flag', default=False, action="store_true")
     parser.add_argument('--prompts', type=str, default="spires;window;portal;facade")  # spires;window;portal;facade
     parser.add_argument('--top_k_files', type=int, default=150)
-    parser.add_argument('--xls_path', type=str,
+    parser.add_argument('--csv_retrieval_path', type=str,
                         default='data/ft_clip_sims_v0.2-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24.csv')  #
     parser.add_argument('--path_gt', type=str,
                         default='data/manually_gt_masks_0_1/')  #
@@ -181,12 +181,6 @@ def label_img_to_blue(img):
 
 
 def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scene_name, ckpt_path, save_dir, clipseg_folder, path_gt, prompt, top_k, num_epochs):
-    # args = get_opts()
-    # args.root_dir = root_dir
-    # args.N_vocab = N_vocab
-    # args.scene_name = scene_name
-    # args.ckpt_path = ckpt_path
-    # args.save_dir = save_dir
 
     N_a = 48
     N_emb_xyz = 15
@@ -215,7 +209,6 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
     embedding_dir = PosEmbedding(N_emb_dir - 1, N_emb_dir)
     embeddings = {'xyz': embedding_xyz, 'dir': embedding_dir}
     if encode_a:
-        # enc_a
         enc_a = E_attr(3, N_a).cuda()
         load_ckpt(enc_a, ckpt_path, model_name='enc_a')
         kwargs = {}
@@ -240,12 +233,7 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
 
 
 
-
-
-
-
     dir_name = os.path.join(save_dir, f'results/{dataset_name}/vis/top_{str(top_k)}_nEpochs{str(num_epochs)}/{scene_name}')
-    # load_dir_name = os.path.join(args.save_dir, f'results/{args.dataset_name}/for_metric/{args.scene_name}')
     os.makedirs(dir_name, exist_ok=True)
     os.makedirs(os.path.join(dir_name, 'train'), exist_ok=True)
     os.makedirs(os.path.join(dir_name, 'test'), exist_ok=True)
@@ -253,28 +241,11 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
     dataset.test_img_w, dataset.test_img_h = img_wh
     imgs = []
 
-    # colormap = plt.get_cmap('Wistia')
     colormap = plt.get_cmap('jet')
-
-    # ts_list = [17, 23, 29, 89, 117, 131, 633] # window
-    # ts_list = [120, 146, 350, 561, 751, 761, 796] # portal
-    # ts_list = [156, 259, 415, 455, 473] # spires
-    # ts_list = [25, 634, 637, 645, 764] # facade
-    # ts_list = []
 
     training_files = [int(f[:4]) for f in training_files]
 
     clipseg_folder_train = os.path.join('./sem_results', clipseg_folder)
-
-    # j = 0
-    # x = os.listdir(os.path.join(path_gt, prompt, 'clipseg_results'))
-    # z = []
-    # for a in x:
-    #     if a[-7:] == '.pickle':
-    #       z += [a]
-
-
-
 
     for i in tqdm(range(0, len(dataset), 1)):
 
@@ -288,7 +259,6 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
         if (not is_ts_flag) and (not is_training_flag):
             continue
 
-        # ts = torch.zeros(len(rays), dtype=torch.long)
         if (split == 'test_train' or split == 'test_test') and encode_a:
             whole_img = sample['whole_img'].unsqueeze(0).cuda()
             kwargs['a_embedded_from_img'] = enc_a(whole_img)
@@ -301,9 +271,6 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
         w, h = sample['img_wh']
         img_pred = np.clip(results['rgb_fine'].view(h, w, 3).cpu().numpy(), 0, 1)
         img_pred_ = (img_pred * 255).astype(np.uint8)
-        # plt.imshow(img_pred_)
-        # plt.show()
-
         imgs += [img_pred_]
         # imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}.png'), img_pred_)
 
@@ -311,28 +278,13 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
         img_GT_ = (img_GT * 255).astype(np.uint8)
         # imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_GT_RGB.png'), img_GT_)
 
-        # try:
-        #     images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.jpg')
-        #     real_img = Image.open(images_path)
-        # except:
-        #     print('JPG File')
-        #     images_path = os.path.join(args.root_dir, 'dense/images', str(int(ts[0])).zfill(4) + '.JPG')
-        #     real_img = Image.open(images_path)
-        #
-        # real_w, real_h = real_img.size
-        # # plt.imshow(img_GT_)
-        # # plt.show()
 
         sem_pred = results['semantics_fine'][:, 1].view(h, w, 1).cpu().numpy()
-        # sem_pred = 1 - sem_pred
         sem_pred_original = sem_pred.squeeze()
 
 
 
         sem_pred = torch.Tensor(sem_pred.squeeze())
-        # sem_pred = torch.nn.functional.interpolate(sem_pred.unsqueeze(dim=0).unsqueeze(dim=0),
-        #                                            size=(real_h, real_w), mode='bilinear').squeeze().numpy()
-        # sem_pred_ = (sem_pred * 255).astype(np.uint8)
         imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_semantic.png'), sem_pred)
 
         heatmap = colormap(sem_pred).squeeze()
@@ -340,30 +292,12 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
         h = heatmap[:, :, :3]
         sem_pred_original = np.expand_dims(sem_pred_original, axis=2)
 
-
-
-        # mask = sem_pred > 0.2
-        # mask = np.where(mask, 255, 0).astype(np.uint8)
-        # kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3))
-        # d_kernel = cv2.dilate(mask, kernel, iterations=3)
-        # d_kernel = cv2.GaussianBlur(d_kernel,(11,11),0)
-        # halo = d_kernel - mask
-        # halo = np.expand_dims(halo, axis=2) / 255
-        # plt.imshow(halo)
-        # plt.show()
-        # sem_pred_original += halo
-        # sem_pred_original /= sem_pred_original.max()
-
         pred_with_overlay = 0.45 * np.multiply(1 - sem_pred_original, img_GT) + 0.55 * np.multiply(sem_pred_original,h)
-
-        # pred_with_overlay = pred_with_overlay + np.expand_dims(halo,axis=2)/255
-
 
         imageio.imwrite(os.path.join(dir_name, f'{ts[0]:03d}_semantic_jet.png'), heatmap)
 
         if is_ts_flag:
             clipseg_res = torch.load(os.path.join(path_gt, prompt, 'clipseg_results', str(int(ts[0])).zfill(4) + '.pickle'))
-            # clipseg_res = torch.load(os.path.join(path_gt, prompt, 'clipseg_results', z[j]))
 
             clipseg_res = torch.nn.functional.interpolate(clipseg_res.unsqueeze(dim=0).unsqueeze(dim=0),
                                                            size=(img_GT_.shape[0], img_GT_.shape[1]), mode='bilinear').squeeze()
@@ -390,8 +324,6 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
                 # sem_gt = imageio.imread(os.path.join(path_gt, prompt, z[j].replace('.pickle', '_mask.JPG')))
                 # gt_for_metric = Image.open(os.path.join(path_gt, prompt, z[j].replace('.pickle', '_mask.JPG'))).convert('L')
 
-            # j = j + 1
-
 
             # calculate metrics - clipseg
             gt_array = 1 - np.asarray(gt_for_metric) / 255
@@ -408,11 +340,6 @@ def main_vis(save_training_vis, training_files, ts_list, root_dir, N_vocab, scen
                                                             mode='bilinear').squeeze()
             pred_array_flat = sem_pred_2.numpy().ravel()
             AP_pred = average_precision_score(gt_mask_flat, pred_array_flat)
-
-        # heatmap = colormap(clipseg_res).squeeze()
-        # h = heatmap[:, :, :3]
-        # clipseg_res = np.expand_dims(clipseg_res, axis=2)
-        # pred_with_overlay_clipseg = 0.45 * np.multiply(1 - clipseg_res, img_GT) + 0.55 * np.multiply(clipseg_res, h)
 
         # Plot
         if is_ts_flag:

@@ -122,36 +122,28 @@ def get_opts():
     parser.add_argument('--refresh_every', type=int, default=1,
                         help='print the progress bar every X steps')
 
-    ## Semantic Nerf
+
+    # Flags For HaLo-NeRF (do not change) - ignore that part
     parser.add_argument('--enable_semantic', default=False, action="store_true",
                         help='whether to enable semantics')
     parser.add_argument('--num_semantic_classes', type=int, default=2,
                         help='The number of semantic classes')
-
     parser.add_argument('--continue_train_semantic', default=False, action="store_true",
                         help='whether to continue train the semantic without the RGB')
-
-
-    parser.add_argument('--prompt', type=str, default='a photo of glowing windows with dark background',
+    parser.add_argument('--prompt', type=str, default='towers',
                         help='category name')
     parser.add_argument('--semantics_dir', type=str, default= [],
-                        help='semantics dir')
+                        help='the folder in which the 2D segmentation of the CLIPSeg is saved')
     parser.add_argument('--files_to_run', type=str, default=[],
                         help='files_to_run')
 
-
-
-
-
-
-    # Flags For HaLo-NeRF (do not change) - ignore that part
     parser.add_argument('--train_HaloNeRF_flag', default=False, action="store_true")
     parser.add_argument('--save_for_metric_flag', default=False, action="store_true")
     parser.add_argument('--calc_metrics_flag', default=False, action="store_true")
     parser.add_argument('--vis_flag', default=False, action="store_true")
     parser.add_argument('--prompts', type=str, default="spires;window;portal;facade")  # spires;window;portal;facade
     parser.add_argument('--top_k_files', type=int, default=150)
-    parser.add_argument('--xls_path', type=str,
+    parser.add_argument('--csv_retrieval_path', type=str,
                         default='data/ft_clip_sims_v0.2-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24.csv')  #
     parser.add_argument('--path_gt', type=str,
                         default='data/manually_gt_masks_0_1/')  #
@@ -160,6 +152,6 @@ def get_opts():
     parser.add_argument('--scene_name', type=str, default='')
     parser.add_argument('--in_server', type=str, default='storage')
     parser.add_argument('--max_steps', type=int, default=12500000, help='max_steps during training')
-    parser.add_argument('--ignore_xls_use_all_images', default=False, action="store_true")
+    parser.add_argument('--ignore_csv_use_all_images', default=False, action="store_true")
 
     return parser.parse_args()

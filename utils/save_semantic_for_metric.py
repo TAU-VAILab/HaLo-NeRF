@@ -93,7 +93,7 @@ def get_opts():
     parser.add_argument('--vis_flag', default=False, action="store_true")
     parser.add_argument('--prompts', type=str, default="spires;window;portal;facade")  # spires;window;portal;facade
     parser.add_argument('--top_k_files', type=int, default=150)
-    parser.add_argument('--xls_path', type=str,
+    parser.add_argument('--csv_retrieval_path', type=str,
                         default='data/ft_clip_sims_v0.2-ft_bsz128_5epochs-lr1e-06-val091-2430-notest24.csv')  #
     parser.add_argument('--path_gt', type=str,
                         default='data/manually_gt_masks_0_1/')  #
