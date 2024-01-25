@@ -34,6 +34,14 @@ parser.add_argument("--img", type=str, default='data/pantheon_exterior/dense/ima
 
 
 def color_image(path2save, pred, img):
+    # pred = 'data/clipseg_ft_crops_refined_plur_newcrops_10epochs/notre_dame/try_ff/clipseg_base/towers/3354.pickle'
+    # pred = torch.load(pred)
+    # transform = T.ToPILImage()
+    # pred = transform(pred)
+    # img = Image.open('data/notre_dame_front_facade/dense/images/3354.jpg').convert('RGB')
+
+    img = Image.open(img).convert('RGB')
+    pred = Image.open(pred)
 
     img = np.asarray(img)
     pred = pred.resize([img.shape[1], img.shape[0]])
