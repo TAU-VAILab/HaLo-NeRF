@@ -12,7 +12,7 @@
 *¹[Tel Aviv University](https://english.tau.ac.il/),
 ²[University of Chicago](https://www.uchicago.edu/)&nbsp;&nbsp;&nbsp;&nbsp;\* Denotes equal contribution*
 
-This repository is the official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild).
+This repository is the official implementation of [HaLo-NeRF: Learning Geometry-Guided Semantics for Exploring Unconstrained Photo Collections](https://github.com/TAU-VAILab/HaLo-NeRF/).
 
 # Requirements and Installation
 
