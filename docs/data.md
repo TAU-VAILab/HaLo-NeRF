@@ -1,7 +1,7 @@
 # Data and Downloads
 
 Download links for all provided data and pretrained models are listed below.
-All the links are in the folder: [Drive Folder](https://tauex-my.sharepoint.com/personal/hadarelor_tauex_tau_ac_il/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fhadarelor%5Ftauex%5Ftau%5Fac%5Fil%2FDocuments%2FHaLo%2DNeRF&ga=1)
+All the links are in the folder: [Drive Folder](https://tauex-my.sharepoint.com/:f:/g/personal/hadarelor_tauex_tau_ac_il/Eos1ebfo2hVMhAVsGKAp9MEBGrqIro7LDIZ56rVt5FqHMw?e=h9LWot)
 ## WikiScenes (+mosques)-based data
 
 * WikiScenes (+mosques) image data: (link TBA)
