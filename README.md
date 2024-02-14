@@ -7,7 +7,7 @@
 [Hana Bezalel](https://www.linkedin.com/in/hanabezalel/?originalSubdomain=il)¹, 
 [Rana Hanocka](https://people.cs.uchicago.edu/~ranahanocka/)², 
 [Itai Lang](https://itailang.github.io/)²,
-[Hadar Averbuch-Elor](https://www.elor.sites.tau.ac.il/)¹*
+[Hadar Averbuch-Elor](https://www.elor.sites.tau.ac.il/)¹
 
 *¹[Tel Aviv University](https://english.tau.ac.il/),
 ²[University of Chicago](https://www.uchicago.edu/)&nbsp;&nbsp;&nbsp;&nbsp;\* Denotes equal contribution*
