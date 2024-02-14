@@ -1,6 +1,6 @@
 # 😇  HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild
 
-(TBA) **project page | paper**
+(TBA) **[project page](https://tau-vailab.github.io/HaLo-NeRF/) | paper**
 
 [Chen Dudai](https://www.linkedin.com/in/chen-dudai-108a72136/?originalSubdomain=il)¹\*, 
 [Morris Alper](https://morrisalp.github.io/)¹\*, 
@@ -54,7 +54,12 @@ See [documentation](docs/evaluation.md) for instructions on running evaluation, 
 # Citation
 If you find this project useful, you may cite us as follows:
 ```
-(TBA)
+@InProceedings{dudai2024halonerf,
+ author = {Dudai, Chen and Alper, Morris and Bezalel, Hana and Hanocka, Rana and Lang, Itai and Averbuch-Elor, Hadar},
+ title = {HaLo-NeRF: Learning Geometry-Guided Semantics for Exploring Unconstrained Photo Collections},
+ booktitle = {Proceedings of the Eurographics conference (EG)},
+ year = {2024}
+}
 ```
 
 # Acknowledgements
