@@ -10,8 +10,7 @@
 [Hadar Averbuch-Elor](https://www.elor.sites.tau.ac.il/)¹*
 
 *¹[Tel Aviv University](https://english.tau.ac.il/),
-²[The University of Chicago](https://www.uchicago.edu/)&nbsp;&nbsp;&nbsp;&nbsp;\*Equal contribution*
-
+²[University of Chicago](https://www.uchicago.edu/)&nbsp;&nbsp;&nbsp;&nbsp;\* Denotes equal contribution*
 
 This repository is the official implementation of [HaLo-NeRF](https://github.com/TAU-VAILab/HaLo-NeRF/) (Text-Driven Neural 3D Localization in the Wild).
 
