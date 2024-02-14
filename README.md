@@ -56,7 +56,7 @@ If you find this project useful, you may cite us as follows:
 @InProceedings{dudai2024halonerf,
  author = {Dudai, Chen and Alper, Morris and Bezalel, Hana and Hanocka, Rana and Lang, Itai and Averbuch-Elor, Hadar},
  title = {HaLo-NeRF: Learning Geometry-Guided Semantics for Exploring Unconstrained Photo Collections},
- booktitle = {Proceedings of the Eurographics conference (EG)},
+ booktitle = {Proceedings of the Eurographics Conference (EG)},
  year = {2024}
 }
 ```
