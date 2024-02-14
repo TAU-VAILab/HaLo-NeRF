@@ -1,4 +1,4 @@
-# 😇  HaLo-NeRF: Text-Driven Neural 3D Localization in the Wild
+# 😇  HaLo-NeRF: Learning Geometry-Guided Semantics for Exploring Unconstrained Photo Collections
 
 (TBA) **[project page](https://tau-vailab.github.io/HaLo-NeRF/) | paper**
 
