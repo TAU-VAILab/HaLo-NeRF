@@ -59,3 +59,7 @@ li {
     font-family: "Noto Sans", Arial;
     font-size: 20px;
 }
+
+.citation {
+    text-align: left;
+}
