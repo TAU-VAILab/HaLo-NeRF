@@ -1,6 +1,6 @@
 # 😇  HaLo-NeRF: Learning Geometry-Guided Semantics for Exploring Unconstrained Photo Collections
 
-(TBA) **[project page](https://tau-vailab.github.io/HaLo-NeRF/) | paper**
+**[project page](https://tau-vailab.github.io/HaLo-NeRF/) | [paper](https://arxiv.org/abs/2404.16845)**
 
 [Chen Dudai](https://www.linkedin.com/in/chen-dudai-108a72136/?originalSubdomain=il)¹\*, 
 [Morris Alper](https://morrisalp.github.io/)¹\*, 
