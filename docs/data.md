@@ -6,8 +6,8 @@ All the files are in the following folder: [Drive Folder](https://tauex-my.share
 
 This data uses for fine-tuning the 2D segmentation model CLIPSeg using the Wikiscenes dataset. (more about it here: [distillation_adaptation.md](https://github.com/TAU-VAILab/HaLo-NeRF/blob/346974a807861516822240ad665807ae46c28755/docs/distillation_adaptation.md))
 
-* WikiScenes (+mosques) image data: (link TBA)
-  * Partially available from [WikiScenes repo](https://github.com/tgxs002/wikiscenes/tree/main) (high-res 1200px images)
+* WikiScenes (cathedrals+mosques) image data:
+  * Available from [WikiScenes repo](https://github.com/tgxs002/wikiscenes/tree/main) (high-res 1200px images)
   * Store these in `data/wikiscenes/cathedrals` and `data/wikiscenes/mosques`
 * WikiScenes (+mosques) metadata: `metadata.csv`
 * Distilled semantic pseudo-labels `pseudolabels.csv` for WikiScenes (+mosques)
